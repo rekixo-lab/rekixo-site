@@ -1,0 +1,64 @@
+img[src$="rekixo-logo-parts.svg"] {
+  display: block;
+  height: auto;
+  object-fit: contain;
+  opacity: 0;
+  transform-origin: center;
+  animation: rekixo-logo-mount 720ms cubic-bezier(.2,.82,.22,1) 80ms both;
+}
+
+.brand img[src$="rekixo-logo-parts.svg"],
+.brand-mark[src$="rekixo-logo-parts.svg"] {
+  width: clamp(132px, 16vw, 190px) !important;
+  height: auto !important;
+  aspect-ratio: 1737 / 402;
+  filter: drop-shadow(0 12px 28px rgba(18,184,255,.18)) !important;
+  flex: 0 0 auto;
+}
+
+.brand img[src$="rekixo-logo-parts.svg"] + strong,
+.brand-mark[src$="rekixo-logo-parts.svg"] + .brand-text {
+  display: none !important;
+}
+
+.brand:has(img[src$="rekixo-logo-parts.svg"]) {
+  min-width: clamp(132px, 16vw, 190px);
+}
+
+.hero-logo[src$="rekixo-logo-parts.svg"],
+.thank-you-logo[src$="rekixo-logo-parts.svg"],
+.card > img[src$="rekixo-logo-parts.svg"] {
+  width: min(360px, 78vw) !important;
+  height: auto !important;
+  margin-inline: auto;
+}
+
+@keyframes rekixo-logo-mount {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 700px) {
+  .brand img[src$="rekixo-logo-parts.svg"],
+  .brand-mark[src$="rekixo-logo-parts.svg"] {
+    width: clamp(122px, 42vw, 168px) !important;
+  }
+
+  .brand:has(img[src$="rekixo-logo-parts.svg"]) {
+    min-width: clamp(122px, 42vw, 168px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  img[src$="rekixo-logo-parts.svg"] {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}

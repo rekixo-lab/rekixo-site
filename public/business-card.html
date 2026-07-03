@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rekixo Premium Business Card</title>
+  <meta name="description" content="Premium Rekixo business card design with website, phone, email, and business address." />
+  <meta name="theme-color" content="#07111f" />
+  <link rel="icon" type="image/svg+xml" href="rekixo-favicon.svg" />
+  <style>
+    :root {
+      --bg: #050b13;
+      --ink: #eef7ff;
+      --muted: #9fb5cc;
+      --line: rgba(255,255,255,0.12);
+      --cyan: #57c7ff;
+      --mint: #71f3cf;
+      --blue: #1369ff;
+      --gold: #ffc86b;
+      --card-w: 1050px;
+      --card-h: 600px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body,
+    .card-shell,
+    .card,
+    .card::before,
+    .card::after,
+    .contact-panel,
+    .chip,
+    .row b,
+    .site-pill,
+    .qr-card {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 16% 16%, rgba(87,199,255,0.22), transparent 30%),
+        radial-gradient(circle at 84% 24%, rgba(113,243,207,0.16), transparent 32%),
+        linear-gradient(180deg, #050b13 0%, #07111f 52%, #03070d 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: radial-gradient(circle at center, black 35%, transparent 84%);
+      pointer-events: none;
+    }
+
+    main {
+      position: relative;
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand img:first-child {
+      width: 46px;
+      height: 46px;
+      filter: drop-shadow(0 14px 26px rgba(87,199,255,0.2));
+    }
+
+    .brand img:last-child {
+      width: 150px;
+      height: auto;
+      filter: drop-shadow(0 12px 28px rgba(87,199,255,0.18));
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 16px;
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 8px;
+      color: var(--ink);
+      background: rgba(255,255,255,0.06);
+      text-decoration: none;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .button.primary {
+      border: 0;
+      color: #06101d;
+      background: linear-gradient(135deg, var(--cyan), #8be4ff 56%, var(--mint));
+      box-shadow: 0 18px 42px rgba(87,199,255,0.22);
+    }
+
+    .hero {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 26px;
+    }
+
+    .kicker {
+      color: var(--mint);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(32px, 5vw, 58px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 700px;
+      margin: 0;
+      color: #c8d7e8;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .stage {
+      display: grid;
+      gap: 30px;
+    }
+
+    .card-shell {
+      position: relative;
+      width: min(var(--card-w), 100%);
+      aspect-ratio: 1.75 / 1;
+      border-radius: 28px;
+      padding: 1px;
+      background:
+        linear-gradient(135deg, rgba(87,199,255,0.9), rgba(113,243,207,0.55) 38%, rgba(255,200,107,0.58) 67%, rgba(19,105,255,0.75));
+      box-shadow:
+        0 34px 90px rgba(0,0,0,0.42),
+        0 0 70px rgba(87,199,255,0.16);
+      overflow: hidden;
+    }
+
+    .card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 27px;
+      background:
+        radial-gradient(circle at 16% 16%, rgba(87,199,255,0.26), transparent 30%),
+        radial-gradient(circle at 80% 14%, rgba(113,243,207,0.22), transparent 28%),
+        linear-gradient(135deg, rgba(4,12,22,0.96), rgba(8,22,37,0.94) 55%, rgba(4,9,18,0.98));
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(90deg, transparent, black 18%, black 80%, transparent);
+      opacity: 0.58;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      right: -190px;
+      bottom: -210px;
+      border: 1px solid rgba(113,243,207,0.22);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 72px rgba(87,199,255,0.035),
+        0 0 0 144px rgba(113,243,207,0.025),
+        inset 0 0 70px rgba(87,199,255,0.09);
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 0.98fr 1.02fr;
+      height: 100%;
+      padding: clamp(26px, 4.5vw, 58px);
+      gap: 46px;
+    }
+
+    .front-left,
+    .back-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+    }
+
+    .front-left > div:first-child {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .card-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-logo .mark {
+      width: clamp(54px, 8vw, 92px);
+      height: clamp(54px, 8vw, 92px);
+      padding: 12px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: inset 0 0 22px rgba(87,199,255,0.09);
+    }
+
+    .card-logo .wordmark {
+      width: clamp(170px, 24vw, 330px);
+      height: auto;
+      filter: drop-shadow(0 14px 32px rgba(87,199,255,0.22));
+    }
+
+    .logo-dotcom {
+      color: #f47b31;
+      font-size: clamp(13px, 2.25vw, 29px);
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1;
+      margin-left: -23px;
+      transform: translateY(15px);
+      text-shadow: 0 10px 24px rgba(244,123,49,0.25);
+    }
+
+    .name-block {
+      display: grid;
+      gap: 10px;
+      margin-top: auto;
+      margin-bottom: 18px;
+      transform: translateY(-72px);
+    }
+
+    .name-block strong {
+      font-size: clamp(28px, 3.8vw, 50px);
+      line-height: 1;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .name-block span {
+      max-width: 540px;
+      color: #d5e7f8;
+      font-size: clamp(15px, 1.8vw, 23px);
+      line-height: 1.45;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+      margin-bottom: clamp(48px, 6vw, 82px);
+      width: min(100%, 470px);
+      white-space: nowrap;
+      transform: translateY(-92px);
+    }
+
+    .chip {
+      display: inline-flex;
+      min-height: 27px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(222, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.055);
+      color: #eef8ff;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+      font-size: clamp(10px, 0.98vw, 12px);
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+
+    .front-right {
+      display: grid;
+      align-content: end;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .contact-panel {
+      display: grid;
+      gap: 12px;
+      padding: clamp(18px, 2.8vw, 28px);
+      border-radius: 22px;
+      border: 1px solid rgba(155,230,255,0.20);
+      background: rgba(2,8,15,0.58);
+      box-shadow: inset 0 0 30px rgba(87,199,255,0.06);
+      backdrop-filter: blur(14px);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 12px;
+      align-items: center;
+      min-width: 0;
+      color: #dbeeff;
+      font-size: clamp(13px, 1.6vw, 18px);
+      line-height: 1.34;
+    }
+
+    .row b {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      color: #06101d;
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      font-size: 16px;
+    }
+
+    .row b svg {
+      width: 20px;
+      height: 20px;
+      stroke: #06101d;
+      stroke-width: 2.2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .row span {
+      overflow-wrap: anywhere;
+    }
+
+    .signature {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      color: var(--muted);
+      font-size: clamp(12px, 1.2vw, 14px);
+      padding-left: clamp(18px, 2.8vw, 28px);
+    }
+
+    .signature strong {
+      color: var(--mint);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .back-content {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+
+    .qr-card {
+      align-self: start;
+      justify-self: start;
+      width: min(280px, 100%);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      padding: 2px;
+      border-radius: 30px;
+      background: #f6fbff;
+      box-shadow: 0 20px 54px rgba(0,0,0,0.30);
+      margin-top: clamp(4px, 1vw, 10px);
+      margin-left: clamp(12px, 2vw, 24px);
+      transform: translateY(-16px);
+    }
+
+    .qr-card img {
+      width: 100%;
+      height: 100%;
+      border-radius: 18px;
+      transform: scale(1.08);
+    }
+
+    .back-title {
+      align-self: center;
+      display: grid;
+      gap: 18px;
+      transform: translateY(18px);
+    }
+
+    .back-title h2 {
+      margin: 0;
+      max-width: 640px;
+      font-family: "Segoe UI Variable Display", "Segoe UI", Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: clamp(28px, 3.85vw, 52px);
+      font-weight: 900;
+      line-height: 1.02;
+      letter-spacing: 0;
+      text-wrap: balance;
+      background: linear-gradient(135deg, #ffffff 5%, #dffbff 36%, #8fe8ff 62%, #71f3cf 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 18px 38px rgba(0,0,0,0.18);
+    }
+
+    .back-title h2 span {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .back-title h2 span + span {
+      margin-top: 7px;
+    }
+
+    .front-right .back-title {
+      max-width: 470px;
+      justify-self: end;
+      align-self: end;
+      transform: translate(34px, -42px);
+    }
+
+    .front-right .back-title h2 {
+      font-size: clamp(28px, 3.35vw, 46px);
+      line-height: 1.06;
+    }
+
+    .front-right .back-title p {
+      max-width: 420px;
+      font-size: clamp(13px, 1.35vw, 17px);
+      line-height: 1.55;
+    }
+
+    .back-content > .back-title {
+      display: none;
+    }
+
+    .back-title p {
+      max-width: 530px;
+      margin: 0;
+      color: #c8d7e8;
+      font-size: clamp(14px, 1.55vw, 19px);
+      line-height: 1.65;
+    }
+
+    .site-pill {
+      width: fit-content;
+      max-width: 100%;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 15px 11px 12px;
+      border-radius: 8px;
+      color: #06101d;
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      font-weight: 850;
+      font-size: clamp(14px, 1.5vw, 18px);
+      overflow-wrap: anywhere;
+    }
+
+    .site-pill svg {
+      width: 22px;
+      height: 22px;
+      flex: 0 0 auto;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 3px 8px rgba(6,16,29,0.22));
+    }
+
+    .site-pill span {
+      display: block;
+      line-height: 1;
+      transform: translateY(-1px);
+      white-space: nowrap;
+    }
+
+    .print-note {
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 780px;
+    }
+
+    .print-break {
+      display: none;
+    }
+
+    @media (max-width: 780px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .card-shell {
+        border-radius: 18px;
+      }
+
+      .card {
+        border-radius: 17px;
+      }
+
+      .card-content,
+      .back-content {
+        grid-template-columns: 1fr;
+      }
+
+      .front-right {
+        align-content: start;
+      }
+
+      .signature {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      @page {
+        size: Letter portrait;
+        margin: 0;
+      }
+
+      html,
+      body {
+        background: #ffffff;
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+        overflow: visible;
+      }
+
+      body::before,
+      .topbar,
+      .hero,
+      .print-note {
+        display: none !important;
+      }
+
+      main {
+        width: 100%;
+        max-width: none;
+        padding: 0.24in 0;
+        margin: 0;
+      }
+
+      .stage {
+        display: grid;
+        width: 3.5in;
+        margin: 0 auto;
+        gap: 0.12in;
+      }
+
+      .card-shell {
+        width: 3.5in;
+        height: 2in;
+        min-height: 0;
+        aspect-ratio: 1.75 / 1;
+        border-radius: 0.07in;
+        padding: 0;
+        box-shadow: none;
+        break-inside: avoid;
+        page-break-inside: avoid;
+        page-break-after: auto;
+        background:
+          linear-gradient(135deg, rgba(87,199,255,0.95), rgba(113,243,207,0.62) 38%, rgba(255,200,107,0.70) 67%, rgba(19,105,255,0.82));
+        overflow: hidden;
+      }
+
+      .card {
+        width: 7.25in;
+        height: 4.14in;
+        border-radius: 0.14in;
+        min-height: 0;
+        transform: scale(0.48275);
+        transform-origin: top left;
+        background:
+          radial-gradient(circle at 16% 16%, rgba(87,199,255,0.26), transparent 30%),
+          radial-gradient(circle at 80% 14%, rgba(113,243,207,0.22), transparent 28%),
+          linear-gradient(135deg, rgba(4,12,22,0.96), rgba(8,22,37,0.94) 55%, rgba(4,9,18,0.98));
+      }
+
+      .card::after {
+        display: block !important;
+        width: 4.4in;
+        height: 4.4in;
+        right: -1.55in;
+        bottom: -1.75in;
+        border: 0.01in solid rgba(113,243,207,0.22);
+        box-shadow:
+          0 0 0 0.62in rgba(87,199,255,0.035),
+          0 0 0 1.24in rgba(113,243,207,0.025),
+          inset 0 0 0.58in rgba(87,199,255,0.09);
+      }
+
+      .card-content {
+        padding: 0.34in 0.36in;
+        gap: 0.42in;
+        grid-template-columns: 0.98fr 1.02fr;
+      }
+
+      .back-content {
+        grid-template-columns: 0.95fr 1.05fr;
+      }
+
+      .front-left,
+      .back-left {
+        justify-content: space-between;
+      }
+
+      .front-right {
+        align-content: end;
+      }
+
+      .back-title {
+        align-self: center;
+        transform: translateY(0.14in);
+      }
+
+      .chip,
+      .row,
+      .signature,
+      .back-title p,
+      .site-pill {
+        font-size: 10pt;
+      }
+
+      .name-block strong,
+      .back-title h2 {
+        font-size: 25pt;
+      }
+
+      .back-title h2 {
+        line-height: 1.02;
+        color: #dffbff;
+        background: none;
+        -webkit-background-clip: border-box;
+        background-clip: border-box;
+        text-shadow: 0 18px 38px rgba(0,0,0,0.18);
+      }
+
+      .name-block strong {
+        white-space: nowrap;
+      }
+
+      .name-block {
+        gap: 0.06in;
+        margin-top: auto;
+        margin-bottom: 0.14in;
+        transform: translateY(-0.55in);
+      }
+
+      .name-block span {
+        font-size: 10pt;
+      }
+
+      .chips {
+        justify-content: space-between;
+        gap: 0.075in;
+        margin-top: 0.12in;
+        margin-bottom: 0.48in;
+        width: 3.55in;
+        flex-wrap: nowrap;
+        transform: translateY(-0.54in);
+      }
+
+      .chip {
+        min-height: 0.19in;
+        padding: 0 0.08in;
+        border-radius: 999px;
+        font-size: 6.4pt;
+        letter-spacing: 0;
+      }
+
+      .card-logo .mark {
+        width: 0.52in;
+        height: 0.52in;
+        padding: 0.08in;
+        border-radius: 0.12in;
+      }
+
+      .card-logo .wordmark {
+        width: 1.78in;
+      }
+
+      .logo-dotcom {
+        font-size: 0.21in;
+        margin-left: -0.22in;
+        transform: translateY(0.115in);
+      }
+
+      .card-logo {
+        gap: 0.12in;
+      }
+
+      .contact-panel {
+        gap: 0.08in;
+        padding: 0.18in;
+        border-radius: 0.16in;
+      }
+
+      .row {
+        grid-template-columns: 0.28in 1fr;
+        gap: 0.08in;
+      }
+
+      .row b {
+        width: 0.28in;
+        height: 0.28in;
+        border-radius: 0.07in;
+        font-size: 8.5pt;
+      }
+
+      .row b svg {
+        width: 0.16in;
+        height: 0.16in;
+        stroke-width: 2.3;
+      }
+
+      .qr-card {
+        width: 1.55in;
+        padding: 0.008in;
+        border-radius: 0.18in;
+        margin-top: 0.08in;
+        margin-left: 0.26in;
+        transform: translateY(-0.12in);
+      }
+
+      .back-title {
+        gap: 0.12in;
+      }
+
+      .front-right .back-title {
+        max-width: 3.3in;
+        transform: translate(0.12in, -0.18in);
+      }
+
+      .front-right .back-title p {
+        max-width: 3.0in;
+        font-size: 8.1pt;
+        line-height: 1.42;
+      }
+
+      .print-break {
+        display: block;
+      }
+
+      .site-pill {
+        padding: 0.1in 0.14in;
+        border-radius: 0.07in;
+      }
+
+      .signature {
+        padding-left: 0.18in;
+        font-size: 8.3pt;
+        white-space: nowrap;
+      }
+
+      .signature strong {
+        letter-spacing: 0.08em;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="topbar">
+      <a href="https://rekixo.com/" class="brand" aria-label="Rekixo website">
+        <img src="rekixo-favicon.svg" alt="Rekixo icon" />
+        <img src="rekixo-logo-static.svg" alt="Rekixo" />
+      </a>
+      <div class="actions">
+        <a class="button" href="https://rekixo.com/">Open Site</a>
+        <a class="button" href="referral.html">Get a new domain</a>
+        <button class="button primary" type="button" onclick="window.print()">Print Card</button>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="kicker">Premium Business Card</div>
+      <h1>Rekixo identity card for modern software work.</h1>
+      <p class="lead">Dark glass finish, cyan-mint brand glow, clean contact details, and a print-ready 3.5 x 2 inch layout.</p>
+    </section>
+
+    <section class="stage" aria-label="Business card preview">
+      <article class="card-shell" aria-label="Business card front">
+        <div class="card">
+          <div class="card-content">
+            <div class="front-left">
+              <div>
+                <div class="card-logo">
+                  <img class="wordmark" src="rekixo-logo-static.svg" alt="Rekixo" />
+                  <span class="logo-dotcom">.com</span>
+                </div>
+                <div class="name-block">
+                  <strong>Raj Kumar Lahare</strong>
+                  <span>Founder, Rekixo</span>
+                </div>
+              </div>
+              <div class="chips">
+                <span class="chip">Android Apps</span>
+                <span class="chip">Web Apps</span>
+                <span class="chip">Business Websites</span>
+                <span class="chip">Custom Software</span>
+              </div>
+            </div>
+
+            <div class="front-right">
+              <div class="back-title">
+                <div class="kicker">Build with clarity</div>
+                <h2><span>Software &#2361;&#2350; &#2348;&#2344;&#2366;&#2319;&#2306;&#2327;&#2375;</span><span>control &#2310;&#2346;&#2325;&#2366; &#2352;&#2361;&#2375;&#2327;&#2366;.</span></h2>
+                <p>Premium websites, Android apps, dashboards, and <br class="print-break" />custom digital systems built for real business use.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card-shell" aria-label="Business card back">
+        <div class="card">
+          <div class="card-content back-content">
+            <div class="back-left">
+              <div class="card-logo">
+                <img class="wordmark" src="rekixo-logo-static.svg" alt="Rekixo" />
+                <span class="logo-dotcom">.com</span>
+              </div>
+              <div class="qr-card" aria-label="Website QR code">
+                <img src="rekixo-qr.svg" alt="Scan to open https://rekixo.com/" />
+              </div>
+            </div>
+
+            <div class="front-right">
+              <div class="contact-panel">
+                <div class="row"><b aria-label="Website"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17"/><path d="M12 3c2.4 2.6 3.6 5.6 3.6 9S14.4 18.4 12 21"/><path d="M12 3C9.6 5.6 8.4 8.6 8.4 12S9.6 18.4 12 21"/><path d="M5.5 7.2h13"/><path d="M5.5 16.8h13"/></svg></b><span>rekixo.com</span></div>
+                <div class="row"><b aria-label="Phone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.4 5.2 10 8.9c.3.7.1 1.4-.4 1.9l-1.1 1.1c1.2 2.3 3.3 4.4 5.6 5.6l1.1-1.1c.5-.5 1.3-.7 1.9-.4l3.7 1.6c.7.3 1.1 1 1 1.8-.2 1.5-1.5 2.6-3 2.6C9.6 22 2 14.4 2 5.2c0-1.5 1.1-2.8 2.6-3 .8-.1 1.5.3 1.8 1Z"/></svg></b><span>+91 74150 11511</span></div>
+                <div class="row"><b aria-label="Email"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4.5 7 7.5 6 7.5-6"/><path d="m4.8 17 5.2-4"/><path d="m19.2 17-5.2-4"/></svg></b><span>contact@rekixo.com</span></div>
+                <div class="row"><b aria-label="Address"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.1 7-12A7 7 0 0 0 5 10c0 5.9 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg></b><span>Singhansara, Sakti, Chhattisgarh, India 495689</span></div>
+              </div>
+              <div class="signature">
+                <strong>Apps | Web Apps | Digital Products</strong>
+              </div>
+            </div>
+
+            <div class="back-title">
+              <div class="kicker">Build with clarity</div>
+              <h2><span>Software &#2361;&#2350; &#2348;&#2344;&#2366;&#2319;&#2306;&#2327;&#2375;</span><span>control &#2310;&#2346;&#2325;&#2366; &#2352;&#2361;&#2375;&#2327;&#2366;.</span></h2>
+              <p>Premium websites, Android apps, dashboards, and custom digital systems built for real business use.</p>
+              <div class="site-pill">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="rgba(6,16,29,0.12)" stroke="none" d="M12 2.7 20.1 6.1v5.5c0 4.9-3.2 8.5-8.1 10.4-4.9-1.9-8.1-5.5-8.1-10.4V6.1L12 2.7Z"/>
+                  <path d="M12 3.4 19.2 6.5v5.1c0 4.2-2.8 7.5-7.2 9.2-4.4-1.7-7.2-5-7.2-9.2V6.5L12 3.4Z"/>
+                  <path d="M8.7 12.1 11 14.4 15.8 9.5"/>
+                </svg>
+                <span>rekixo.com</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <p class="print-note">Tip: Print button se browser print preview khulega. Print me card standard business-card size 88.9mm x 50.8mm set hai.</p>
+  </main>
+</body>
+</html>

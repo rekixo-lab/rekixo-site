@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Rekixo favicon</title>
+  <desc id="desc">Rekixo stylized R mark as a transparent SVG favicon.</desc>
+  <defs>
+    <linearGradient id="blueGradient" x1="20" y1="60" x2="455" y2="465" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#72e6ff"/>
+      <stop offset="0.13" stop-color="#12b8ff"/>
+      <stop offset="0.32" stop-color="#0a9dff"/>
+      <stop offset="0.46" stop-color="#dffbff"/>
+      <stop offset="0.53" stop-color="#18b9ff"/>
+      <stop offset="0.78" stop-color="#057bf4"/>
+      <stop offset="1" stop-color="#044de0"/>
+    </linearGradient>
+  </defs>
+
+  <path id="mark-r" transform="translate(20 43) scale(1.06)" fill="url(#blueGradient)" fill-rule="evenodd" clip-rule="evenodd" d="
+    M0 26
+    H304
+    C356 26 399 48 424 83
+    C447 116 454 157 445 195
+    C435 237 405 273 359 289
+    C346 293 331 296 313 296
+    L410 397
+    H301
+    L155 216
+    H292
+    C326 216 349 197 349 166
+    C349 127 322 99 282 99
+    H60
+    L0 26
+    Z"/>
+</svg>
