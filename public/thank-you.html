@@ -4,12 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Thank You - Rekixo</title>
+  <meta name="description" content="Thank you page for Rekixo project request submissions." />
   <meta name="theme-color" content="#07111f" />
   <link rel="icon" type="image/svg+xml" href="rekixo-favicon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="canonical" href="https://rekixo.com/thank-you.html" />
   <style>
     * { box-sizing: border-box; }
+    html, body { max-width: 100%; overflow-x: hidden; }
 
     body {
       margin: 0;
@@ -29,16 +32,19 @@
       width: min(1080px, 100%);
       min-height: 54px;
       margin: 0 auto;
+      min-width: 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
+      min-width: 0;
     }
 
     .brand {
       display: inline-flex;
       align-items: center;
       gap: 10px;
+      min-width: 0;
       color: #eef7ff;
       font-weight: 800;
       text-decoration: none;
@@ -127,12 +133,50 @@
     }
   </style>
   <link rel="stylesheet" href="logo-animation.css" />
+
+  <style>
+    header .brand img[src$="rekixo-logo-parts.svg"] {
+      width: 132px !important;
+      height: auto !important;
+      max-width: 38vw;
+      aspect-ratio: 1737 / 402;
+    }
+    main.card > img[src$="rekixo-logo-parts.svg"] {
+      width: min(300px, 78vw) !important;
+      height: auto !important;
+    }
+    @media (max-width: 560px) {
+      body { padding: 12px 10px; }
+      header {
+        width: 100%;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .brand { flex: 1 1 auto; overflow: hidden; }
+      .brand-name { display: none; }
+      header .brand img[src$="rekixo-logo-parts.svg"] {
+        width: 118px !important;
+        max-width: 34vw;
+      }
+      .header-actions {
+        flex: 0 1 auto;
+        gap: 6px;
+        min-width: 0;
+      }
+      .talk-link {
+        height: 38px;
+        padding: 0 8px;
+        font-size: 11px;
+      }
+    }
+  </style>
+  <link rel="me" href="https://www.linkedin.com/in/rekixo">
 </head>
 <body>
   <header>
     <a class="brand" href="index.html" aria-label="Rekixo home">
       <img src="rekixo-logo-parts.svg" alt="Rekixo logo" />
-      <span>Rekixo</span>
+      <span class="brand-name">Rekixo</span>
     </a>
     <div class="header-actions">
       <a class="talk-link" href="referral.html">Get a new domain</a>

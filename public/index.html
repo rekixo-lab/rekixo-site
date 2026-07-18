@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rekixo — Apps, Web Apps & Digital Products</title>
+  <title>Rekixo - Apps, Web Apps & Digital Products</title>
   <meta name="description" content="Rekixo builds modern Android apps, web apps, and digital products with clean UI, strong ownership, and real business focus." />
   <meta name="theme-color" content="#07111f" />
   <link rel="icon" type="image/svg+xml" href="rekixo-favicon.svg" />
@@ -26,7 +26,8 @@
         "url": "https://rekixo.com/",
         "logo": "https://rekixo.com/rekixo-logo-parts.svg",
         "email": "ai@rekixo.com",
-        "description": "Rekixo builds Android apps, web apps, business websites, dashboards, and custom software systems."
+        "description": "Rekixo builds Android apps, web apps, business websites, dashboards, and custom software systems.",
+        "sameAs": ["https://www.linkedin.com/in/rekixo"]
       },
       {
         "@type": "LocalBusiness",
@@ -97,6 +98,7 @@
       text-size-adjust: 100%;
     }
     body {
+      width: 100%;
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
@@ -106,6 +108,11 @@
         linear-gradient(180deg, #050b13 0%, #08131f 46%, #07111f 100%);
       min-height: 100vh;
       overflow-x: hidden;
+    }
+
+    html,
+    body {
+      max-width: 100%;
     }
 
     .grid-bg::before {
@@ -496,7 +503,7 @@
 
     .slide {
       position: absolute;
-      inset: 7% 9% 22%;
+      inset: 8% 11% 23%;
       display: grid;
       align-content: center;
       justify-items: center;
@@ -516,31 +523,34 @@
 
     .slide-kicker {
       width: fit-content;
-      margin-bottom: 12px;
-      padding: 7px 14px;
+      margin-bottom: 10px;
+      padding: 6px 13px;
       border-radius: 999px;
       background: rgba(125,255,207,0.13);
       border: 1px solid rgba(125,255,207,0.32);
       color: #bffff0;
-      font-size: 14px;
+      font-size: clamp(11px, 1.05vw, 13px);
       font-weight: 700;
+      line-height: 1.15;
     }
 
+    .slide-title,
     .slide strong {
       display: block;
-      max-width: 760px;
-      font-size: 38px;
-      line-height: 1.12;
+      max-width: 700px;
+      font-size: clamp(25px, 2.35vw, 34px);
+      line-height: 1.18;
+      letter-spacing: 0;
       text-wrap: balance;
       text-shadow: 0 12px 30px rgba(0,0,0,0.42);
     }
 
     .slide p {
-      max-width: 660px;
-      margin: 14px 0 0;
+      max-width: 620px;
+      margin: 12px 0 0;
       color: #d8fff4;
-      font-size: 18px;
-      line-height: 1.45;
+      font-size: clamp(14px, 1.22vw, 17px);
+      line-height: 1.5;
       text-wrap: balance;
     }
 
@@ -655,6 +665,378 @@
       font-size: 13px;
     }
 
+
+
+    .launch-system {
+      position: relative;
+      isolation: isolate;
+      margin-top: -72px;
+      padding-top: 110px;
+      overflow: visible;
+    }
+
+    .launch-system::before {
+      content: "";
+      position: absolute;
+      inset: -120px 0 auto;
+      height: calc(52% + 120px);
+      background:
+        linear-gradient(180deg, transparent 0%, rgba(7,17,31,0.34) 34%, transparent 100%),
+        radial-gradient(circle at 16% 10%, rgba(125,255,207,0.12), transparent 31%),
+        radial-gradient(circle at 78% 18%, rgba(255,202,114,0.11), transparent 28%);
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, black 30%, black 100%);
+      mask-image: linear-gradient(180deg, transparent 0%, black 30%, black 100%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .solution-band {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .solution-tile {
+      min-height: 190px;
+      padding: 22px;
+      border: 1px solid rgba(255,255,255,0.11);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.035));
+      box-shadow: inset 0 0 22px rgba(87,199,255,0.035);
+      transition: transform .25s ease, border-color .25s ease, background .25s ease;
+    }
+
+    .solution-tile:hover {
+      transform: translateY(-6px);
+      border-color: rgba(125,255,207,0.34);
+      background: linear-gradient(180deg, rgba(125,255,207,0.105), rgba(255,255,255,0.04));
+    }
+
+    .solution-icon {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 22px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(87,199,255,0.24), rgba(125,255,207,0.18));
+      color: #dffcff;
+      font-weight: 900;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.13), 0 12px 30px rgba(87,199,255,0.10);
+    }
+
+    .solution-tile h3 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    .solution-tile p {
+      margin: 0;
+      color: #b8cbe0;
+      line-height: 1.6;
+    }
+
+    .app-flow-panel {
+      position: relative;
+      overflow: hidden;
+      min-height: 510px;
+      padding: 42px;
+      border: 1px solid rgba(155,230,255,0.20);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 50% -20%, rgba(87,199,255,0.20), transparent 30%),
+        radial-gradient(circle at 18% 86%, rgba(255,122,168,0.14), transparent 34%),
+        linear-gradient(135deg, rgba(8,21,34,0.98), rgba(20,16,52,0.94));
+      box-shadow: 0 28px 90px rgba(0,0,0,0.34), inset 0 0 44px rgba(125,255,207,0.04);
+    }
+
+    .app-flow-panel::before {
+      content: "";
+      position: absolute;
+      inset: -28% -10% auto;
+      height: 74%;
+      background-image: repeating-radial-gradient(circle at 50% 100%, rgba(255,255,255,0.10) 0 1px, transparent 1px 46px);
+      opacity: .55;
+      pointer-events: none;
+    }
+
+    .app-flow-heading {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+      margin: 0 auto 32px;
+      text-align: center;
+    }
+
+    .app-flow-heading h2 {
+      margin-bottom: 12px;
+    }
+
+    .app-flow-heading p {
+      margin: 0;
+      color: #c9ddf0;
+      line-height: 1.7;
+    }
+
+    .feature-orbit {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+      max-width: 930px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      min-height: 146px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(12px);
+      animation: featureFloat 7s ease-in-out infinite;
+    }
+
+    .feature-card:nth-child(2) { animation-delay: .45s; }
+    .feature-card:nth-child(3) { animation-delay: .9s; }
+    .feature-card:nth-child(4) { animation-delay: 1.35s; }
+    .feature-card:nth-child(5) { animation-delay: 1.8s; }
+    .feature-card:nth-child(6) { animation-delay: 2.25s; }
+
+    .feature-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #f4fbff;
+      font-size: 18px;
+    }
+
+    .feature-card span {
+      color: #b7c9dc;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .motion-chips {
+      display: grid;
+      gap: 14px;
+      margin: 30px 0 8px;
+      overflow: hidden;
+      mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+    }
+
+    .chip-track {
+      display: flex;
+      gap: 12px;
+      width: max-content;
+      animation: chipFlow 28s linear infinite;
+    }
+
+    .chip-track.reverse {
+      animation-direction: reverse;
+      animation-duration: 34s;
+    }
+
+    .service-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      height: 52px;
+      padding: 0 18px;
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      color: #edf7ff;
+      white-space: nowrap;
+    }
+
+    .service-chip b {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(87,199,255,0.22), rgba(255,202,114,0.22));
+      color: #fff;
+      font-size: 12px;
+    }
+
+    .business-flow {
+      padding-top: 52px;
+    }
+
+    .stack-story {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1fr);
+      gap: 34px;
+      align-items: start;
+    }
+
+    .sticky-copy {
+      position: sticky;
+      top: 110px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .stack-cards {
+      display: grid;
+      gap: 26px;
+    }
+
+    .stack-card {
+      position: relative;
+      min-height: 270px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 220px;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 0;
+      padding: 30px;
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 88% 18%, rgba(255,202,114,0.22), transparent 30%),
+        linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.045));
+      box-shadow: 0 24px 70px rgba(0,0,0,0.28);
+      overflow: hidden;
+    }
+
+    .stack-card h3 {
+      margin: 0 0 12px;
+      font-size: 28px;
+    }
+
+    .stack-card p {
+      margin: 0 0 18px;
+      color: #c2d5e7;
+      line-height: 1.7;
+    }
+
+    .stack-visual {
+      min-height: 170px;
+      border-radius: 24px;
+      background:
+        linear-gradient(135deg, rgba(87,199,255,0.20), rgba(125,255,207,0.16)),
+        rgba(255,255,255,0.06);
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stack-visual::before,
+    .stack-visual::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .stack-visual::before { width: 150px; height: 150px; }
+    .stack-visual::after { width: 92px; height: 92px; }
+
+    .stack-visual span {
+      position: relative;
+      z-index: 1;
+      width: 78px;
+      height: 78px;
+      display: grid;
+      place-items: center;
+      border-radius: 22px;
+      background: #07111f;
+      color: #7dffcf;
+      font-weight: 900;
+      box-shadow: 0 18px 44px rgba(0,0,0,0.32);
+    }
+
+    .orbit-trust {
+      padding-top: 42px;
+    }
+
+    .orbit-panel {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(300px, 1.1fr);
+      gap: 24px;
+      align-items: center;
+      min-height: 360px;
+      padding: 34px;
+      border: 1px solid rgba(155,230,255,0.18);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(7,17,31,0.96), rgba(16,31,50,0.78));
+      overflow: hidden;
+    }
+
+    .orbit-map {
+      position: relative;
+      min-height: 300px;
+      display: grid;
+      place-items: center;
+    }
+
+    .orbit-ring {
+      position: absolute;
+      border: 1px solid rgba(125,255,207,0.22);
+      border-radius: 50%;
+      animation: orbitSpin 18s linear infinite;
+    }
+
+    .orbit-ring.one { width: 270px; height: 270px; }
+    .orbit-ring.two { width: 190px; height: 190px; animation-duration: 14s; animation-direction: reverse; }
+    .orbit-ring.three { width: 112px; height: 112px; animation-duration: 10s; }
+
+    .orbit-dot {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--primary-2);
+      box-shadow: 0 0 22px rgba(125,255,207,0.7);
+      top: -7px;
+      left: calc(50% - 7px);
+    }
+
+    .orbit-core {
+      position: relative;
+      z-index: 1;
+      width: 92px;
+      height: 92px;
+      display: grid;
+      place-items: center;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      overflow: visible;
+    }
+
+    .orbit-core img {
+      width: 62px;
+      height: 62px;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 18px rgba(87,199,255,0.18));
+    }
+
+    .trust-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .trust-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #dff8ff;
+      font-size: 13px;
+    }
+
     @keyframes heroBreath {
       from { transform: scale(1.03) translate3d(0, 0, 0); }
       to { transform: scale(1.08) translate3d(-10px, -6px, 0); }
@@ -684,12 +1066,32 @@
       82%, 100% { opacity: 0.92; filter: blur(0) saturate(1.12); transform: perspective(800px) rotateY(-12deg) translateX(58%); }
     }
 
+
+
+    @keyframes featureFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes chipFlow {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    @keyframes orbitSpin {
+      to { transform: rotate(360deg); }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .hero-photo img,
       .hero-scan,
       .coded-board::after,
-      .side-board {
+      .side-board,
+      .site-rail,
+      .feature-card,
+      .chip-track,
+      .orbit-ring {
         animation: none;
       }
       .slide,
@@ -760,15 +1162,20 @@
     }
 
     .icon {
-      width: 48px;
+      min-width: 58px;
       height: 48px;
+      width: fit-content;
+      padding: 0 12px;
       display: grid;
       place-items: center;
       border-radius: 16px;
       margin-bottom: 16px;
       background: linear-gradient(135deg, rgba(87,199,255,0.16), rgba(125,255,207,0.14));
       border: 1px solid rgba(255,255,255,0.08);
-      font-size: 22px;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0;
+      white-space: nowrap;
     }
 
     .card h3 {
@@ -944,6 +1351,145 @@
 
     .footer-links a:hover { color: var(--text); }
 
+    .site-rail {
+      position: fixed;
+      top: 96px;
+      bottom: 34px;
+      right: 0;
+      z-index: 32;
+      width: 86px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 0;
+      border: 0;
+      border-radius: 10px 0 0 10px;
+      background: rgba(6, 16, 29, 0.65);
+      box-shadow: none;
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
+
+    .site-rail::before,
+    .site-rail::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .site-rail::before {
+      inset: 0;
+      background: transparent;
+      opacity: 0;
+    }
+
+    .site-rail::after {
+      display: none;
+    }
+
+    .rail-menu,
+    .rail-action,
+    .rail-line {
+      position: relative;
+      z-index: 1;
+    }
+
+    .rail-menu,
+    .rail-action {
+      display: grid;
+      place-items: center;
+      text-decoration: none;
+      color: rgba(244,255,229,0.92);
+      transition: 0.22s ease;
+    }
+
+    .rail-menu {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 14px;
+    }
+
+    .rail-menu span {
+      display: block;
+      width: 25px;
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+      box-shadow: none;
+    }
+
+    .rail-line {
+      width: 1px;
+      min-height: 44px;
+      flex: 1;
+      background: linear-gradient(180deg, transparent, rgba(255,255,255,0.16), transparent);
+      box-shadow: none;
+    }
+
+    .rail-actions {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 9px;
+    }
+
+    .rail-action {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 50%;
+      background: rgba(7, 17, 31, 0.56);
+      box-shadow: none;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .rail-action svg {
+      display: block;
+      width: 15px;
+      height: 15px;
+      fill: currentColor;
+    }
+
+    .rail-action.instagram svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .rail-action.email {
+      font-size: 18px;
+      text-transform: none;
+    }
+
+    .rail-action.logo-text {
+      font-size: 12px;
+      line-height: 1;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .rail-menu:hover,
+    .rail-action:hover {
+      color: #06101d;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      border-color: transparent;
+      transform: translateX(-4px);
+      box-shadow: none;
+    }
+
     .reveal {
       opacity: 0;
       transform: translateY(20px);
@@ -959,6 +1505,10 @@
       .hero {
         padding: 56px 0 26px;
       }
+      .launch-system {
+        margin-top: -54px;
+        padding-top: 84px;
+      }
       .showcase,
       .cta-box,
       .cards { grid-template-columns: 1fr; }
@@ -966,18 +1516,22 @@
         width: min(100%, calc((100svh - 118px) * 1.777));
         border-radius: 14px;
       }
+      .slide-title,
       .slide strong {
-        max-width: 540px;
-        font-size: 26px;
+        max-width: 500px;
+        font-size: clamp(20px, 2.7vw, 26px);
+        line-height: 1.18;
       }
       .slide p {
-        max-width: 520px;
-        font-size: 14px;
+        max-width: 500px;
+        font-size: 13px;
+        line-height: 1.45;
         display: block;
       }
       .slide-kicker {
         margin-bottom: 8px;
         font-size: 10px;
+        line-height: 1.15;
       }
       .slider-controls {
         left: 22%;
@@ -1009,6 +1563,10 @@
       nav ul { display: none; }
     }
 
+    @media (max-width: 1180px) {
+      .site-rail { display: none; }
+    }
+
     @media (max-width: 680px) {
       .wrap { width: min(var(--max), calc(100% - 20px)); }
       header .wrap.nav {
@@ -1037,6 +1595,10 @@
         font-size: 16px;
       }
       .hero { padding: 30px 0 18px; }
+      .launch-system {
+        margin-top: -28px;
+        padding-top: 54px;
+      }
       .hero-photo {
         width: 100%;
         border-radius: 10px;
@@ -1071,17 +1633,18 @@
         font-size: 6.6px;
         line-height: 1.1;
       }
+      .slide-title,
       .slide strong {
         max-width: 100%;
-        font-size: clamp(11px, 3.15vw, 12.5px);
-        line-height: 1.05;
+        font-size: clamp(10.5px, 3vw, 12px);
+        line-height: 1.12;
       }
       .slide p {
         display: block;
         max-width: 100%;
         margin-top: 2px;
-        font-size: clamp(6.2px, 2vw, 7.4px);
-        line-height: 1.15;
+        font-size: clamp(5.9px, 1.9vw, 7px);
+        line-height: 1.2;
       }
       .slider-controls {
         left: 29%;
@@ -1097,8 +1660,8 @@
         height: 21%;
         border-radius: 7px;
       }
-      .side-board.left { left: 6%; }
-      .side-board.right { right: 6%; }
+      .side-board.left { left: 8%; }
+      .side-board.right { right: 8%; }
       .side-board span {
         font-size: 11px;
         margin-bottom: 2px;
@@ -1127,8 +1690,11 @@
         line-height: 1.65;
       }
       .icon {
-        width: 40px;
+        min-width: 52px;
+        width: fit-content;
         height: 40px;
+        padding: 0 10px;
+        font-size: 14px;
       }
       .card h3 { font-size: 19px; }
       .card p {
@@ -1147,7 +1713,6 @@
       .big-panel, .stack-panel, .cta-box, .card { padding: 16px; overflow: hidden; }
       .btn, .btn-ghost, .playstore-btn { width: 100%; }
       .nav nav { display: none; }
-      .nav .btn-ghost[href="referral.html"] { display: none; }
       .nav .btn-ghost {
         position: fixed;
         right: 10px;
@@ -1164,13 +1729,117 @@
         transform: none;
       }
       .hero-actions { flex-direction: column; }
+
+      .solution-band {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .solution-tile {
+        min-height: auto;
+      }
+      .app-flow-panel {
+        min-height: auto;
+        padding: 22px 16px;
+        border-radius: 20px;
+      }
+      .feature-orbit {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .feature-card {
+        min-height: auto;
+      }
+      .motion-chips {
+        margin-inline: -10px;
+      }
+      .service-chip {
+        height: 44px;
+        padding: 0 13px;
+        font-size: 13px;
+      }
+      .stack-story,
+      .orbit-panel {
+        grid-template-columns: 1fr;
+      }
+      .sticky-copy,
+      .stack-card {
+        position: static;
+      }
+      .stack-card {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        padding: 20px;
+        border-radius: 20px;
+      }
+      .stack-card h3 {
+        font-size: 22px;
+      }
+      .stack-visual {
+        min-height: 150px;
+      }
+      .orbit-panel {
+        padding: 22px 16px;
+      }
+      .orbit-map {
+        min-height: 240px;
+      }
+      .orbit-ring.one { width: 220px; height: 220px; }
+      .orbit-ring.two { width: 158px; height: 158px; }
+      .orbit-ring.three { width: 94px; height: 94px; }
       .brand-text span { display: none; }
     }
   </style>
   <link rel="stylesheet" href="logo-animation.css" />
+  <link rel="me" href="https://www.linkedin.com/in/rekixo">
 </head>
 <body>
   <div class="grid-bg"></div>
+
+  <aside class="site-rail" aria-label="Rekixo quick navigation">
+    <a class="rail-menu" href="#services" aria-label="Explore Rekixo services" title="Services">
+      <span></span>
+      <span></span>
+      <span></span>
+    </a>
+    <span class="rail-line" aria-hidden="true"></span>
+    <nav class="rail-actions" aria-label="Social links">
+      <a class="rail-action" href="contact.html" aria-label="X profile" title="X">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M18.9 2.5h3.2l-7 8 8.2 11h-6.4l-5-6.6-5.7 6.6H3l7.5-8.6L2.7 2.5h6.6l4.5 6 5.1-6zm-1.1 17.1h1.8L8.3 4.3H6.4l11.4 15.3z" />
+        </svg>
+      </a>
+      <a class="rail-action" href="https://www.linkedin.com/in/rekixo" target="_blank" rel="noopener" aria-label="LinkedIn profile" title="LinkedIn">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M5.3 7.6H1.8V22h3.5V7.6zM3.5 5.7c1.1 0 2-.8 2-1.9s-.9-1.9-2-1.9-2 .8-2 1.9.9 1.9 2 1.9zM22.5 22v-7.9c0-4.2-2.2-6.1-5.1-6.1-2.4 0-3.4 1.3-4 2.2V7.6H9.9V22h3.5v-7.1c0-1.9.4-3.8 2.8-3.8 2.3 0 2.3 2.2 2.3 3.9v7h4z" />
+        </svg>
+      </a>
+      <a class="rail-action instagram" href="contact.html" aria-label="Instagram profile" title="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <rect x="3.4" y="3.4" width="17.2" height="17.2" rx="5" />
+          <circle cx="12" cy="12" r="4.2" />
+          <circle cx="17.3" cy="6.8" r="0.9" fill="currentColor" stroke="none" />
+        </svg>
+      </a>
+      <a class="rail-action" href="contact.html" aria-label="Facebook profile" title="Facebook">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M14.3 8.2h2.4V5.1c-.4-.1-1.8-.2-3.4-.2-3.3 0-5.5 2-5.5 5.7v3.2H4.2v3.5h3.6V24h3.7v-6.7h3.1l.5-3.5h-3.6v-2.9c0-1 .3-1.7 1.8-1.7z" />
+        </svg>
+      </a>
+      <a class="rail-action logo-text" href="contact.html" aria-label="Wellfound profile" title="Wellfound">W:</a>
+      <a class="rail-action" href="index.html" aria-label="Rekixo website" title="Website">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 9h-3.2a15 15 0 0 0-1.1-5 8.05 8.05 0 0 1 4.3 5zM12 4.1c.7 1 1.5 3.1 1.7 6.9h-3.4C10.5 7.2 11.3 5.1 12 4.1zM4.3 13h3.9c.1 1.8.4 3.5.9 4.9A8.03 8.03 0 0 1 4.3 13zm3.9-2H4.3a8.03 8.03 0 0 1 4.8-4.9A15.8 15.8 0 0 0 8.2 11zm3.8 8.9c-.7-1-1.5-3.1-1.7-6.9h3.4c-.2 3.8-1 5.9-1.7 6.9zm2.6-2c.5-1.4.8-3.1.9-4.9h3.2a8.05 8.05 0 0 1-4.1 4.9z" />
+        </svg>
+      </a>
+      <a class="rail-action logo-text" href="contact.html" aria-label="Fiverr profile" title="Fiverr">fi</a>
+      <a class="rail-action" href="contact.html" aria-label="WhatsApp contact" title="WhatsApp">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.7 0 .5 5.2.5 11.6c0 2 .5 3.9 1.5 5.6L.4 23.2l6.1-1.6a11.5 11.5 0 0 0 5.6 1.4h.1c6.4 0 11.6-5.2 11.6-11.6 0-3.1-1.2-6-3.3-7.9zm-8.4 17.6c-1.7 0-3.3-.5-4.7-1.3l-.3-.2-3.6 1 1-3.5-.2-.4a9.5 9.5 0 0 1-1.4-5C2.9 6.5 7 2.3 12.2 2.3c2.5 0 4.8 1 6.5 2.7a9.1 9.1 0 0 1 2.7 6.5c-.1 5.3-4.2 9.6-9.3 9.6zm5.1-7.2c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-2-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.1.2 2.1 3.2 5 4.4.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.4z" />
+        </svg>
+      </a>
+    </nav>
+    <span class="rail-line" aria-hidden="true"></span>
+  </aside>
 
   <header>
     <div class="wrap nav">
@@ -1178,7 +1847,7 @@
         <img src="rekixo-logo-parts.svg" alt="Rekixo logo" class="brand-mark" />
         <span class="brand-text">
           <strong>Rekixo</strong>
-          <span>Apps • Web Apps • Digital Products</span>
+          <span>Apps - Web Apps - Digital Products</span>
         </span>
       </a>
       <nav>
@@ -1189,11 +1858,11 @@
           <li><a href="about.html">About</a></li>
           <li><a href="portfolio.html">Portfolio</a></li>
           <li><a href="referral.html">Referral</a></li>
+          <li><a href="referral.html">Get a new domain</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
-      <a class="btn-ghost" href="referral.html">Get a new domain</a>
-      <a class="btn-ghost" href="contact.html">Let’s Talk</a>
+      <a class="btn-ghost" href="contact.html">Let's Talk</a>
     </div>
   </header>
 
@@ -1207,14 +1876,14 @@
 
           <div class="hero-slider reveal show" data-hero-slider aria-live="polite">
             <article class="slide is-active">
-              <span class="slide-kicker">प्रीमियम वेबसाइट</span>
-              <strong>दुकान, व्यवसाय, कंपनी या संस्थान के लिए उच्च-स्तरीय वेबसाइट बनवाइए</strong>
-              <p>पहली नजर में भरोसा, साफ डिजाइन और professional brand feel.</p>
+              <span class="slide-kicker">&#2346;&#2381;&#2352;&#2368;&#2350;&#2367;&#2351;&#2350; &#2357;&#2375;&#2348;&#2360;&#2366;&#2311;&#2335;</span>
+              <h1 class="slide-title">&#2342;&#2369;&#2325;&#2366;&#2344;, &#2357;&#2381;&#2351;&#2357;&#2360;&#2366;&#2351;, &#2325;&#2306;&#2346;&#2344;&#2368; &#2351;&#2366; &#2360;&#2306;&#2360;&#2381;&#2341;&#2366;&#2344; &#2325;&#2375; &#2354;&#2367;&#2319; &#2313;&#2330;&#2381;&#2330;-&#2360;&#2381;&#2340;&#2352;&#2368;&#2351; &#2357;&#2375;&#2348;&#2360;&#2366;&#2311;&#2335; &#2348;&#2344;&#2357;&#2366;&#2311;&#2319;</h1>
+              <p>&#2346;&#2361;&#2354;&#2368; &#2344;&#2332;&#2352; &#2350;&#2375;&#2306; &#2349;&#2352;&#2379;&#2360;&#2366;, &#2360;&#2366;&#2347; &#2337;&#2367;&#2332;&#2366;&#2311;&#2344; &#2324;&#2352; professional brand feel.</p>
             </article>
             <article class="slide">
-              <span class="slide-kicker">स्मार्ट डिजिटल पहचान</span>
-              <strong>तेज़, सुरक्षित और SEO-फ्रेंडली वेबसाइट जो आपके बिज़नेस को बढ़ाती है</strong>
-              <p>मोबाइल-रेडी लेआउट, स्मूथ एनिमेशन और स्पष्ट कॉल-टू-एक्शन।</p>
+              <span class="slide-kicker">&#2360;&#2381;&#2350;&#2366;&#2352;&#2381;&#2335; &#2337;&#2367;&#2332;&#2367;&#2335;&#2354; &#2346;&#2361;&#2330;&#2366;&#2344;</span>
+              <strong>&#2340;&#2375;&#2332;&#2364;, &#2360;&#2369;&#2352;&#2325;&#2381;&#2359;&#2367;&#2340; &#2324;&#2352; SEO-&#2347;&#2381;&#2352;&#2375;&#2306;&#2337;&#2354;&#2368; &#2357;&#2375;&#2348;&#2360;&#2366;&#2311;&#2335; &#2332;&#2379; &#2310;&#2346;&#2325;&#2375; &#2348;&#2367;&#2332;&#2364;&#2344;&#2375;&#2360; &#2325;&#2379; &#2348;&#2338;&#2364;&#2366;&#2340;&#2368; &#2361;&#2376;</strong>
+              <p>&#2350;&#2379;&#2348;&#2366;&#2311;&#2354;-&#2352;&#2375;&#2337;&#2368; &#2354;&#2375;&#2310;&#2313;&#2335;, &#2360;&#2381;&#2350;&#2370;&#2341; &#2319;&#2344;&#2367;&#2350;&#2375;&#2358;&#2344; &#2324;&#2352; &#2360;&#2381;&#2346;&#2359;&#2381;&#2335; &#2325;&#2377;&#2354;-&#2335;&#2370;-&#2319;&#2325;&#2381;&#2358;&#2344;&#2404;</p>
             </article>
             <article class="slide">
               <span class="slide-kicker">Apps + Web Apps</span>
@@ -1223,7 +1892,7 @@
             </article>
             <article class="slide">
               <span class="slide-kicker">Rekixo Promise</span>
-              <strong>आपके लिए सॉफ्टवेयर हम बनाएंगे, कंट्रोल आपका रहेगा</strong>
+              <strong>&#2310;&#2346;&#2325;&#2375; &#2354;&#2367;&#2319; &#2360;&#2377;&#2347;&#2381;&#2335;&#2357;&#2375;&#2351;&#2352; &#2361;&#2350; &#2348;&#2344;&#2366;&#2319;&#2306;&#2327;&#2375;, &#2325;&#2306;&#2335;&#2381;&#2352;&#2379;&#2354; &#2310;&#2346;&#2325;&#2366; &#2352;&#2361;&#2375;&#2327;&#2366;</strong>
               <p>Access, ownership aur long-term clarity business owner ke paas.</p>
             </article>
             <div class="slider-controls" aria-label="Hero board text controls">
@@ -1234,8 +1903,8 @@
             </div>
           </div>
 
-          <img class="hero-hand hero-hand-left" src="right.png" alt="" aria-hidden="true" />
-          <img class="hero-hand hero-hand-right" src="left.png" alt="" aria-hidden="true" />
+          <img class="hero-hand hero-hand-left" src="right.png" alt="Rekixo service hand illustration" />
+          <img class="hero-hand hero-hand-right" src="left.png" alt="Rekixo support hand illustration" />
 
           <div class="side-board left" aria-hidden="true">
             <div>
@@ -1256,69 +1925,83 @@
       </div>
     </section>
 
-    <section class="hero old-hero" hidden aria-hidden="true">
-      <div class="wrap hero-grid">
-        <div class="reveal show">
-          <div class="eyebrow"><span class="dot"></span> Product-first development company</div>
-          <h1>Build digital products with <span>clarity, speed, and control.</span></h1>
-          <p class="lead">
-            Rekixo builds modern Android apps and web apps for real business needs. We focus on clean UI,
-            strong performance, practical execution, and a simple promise — we build it, but the control stays with you.
-          </p>
-          <div class="hero-actions">
-            <a href="contact.html" class="btn">Start a Project</a>
-            <a href="#product" class="btn-ghost">See Our Product</a>
+
+    <section class="launch-system" aria-labelledby="launch-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <div class="kicker">Launch System</div>
+            <h2 id="launch-title">A premium digital front, built around real business actions.</h2>
           </div>
-          <div class="hero-mail-row">
-            <a class="mail-chip" href="mailto:hello@rekixo.com">hello@rekixo.com</a>
-            <a class="mail-chip" href="mailto:support@rekixo.com">support@rekixo.com</a>
-            <a class="mail-chip" href="mailto:ai@rekixo.com">ai@rekixo.com</a>
+          <p class="section-text">PhonePe jaisi polish ka lesson simple hai: har section ek clear action, strong visual rhythm, and smooth movement. Rekixo mein wahi grammar business websites, apps, dashboards, and software ke liye use ho sakti hai.</p>
+        </div>
+
+        <div class="solution-band" aria-label="Core Rekixo solution paths">
+          <article class="solution-tile reveal"><div class="solution-icon">WEB</div><h3>Business Website</h3><p>Trust-building pages, focused service sections, SEO structure, and clean lead flow.</p></article>
+          <article class="solution-tile reveal"><div class="solution-icon">APP</div><h3>Android App</h3><p>Practical user journeys, protected communication, payments, and launch support.</p></article>
+          <article class="solution-tile reveal"><div class="solution-icon">DB</div><h3>Dashboard</h3><p>Admin panels for records, requests, payments, users, reports, and control.</p></article>
+          <article class="solution-tile reveal"><div class="solution-icon">SEO</div><h3>Growth Pages</h3><p>Focused content, technical SEO tags, sitemap, schema, and internal linking.</p></article>
+        </div>
+
+        <div class="app-flow-panel reveal">
+          <div class="app-flow-heading">
+            <div class="kicker">Interactive Experience</div>
+            <h2>Simple, fast and secure digital launches.</h2>
+            <p>Use a polished product-style section to explain services without making the visitor read a wall of text.</p>
           </div>
-          <div class="hero-points">
-            <div class="point">
-              <strong>Apps that solve</strong>
-              <span>Real workflows, not just pretty screens and empty promises.</span>
-            </div>
-            <div class="point">
-              <strong>Fast execution</strong>
-              <span>Focused development with practical decisions and less noise.</span>
-            </div>
-            <div class="point">
-              <strong>Client ownership</strong>
-              <span>Your product, your access, your visibility, your long-term control.</span>
-            </div>
+          <div class="feature-orbit" aria-label="Animated launch features">
+            <article class="feature-card"><strong>Project Discovery</strong><span>Requirement, target user, business process, and first launch version are clarified.</span></article>
+            <article class="feature-card"><strong>UI Direction</strong><span>Clean sections, real CTAs, responsive layout, and brand feeling are shaped first.</span></article>
+            <article class="feature-card"><strong>Secure Build</strong><span>Forms, payments, dashboards, ownership, and admin visibility stay planned.</span></article>
+            <article class="feature-card"><strong>SEO Foundation</strong><span>Titles, descriptions, schema, sitemap, and focused service pages are included.</span></article>
+            <article class="feature-card"><strong>Launch Support</strong><span>Testing, deployment notes, handover, and post-launch improvements are documented.</span></article>
+            <article class="feature-card"><strong>Control With You</strong><span>Access and long-term ownership remain clear for the client or business owner.</span></article>
           </div>
         </div>
 
-        <div class="hero-card reveal">
-          <div class="window-bar"><span></span><span></span><span></span></div>
-          <div class="mini-panel">
-            <div class="mini-label">Company</div>
-            <h3 class="mini-title">Rekixo</h3>
-            <p class="mini-text">
-              A development brand built to create useful software products, custom client projects, and scalable digital systems.
-            </p>
-            <div class="tag-row">
-              <span class="tag">Android Apps</span>
-              <span class="tag">Web Apps</span>
-              <span class="tag">UI Systems</span>
-              <span class="tag">Business Tools</span>
-            </div>
+        <div class="motion-chips" aria-label="Moving service categories">
+          <div class="chip-track">
+            <span class="service-chip"><b>01</b> Business Website</span><span class="service-chip"><b>02</b> Landing Page</span><span class="service-chip"><b>03</b> Android App</span><span class="service-chip"><b>04</b> Admin Dashboard</span><span class="service-chip"><b>05</b> Payment Flow</span><span class="service-chip"><b>06</b> SEO Pages</span><span class="service-chip"><b>07</b> Policy Pages</span><span class="service-chip"><b>08</b> Product Launch</span>
+            <span class="service-chip"><b>01</b> Business Website</span><span class="service-chip"><b>02</b> Landing Page</span><span class="service-chip"><b>03</b> Android App</span><span class="service-chip"><b>04</b> Admin Dashboard</span>
           </div>
-          <div class="mini-panel">
-            <div class="mini-label">Flagship Product</div>
-            <h3 class="mini-title">Finworkar</h3>
-            <p class="mini-text">
-              FinWorkar is a job-posting and voice-calling platform where employers and job seekers connect directly via in-app calls—without sharing their phone numbers or email addresses. Post discovery is location-based, and a call-credit or membership model keeps communication cost-effective and controlled.
-            </p>
-            <a class="playstore-btn" href="https://play.google.com/store/apps/details?id=com.finworkar.pro" target="_blank" rel="noopener noreferrer" aria-label="Get Finworkar on Play Store">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.61 2.74c-.19.2-.31.5-.31.91v16.7c0 .41.12.71.31.91l.05.04 9.52-9.53v-.44L3.66 2.7l-.05.04zm13.3 12.21-3.17-3.18v-.44l3.17-3.18.07.04 3.76 2.14c1.07.61 1.07 1.61 0 2.22l-3.76 2.14-.07.04zM16.22 15.7l-3.24-3.25-9.57 9.57c.3.31.8.35 1.37.03l11.44-6.35zm-11.44-13C4.21 2.38 3.71 2.42 3.41 2.73l9.57 9.57 3.24-3.25L4.78 2.7z"></path></svg>
-              Get it on Play Store
-            </a>
-            <div class="support-line">
-              Need product help? Write to <a href="mailto:support@rekixo.com">support@rekixo.com</a>
-            </div>
+          <div class="chip-track reverse">
+            <span class="service-chip"><b>A</b> Booking</span><span class="service-chip"><b>B</b> Leads</span><span class="service-chip"><b>C</b> Reports</span><span class="service-chip"><b>D</b> Users</span><span class="service-chip"><b>E</b> Orders</span><span class="service-chip"><b>F</b> Support</span><span class="service-chip"><b>G</b> Automation</span><span class="service-chip"><b>H</b> Handover</span>
+            <span class="service-chip"><b>A</b> Booking</span><span class="service-chip"><b>B</b> Leads</span><span class="service-chip"><b>C</b> Reports</span><span class="service-chip"><b>D</b> Users</span>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="business-flow" aria-labelledby="business-flow-title">
+      <div class="wrap stack-story">
+        <div class="sticky-copy reveal">
+          <div class="kicker">Business Stack</div>
+          <h2 id="business-flow-title">Stacked cards for serious service storytelling.</h2>
+          <p class="section-text">Instead of ordinary blocks, high-value services can arrive like product cards: one clear promise, one visual, one action.</p>
+          <div class="hero-actions"><a href="contact.html" class="btn">Start a Project</a><a href="portfolio.html" class="btn-ghost">View Work Direction</a></div>
+        </div>
+        <div class="stack-cards">
+          <article class="stack-card reveal"><div><h3>Offline to Online Presence</h3><p>Turn a shop, local service, factory, or institute into a serious website with contact flow, policies, and business verification.</p><a class="mail-chip" href="business-website-development.html">Website Build</a></div><div class="stack-visual"><span>WEB</span></div></article>
+          <article class="stack-card reveal"><div><h3>App and Member Workflows</h3><p>Create user accounts, protected actions, payment states, and practical mobile experiences for real operations.</p><a class="mail-chip" href="android-app-development.html">App Build</a></div><div class="stack-visual"><span>APP</span></div></article>
+          <article class="stack-card reveal"><div><h3>Admin Control Center</h3><p>Manage leads, orders, service requests, records, payments, status changes, and reports from one dashboard.</p><a class="mail-chip" href="dashboard-development.html">Dashboard</a></div><div class="stack-visual"><span>DB</span></div></article>
+          <article class="stack-card reveal"><div><h3>Custom Software Layer</h3><p>When standard tools do not fit, Rekixo can plan custom logic around your real business process.</p><a class="mail-chip" href="custom-software-development.html">Software</a></div><div class="stack-visual"><span>SYS</span></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="orbit-trust" aria-labelledby="orbit-title">
+      <div class="wrap orbit-panel reveal">
+        <div>
+          <div class="kicker">Trust System</div>
+          <h2 id="orbit-title">Your product should look premium and feel accountable.</h2>
+          <p class="section-text">Premium animation is useful only when trust signals are clear: business info, policy pages, contact flow, ownership, and launch documentation.</p>
+          <div class="trust-badge-row"><span class="trust-badge">Business info</span><span class="trust-badge">Policy pages</span><span class="trust-badge">Email-first records</span><span class="trust-badge">Client ownership</span></div>
+        </div>
+        <div class="orbit-map" aria-hidden="true">
+          <div class="orbit-ring one"><span class="orbit-dot"></span></div>
+          <div class="orbit-ring two"><span class="orbit-dot"></span></div>
+          <div class="orbit-ring three"><span class="orbit-dot"></span></div>
+          <div class="orbit-core"><img src="rekixo-favicon.svg" alt="Rekixo logo" /></div>
         </div>
       </div>
     </section>
@@ -1375,13 +2058,14 @@
         <div class="big-panel reveal">
           <div>
             <div class="product-pill">By Rekixo</div>
-            <h2 style="margin-top:14px;">Finworkar is our first product direction.</h2>
-            <a class="playstore-btn" href="https://play.google.com/store/apps/details?id=com.finworkar.pro" target="_blank" rel="noopener noreferrer" aria-label="Get Finworkar on Play Store">
+            <h2 style="margin-top:14px;">FinWorkar is our first product direction.</h2>
+            <a class="playstore-btn" href="https://play.google.com/store/apps/details?id=com.finworkar.pro" target="_blank" rel="noopener noreferrer" aria-label="Get FinWorkar on Play Store">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.61 2.74c-.19.2-.31.5-.31.91v16.7c0 .41.12.71.31.91l.05.04 9.52-9.53v-.44L3.66 2.7l-.05.04zm13.3 12.21-3.17-3.18v-.44l3.17-3.18.07.04 3.76 2.14c1.07.61 1.07 1.61 0 2.22l-3.76 2.14-.07.04zM16.22 15.7l-3.24-3.25-9.57 9.57c.3.31.8.35 1.37.03l11.44-6.35zm-11.44-13C4.21 2.38 3.71 2.42 3.41 2.73l9.57 9.57 3.24-3.25L4.78 2.7z"></path></svg>
               Get it on Play Store
             </a>
+            <a class="playstore-btn" href="https://finworkar.rekixo.com" target="_blank" rel="noopener noreferrer" aria-label="Open FinWorkar official website">Open FinWorkar Website</a>
             <p class="section-text" style="margin-top:14px; max-width: 100%;">
-              Finworkar embodies the Rekixo mindset—a practical software solution grounded in real-world tasks, effortless tracking, and functional utility. In an era of rising fraud, it facilitates work opportunities and helps people connect without exposing personal information.
+              FinWorkar embodies the Rekixo mindset - a practical software solution grounded in real-world tasks, effortless tracking, and functional utility. In an era of rising fraud, it facilitates work opportunities and helps people connect without exposing personal information.
             </p>
           </div>
           <div class="stats">
@@ -1431,17 +2115,17 @@
 
         <div class="cards">
           <article class="card reveal">
-            <div class="icon">🔐</div>
+            <div class="icon">LOCK</div>
             <h3>Control stays with you</h3>
             <p>We build the product, but access, visibility, and long-term ownership are meant to remain with the client or business owner.</p>
           </article>
           <article class="card reveal">
-            <div class="icon">🎯</div>
+            <div class="icon">AIM</div>
             <h3>Built for usefulness</h3>
             <p>No unnecessary clutter. The focus is always on what helps the product work better in the real world.</p>
           </article>
           <article class="card reveal">
-            <div class="icon">🧩</div>
+            <div class="icon">FLOW</div>
             <h3>Flexible collaboration</h3>
             <p>We can support new builds, improve existing ideas, or shape digital products around practical business needs.</p>
           </article>
@@ -1455,7 +2139,7 @@
           <div class="kicker">Contact</div>
           <h2>Have an app idea or want to work with Rekixo?</h2>
           <p>
-            Reach out for Android apps, web apps, product build support, or collaboration. Whether it is a fresh idea or an existing concept that needs clearer execution, let’s build something useful.
+            Reach out for Android apps, web apps, product build support, or collaboration. Whether it is a fresh idea or an existing concept that needs clearer execution, let's build something useful.
           </p>
           <div class="hero-actions" style="margin-top:22px;">
             <a href="contact.html" class="btn">Start a Conversation</a>
@@ -1469,7 +2153,7 @@
             <li><strong>Support:</strong> <a href="mailto:support@rekixo.com">support@rekixo.com</a></li>
             <li><strong>Direct:</strong> <a href="mailto:ai@rekixo.com">ai@rekixo.com</a></li>
             <li><strong>Brand:</strong> Rekixo</li>
-            <li><strong>Product:</strong> Finworkar</li>
+            <li><strong>Product:</strong> FinWorkar</li>
             <li><strong>Promise:</strong> software hum banayenge, control aapka rahega.</li>
           </ul>
         </aside>
@@ -1479,7 +2163,7 @@
 
   <footer>
     <div class="wrap footer-grid">
-      <div>© 2026 Rekixo. Built for practical digital products.</div>
+      <div>&copy; 2026 Rekixo. Built for practical digital products.</div>
       <div class="footer-links">
         <a href="android-app-development.html">Android Apps</a>
         <a href="web-app-development.html">Web Apps</a>
@@ -1547,3 +2231,4 @@
   </script>
 </body>
 </html>
+

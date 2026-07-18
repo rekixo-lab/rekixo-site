@@ -7,6 +7,7 @@
   <meta name="description" content="Use Rekixo's Hostinger referral link to buy hosting for your website, app landing page, portfolio, or business project." />
   <meta name="theme-color" content="#f4f4f6" />
   <link rel="icon" type="image/svg+xml" href="rekixo-favicon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="canonical" href="https://rekixo.com/referral.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Hostinger Referral Offer - Rekixo" />
@@ -486,17 +487,20 @@
       .side-nav {
         position: static;
         display: flex;
+        flex-wrap: wrap;
         gap: 8px;
-        overflow-x: auto;
+        overflow-x: visible;
         padding: 10px;
         border-radius: 14px;
-        scroll-snap-type: x mandatory;
+        scroll-snap-type: none;
       }
 
       .side-nav a {
-        flex: 0 0 auto;
-        scroll-snap-align: start;
-        white-space: nowrap;
+        flex: 1 1 128px;
+        min-width: 0;
+        scroll-snap-align: unset;
+        text-align: center;
+        white-space: normal;
       }
 
       .card {
@@ -621,6 +625,7 @@
       }
     }
   </style>
+  <link rel="me" href="https://www.linkedin.com/in/rekixo">
 </head>
 <body>
   <header><div class="wrap nav"><a class="brand" href="index.html"><img src="rekixo-logo-parts.svg" alt="Rekixo logo" /><strong>Rekixo <span>Apps - Web Apps - Digital Products</span></strong></a><div class="nav-links"><a href="about.html">About</a><a href="portfolio.html">Portfolio</a><a href="business-info.html">Business Info</a><a class="button" href="contact.html">Let's Talk</a></div></div></header>
