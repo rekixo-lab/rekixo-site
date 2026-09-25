@@ -69,6 +69,16 @@
           {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Dashboard Development", "url": "https://rekixo.com/dashboard-development.html"}},
           {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "SEO Friendly Website Development", "url": "https://rekixo.com/seo-friendly-website.html"}}
         ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://rekixo.com/rekixo-ar3d.html#software",
+        "name": "Rekixo AR3D",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "url": "https://rekixo.com/rekixo-ar3d.html",
+        "description": "Interactive real-estate project and plot management platform with Builder Admin, plot mapping, geo tools, publishing and optional 3D integration.",
+        "creator": {"@id": "https://rekixo.com/#organization"}
       }
     ]
   }
@@ -1273,6 +1283,84 @@
       font-size: 14px;
     }
 
+    .product-duo {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .product-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 430px;
+      padding: 28px;
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.025));
+      box-shadow: var(--shadow);
+    }
+
+    .product-card.featured {
+      border-color: rgba(125,255,207,0.24);
+      background:
+        radial-gradient(circle at 88% 0%, rgba(87,199,255,0.12), transparent 34%),
+        linear-gradient(180deg, rgba(125,255,207,0.07), rgba(255,255,255,0.025));
+    }
+
+    .product-card h2 {
+      margin: 14px 0 10px;
+      font-size: clamp(30px, 4vw, 42px);
+      line-height: 1.05;
+    }
+
+    .product-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .product-preview {
+      margin-top: 20px;
+      padding: 8px;
+      border: 1px solid rgba(155,230,255,0.18);
+      border-radius: 17px;
+      background: #06101a;
+      box-shadow: 0 18px 46px rgba(0,0,0,0.34);
+    }
+
+    .product-preview img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 2.29 / 1;
+      object-fit: cover;
+      border-radius: 11px;
+    }
+
+    .product-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .product-mini-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    .product-mini-stats span {
+      min-height: 66px;
+      padding: 11px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 13px;
+      background: rgba(3,10,20,0.44);
+      color: #d8ebf8;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
     .cta-box {
       margin-top: 28px;
       padding: 28px;
@@ -1510,6 +1598,7 @@
         padding-top: 84px;
       }
       .showcase,
+      .product-duo,
       .cta-box,
       .cards { grid-template-columns: 1fr; }
       .hero-photo {
@@ -1853,7 +1942,7 @@
       <nav>
         <ul>
           <li><a href="#services">Services</a></li>
-          <li><a href="#product">Product</a></li>
+          <li><a href="#product">Products</a></li>
           <li><a href="#trust">Trust</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="portfolio.html">Portfolio</a></li>
@@ -2054,49 +2143,55 @@
     </section>
 
     <section id="product">
-      <div class="wrap showcase">
-        <div class="big-panel reveal">
+      <div class="wrap">
+        <div class="section-head reveal">
           <div>
-            <div class="product-pill">By Rekixo</div>
-            <h2 style="margin-top:14px;">FinWorkar is our first product direction.</h2>
-            <a class="playstore-btn" href="https://play.google.com/store/apps/details?id=com.finworkar.pro" target="_blank" rel="noopener noreferrer" aria-label="Get FinWorkar on Play Store">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.61 2.74c-.19.2-.31.5-.31.91v16.7c0 .41.12.71.31.91l.05.04 9.52-9.53v-.44L3.66 2.7l-.05.04zm13.3 12.21-3.17-3.18v-.44l3.17-3.18.07.04 3.76 2.14c1.07.61 1.07 1.61 0 2.22l-3.76 2.14-.07.04zM16.22 15.7l-3.24-3.25-9.57 9.57c.3.31.8.35 1.37.03l11.44-6.35zm-11.44-13C4.21 2.38 3.71 2.42 3.41 2.73l9.57 9.57 3.24-3.25L4.78 2.7z"></path></svg>
-              Get it on Play Store
-            </a>
-            <a class="playstore-btn" href="https://finworkar.rekixo.com" target="_blank" rel="noopener noreferrer" aria-label="Open FinWorkar official website">Open FinWorkar Website</a>
-            <p class="section-text" style="margin-top:14px; max-width: 100%;">
-              FinWorkar embodies the Rekixo mindset - a practical software solution grounded in real-world tasks, effortless tracking, and functional utility. In an era of rising fraud, it facilitates work opportunities and helps people connect without exposing personal information.
-            </p>
+            <div class="kicker">Products by Rekixo</div>
+            <h2>Software we build, operate, test and improve in the real world.</h2>
           </div>
-          <div class="stats">
-            <div class="stat">
-              <strong>01</strong>
-              <span>Focused flagship product</span>
-            </div>
-            <div class="stat">
-              <strong>Web + App</strong>
-              <span>Cross-platform product direction</span>
-            </div>
-            <div class="stat">
-              <strong>Real-world</strong>
-              <span>Built for actual usage, not hype</span>
-            </div>
-          </div>
+          <p class="section-text">Rekixo products are proof of the same engineering used for client work: practical workflows, admin control, project isolation, responsive UI and long-term ownership.</p>
         </div>
 
-        <div class="stack-panel reveal">
-          <div class="trust-item">
-            <strong>Product-first thinking</strong>
-            <span>Every feature should solve a visible problem, reduce confusion, or create practical value for the user.</span>
-          </div>
-          <div class="trust-item">
-            <strong>Lean, clean, scalable</strong>
-            <span>We prefer focused systems, clear architecture, and a build approach that can grow without becoming messy.</span>
-          </div>
-          <div class="trust-item">
-            <strong>Execution over noise</strong>
-            <span>Less talking, more shipping. Rekixo is meant to produce useful work that can be seen, tested, and improved.</span>
-          </div>
+        <div class="product-duo">
+          <article class="product-card featured reveal">
+            <div class="product-pill">02 · REKIXO PRODUCT</div>
+            <h2>Rekixo AR3D</h2>
+            <p>Interactive real-estate project and plot management platform. It turns masterplans into branded customer websites with live plot status, Builder Admin, mapping, geo tools and optional 3D integration.</p>
+            <div class="product-preview">
+              <img src="ar3d-project-3.webp" loading="lazy" alt="Rekixo AR3D interactive real estate plot management platform" />
+            </div>
+            <div class="product-mini-stats">
+              <span><strong>Interactive</strong><br />Plot search + live details</span>
+              <span><strong>Builder Admin</strong><br />Scoped daily controls</span>
+              <span><strong>Multi-project</strong><br />Reusable platform runtime</span>
+            </div>
+            <div class="product-links">
+              <a class="playstore-btn" href="rekixo-ar3d.html">Explore Rekixo AR3D</a>
+              <a class="playstore-btn" href="contact.html">Request Demo</a>
+            </div>
+          </article>
+
+          <article class="product-card reveal">
+            <div class="product-pill">01 · BY REKIXO</div>
+            <h2>FinWorkar</h2>
+            <p>A practical local work and service platform focused on real-world opportunities, protected contact flows and useful mobile-first workflows.</p>
+            <div class="product-mini-stats">
+              <span><strong>Android</strong><br />Mobile product direction</span>
+              <span><strong>Web</strong><br />Public product presence</span>
+              <span><strong>Real-world</strong><br />Built for actual usage</span>
+            </div>
+            <div class="product-links">
+              <a class="playstore-btn" href="https://play.google.com/store/apps/details?id=com.finworkar.pro" target="_blank" rel="noopener noreferrer" aria-label="Get FinWorkar on Play Store">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.61 2.74c-.19.2-.31.5-.31.91v16.7c0 .41.12.71.31.91l.05.04 9.52-9.53v-.44L3.66 2.7l-.05.04zm13.3 12.21-3.17-3.18v-.44l3.17-3.18.07.04 3.76 2.14c1.07.61 1.07 1.61 0 2.22l-3.76 2.14-.07.04zM16.22 15.7l-3.24-3.25-9.57 9.57c.3.31.8.35 1.37.03l11.44-6.35zm-11.44-13C4.21 2.38 3.71 2.42 3.41 2.73l9.57 9.57 3.24-3.25L4.78 2.7z"></path></svg>
+                Get it on Play Store
+              </a>
+              <a class="playstore-btn" href="https://finworkar.rekixo.com" target="_blank" rel="noopener noreferrer">Open FinWorkar Website</a>
+            </div>
+            <div class="trust-item" style="margin-top:18px;">
+              <strong>Product-first thinking</strong>
+              <span>Every feature should solve a visible problem, reduce confusion, or create practical value for the user.</span>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -2153,7 +2248,7 @@
             <li><strong>Support:</strong> <a href="mailto:support@rekixo.com">support@rekixo.com</a></li>
             <li><strong>Direct:</strong> <a href="mailto:ai@rekixo.com">ai@rekixo.com</a></li>
             <li><strong>Brand:</strong> Rekixo</li>
-            <li><strong>Product:</strong> FinWorkar</li>
+            <li><strong>Products:</strong> FinWorkar · Rekixo AR3D</li>
             <li><strong>Promise:</strong> software hum banayenge, control aapka rahega.</li>
           </ul>
         </aside>
@@ -2169,6 +2264,7 @@
         <a href="web-app-development.html">Web Apps</a>
         <a href="business-website-development.html">Websites</a>
         <a href="custom-software-development.html">Software</a>
+        <a href="rekixo-ar3d.html">Rekixo AR3D</a>
         <a href="about.html">About</a>
         <a href="portfolio.html">Portfolio</a>
         <a href="referral.html">Referral</a>
