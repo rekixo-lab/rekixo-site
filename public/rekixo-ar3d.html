@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rekixo AR3D - Interactive Real Estate Plot Management Platform</title>
+  <meta name="description" content="Rekixo AR3D transforms real-estate masterplans into interactive project websites with live plot status, Builder Admin, mapping, geo tools and 3D-ready experiences." />
+  <meta name="theme-color" content="#07111f" />
+  <link rel="icon" type="image/svg+xml" href="rekixo-favicon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="canonical" href="https://rekixo.com/rekixo-ar3d.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Rekixo AR3D - Interactive Real Estate Plot Management Platform" />
+  <meta property="og:description" content="From masterplan to interactive project website, Builder Admin and 3D-ready sales experience." />
+  <meta property="og:url" content="https://rekixo.com/rekixo-ar3d.html" />
+  <meta property="og:image" content="https://rekixo.com/ar3d-project-3.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="policy.css" />
+  <link rel="stylesheet" href="logo-animation.css" />
+  <style>
+    :root{--ar:#61e6ff;--ar2:#6dffb4;--violet:#8b7cff;--amber:#ffc95c}
+    .ar-hero{display:grid;grid-template-columns:minmax(0,.92fr) minmax(420px,1.08fr);gap:30px;align-items:center;margin:8px 0 30px}
+    .ar-hero-copy{display:grid;gap:16px}
+    .ar-badge{display:inline-flex;width:max-content;padding:8px 12px;border:1px solid rgba(97,230,255,.28);border-radius:999px;background:rgba(97,230,255,.08);color:#c5f8ff;font-size:12px;font-weight:900;letter-spacing:.12em}
+    .ar-hero h1{max-width:860px;font-size:clamp(44px,6vw,74px);line-height:.98}
+    .ar-hero h1 span{background:linear-gradient(135deg,#fff 8%,var(--ar) 46%,var(--ar2));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .ar-hero .lead{font-size:18px}
+    .ar-actions{display:flex;flex-wrap:wrap;gap:10px}
+    .ar-actions .primary{background:linear-gradient(135deg,var(--ar),var(--ar2));color:#041018;border-color:transparent}
+    .ar-window{position:relative;padding:12px;border:1px solid rgba(145,224,255,.22);border-radius:24px;background:linear-gradient(180deg,rgba(12,28,45,.92),rgba(6,14,25,.92));box-shadow:0 28px 80px rgba(0,0,0,.42),0 0 60px rgba(97,230,255,.08)}
+    .ar-window::before{content:"";display:block;width:56px;height:7px;margin:0 0 10px;border-radius:999px;background:linear-gradient(90deg,#ff647c 0 16%,#ffc95c 16% 33%,#6dffb4 33% 50%,transparent 50%)}
+    .ar-window img{display:block;width:100%;border-radius:14px;aspect-ratio:2.29/1;object-fit:cover;background:#050b13}
+    .ar-floating{position:absolute;right:-15px;bottom:-18px;max-width:260px;padding:14px 16px;border:1px solid rgba(109,255,180,.32);border-radius:16px;background:rgba(5,13,25,.94);box-shadow:0 20px 45px rgba(0,0,0,.45)}
+    .ar-floating strong{display:block;color:#fff;font-size:14px}.ar-floating span{display:block;margin-top:4px;color:#9fb6c9;font-size:12px;line-height:1.45}
+    .ar-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:26px 0 12px}
+    .ar-metric{padding:18px;border:1px solid rgba(255,255,255,.09);border-radius:18px;background:rgba(255,255,255,.035)}
+    .ar-metric b{display:block;color:#fff;font-size:20px}.ar-metric span{display:block;margin-top:6px;color:#9fb6ca;font-size:13px;line-height:1.45}
+    .ar-section{margin-top:28px;padding:30px;border:1px solid rgba(145,224,255,.16);border-radius:26px;background:linear-gradient(180deg,rgba(8,21,34,.82),rgba(5,13,23,.74));box-shadow:inset 0 0 34px rgba(97,230,255,.025)}
+    .ar-section-head{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:20px}
+    .ar-section-head h2{margin:5px 0 0;font-size:clamp(28px,4vw,42px);line-height:1.05}.ar-section-head p{max-width:570px;margin:0;color:#a9bdcf;line-height:1.7}
+    .ar-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    .ar-feature{padding:20px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:rgba(255,255,255,.035)}
+    .ar-icon{width:44px;height:44px;display:grid;place-items:center;margin-bottom:16px;border-radius:14px;background:linear-gradient(135deg,rgba(97,230,255,.18),rgba(109,255,180,.12));color:#dffcff;font-weight:950}
+    .ar-feature h3{margin:0 0 8px;font-size:18px}.ar-feature p{margin:0;color:#a9bdcf;line-height:1.65;font-size:14px}
+    .ar-flow{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+    .ar-step{position:relative;padding:17px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(3,10,18,.55)}
+    .ar-step b{display:block;color:var(--ar2);font-size:11px;letter-spacing:.1em}.ar-step span{display:block;margin-top:8px;color:#fff;font-size:13px;font-weight:800;line-height:1.35}
+    .ar-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .ar-shot{overflow:hidden;border:1px solid rgba(255,255,255,.09);border-radius:20px;background:#06101a}
+    .ar-shot img{display:block;width:100%;aspect-ratio:2.29/1;object-fit:cover}.ar-shot div{padding:15px 17px}.ar-shot strong{display:block;font-size:16px}.ar-shot span{display:block;margin-top:5px;color:#95a9be;font-size:13px}
+    .control-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .control-item{padding:17px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02))}
+    .control-item b{display:block;color:#eaf8ff;margin-bottom:7px}.control-item span{color:#9cb2c6;font-size:13px;line-height:1.55}
+    .builder-split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .builder-card{padding:24px;border-radius:20px;border:1px solid rgba(255,255,255,.09);background:rgba(3,10,18,.5)}
+    .builder-card h3{margin:0 0 10px;font-size:24px}.builder-card p{color:#a9bdcf;line-height:1.7}.builder-card ul{margin:14px 0 0;padding-left:20px;color:#d5e4ef;line-height:1.8}
+    .architecture{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:14px;align-items:center}
+    .arch-box{padding:22px;border:1px solid rgba(255,255,255,.09);border-radius:18px;background:rgba(255,255,255,.035);text-align:center}
+    .arch-box.primary{border-color:rgba(97,230,255,.32);background:linear-gradient(135deg,rgba(97,230,255,.10),rgba(109,255,180,.06))}
+    .arch-box b{display:block;font-size:18px}.arch-box span{display:block;margin-top:6px;color:#9fb3c6;font-size:13px;line-height:1.5}
+    .arch-arrow{text-align:center;color:#6dffb4;font-weight:900;font-size:22px}
+    .compare{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .compare-card{padding:24px;border-radius:20px;border:1px solid rgba(255,255,255,.09);background:rgba(3,10,18,.52)}
+    .compare-card.good{border-color:rgba(109,255,180,.22)}.compare-card h3{margin:0 0 14px;font-size:22px}.compare-card ul{padding-left:18px;margin:0;color:#c7d7e4;line-height:1.9}
+    .note{margin-top:18px;padding:15px 17px;border-left:3px solid var(--amber);border-radius:12px;background:rgba(255,201,92,.07);color:#ffe9b9;line-height:1.65}
+    @media(max-width:980px){.ar-hero{grid-template-columns:1fr}.ar-floating{right:10px;bottom:10px}.ar-metrics,.ar-grid,.control-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ar-flow{grid-template-columns:repeat(2,minmax(0,1fr))}.architecture{grid-template-columns:1fr}.arch-arrow{transform:rotate(90deg)}}
+    @media(max-width:680px){.ar-section{padding:20px}.ar-section-head{display:block}.ar-section-head p{margin-top:10px}.ar-gallery,.builder-split,.compare,.ar-metrics,.ar-grid,.control-grid,.ar-flow{grid-template-columns:1fr}.ar-floating{position:static;margin-top:10px;max-width:none}.ar-hero h1{font-size:42px}.ar-window{padding:8px}}
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"SoftwareApplication",
+        "@id":"https://rekixo.com/rekixo-ar3d.html#software",
+        "name":"Rekixo AR3D",
+        "applicationCategory":"BusinessApplication",
+        "operatingSystem":"Web",
+        "url":"https://rekixo.com/rekixo-ar3d.html",
+        "description":"Interactive real-estate project and plot management platform with Builder Admin, plot mapping, publishing, geo tools and optional 3D integration.",
+        "creator":{"@type":"Organization","name":"Rekixo","url":"https://rekixo.com/"}
+      },
+      {
+        "@type":"Product",
+        "@id":"https://rekixo.com/rekixo-ar3d.html#product",
+        "name":"Rekixo AR3D",
+        "brand":{"@type":"Brand","name":"Rekixo"},
+        "category":"Real Estate Software",
+        "description":"A multi-project real-estate visualization and plot management platform built by Rekixo."
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="index.html"><img src="rekixo-logo-parts.svg" alt="Rekixo logo" /><strong>Rekixo <span>Apps - Web Apps - Digital Products</span></strong></a>
+      <div class="nav-links"><a href="index.html#product">Products</a><a href="portfolio.html">Portfolio</a><a href="about.html">About</a><a class="button" href="contact.html">Request Demo</a></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="breadcrumb"><a href="index.html">Home</a> / Products / Rekixo AR3D</div>
+
+      <section class="ar-hero">
+        <div class="ar-hero-copy">
+          <span class="ar-badge">REKIXO PRODUCT</span>
+          <div class="kicker">Interactive Real Estate Platform</div>
+          <h1>Interactive real-estate projects, <span>built from your masterplan.</span></h1>
+          <p class="lead">Rekixo AR3D turns plot layouts into branded interactive project websites with live availability, Builder Admin, mapping tools, geo layers, publishing controls and optional 3D integration.</p>
+          <div class="ar-actions">
+            <a class="button primary" href="#platform">Explore Platform</a>
+            <a class="button" href="contact.html">Request a Demo</a>
+            <a class="button" href="portfolio.html#rekixo-ar3d">View Portfolio</a>
+          </div>
+        </div>
+        <div>
+          <div class="ar-window">
+            <img src="ar3d-project-3.webp" alt="Rekixo AR3D interactive real estate project website with live plot details" />
+            <div class="ar-floating"><strong>Live plot intelligence</strong><span>Search, availability, area, dimensions, facing and customer actions on one project surface.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="ar-metrics" aria-label="Rekixo AR3D product capabilities">
+        <div class="ar-metric"><b>Multi-project</b><span>One Rekixo control plane for many builder projects.</span></div>
+        <div class="ar-metric"><b>Builder Admin</b><span>Scoped project controls without exposing platform internals.</span></div>
+        <div class="ar-metric"><b>Live status</b><span>Available, Booked and Sold updates flow to the customer site.</span></div>
+        <div class="ar-metric"><b>3D-ready</b><span>Optional isolated Rekixo AR3D Engine integration when a model exists.</span></div>
+      </div>
+
+      <section class="ar-section" id="platform">
+        <div class="ar-section-head"><div><div class="kicker">What It Creates</div><h2>One platform, multiple customer-facing outputs.</h2></div><p>The product is larger than a dashboard. Rekixo Super Admin is the control center behind a complete real-estate digital experience.</p></div>
+        <div class="ar-grid">
+          <article class="ar-feature"><div class="ar-icon">01</div><h3>Interactive Project Website</h3><p>Branded masterplan, plot search, live status, plot details, gallery, amenities, location, calling and WhatsApp actions.</p></article>
+          <article class="ar-feature"><div class="ar-icon">02</div><h3>Builder Admin</h3><p>Project-scoped access for live plot status, gallery, customer contact details and enabled pricing workflows.</p></article>
+          <article class="ar-feature"><div class="ar-icon">03</div><h3>Plot Intelligence</h3><p>Area, dimensions, facing/road, front, back, depth and irregular polygon support tied to mapped plot geometry.</p></article>
+          <article class="ar-feature"><div class="ar-icon">04</div><h3>Geo & 3D Ready</h3><p>GPS calibration, geographic layers and a safe link to the separate Rekixo AR3D Engine when a 3D experience is available.</p></article>
+        </div>
+      </section>
+
+      <section class="ar-section">
+        <div class="ar-section-head"><div><div class="kicker">Production Workflow</div><h2>From source files to a published customer experience.</h2></div><p>The workflow keeps source data, geometry, customer presentation and publishing decisions separated so existing projects can grow safely.</p></div>
+        <div class="ar-flow">
+          <div class="ar-step"><b>01</b><span>Create Project</span></div>
+          <div class="ar-step"><b>02</b><span>Upload Masterplan & Plot Data</span></div>
+          <div class="ar-step"><b>03</b><span>Map Interactive Plots</span></div>
+          <div class="ar-step"><b>04</b><span>Configure Brand & Contact</span></div>
+          <div class="ar-step"><b>05</b><span>Preview & Quality Review</span></div>
+          <div class="ar-step"><b>06</b><span>Publish Customer Site</span></div>
+          <div class="ar-step"><b>07</b><span>Builder Manages Live Status</span></div>
+        </div>
+      </section>
+
+      <section class="ar-section">
+        <div class="ar-section-head"><div><div class="kicker">Platform Examples</div><h2>Different layouts, one reusable platform.</h2></div><p>These current Rekixo AR3D builds show that the same product can support compact layouts, large inventories and irregular project boundaries without creating a separate codebase per project.</p></div>
+        <div class="ar-gallery">
+          <article class="ar-shot"><img loading="lazy" src="ar3d-project-1.webp" alt="Mangal Raj Park interactive plot project built on Rekixo AR3D" /><div><strong>Mangal Raj Park</strong><span>Interactive masterplan with live plot inventory and customer actions.</span></div></article>
+          <article class="ar-shot"><img loading="lazy" src="ar3d-project-2.webp" alt="Shree Banashankari Nagara interactive plot project built on Rekixo AR3D" /><div><strong>Shree Banashankari Nagara</strong><span>Large multi-block layout with live Available, Booked and Sold status.</span></div></article>
+          <article class="ar-shot"><img loading="lazy" src="ar3d-project-3.webp" alt="Arising Future City interactive real estate project built on Rekixo AR3D" /><div><strong>Arising Future City</strong><span>Interactive hover details, project search and real-time plot presentation.</span></div></article>
+          <article class="ar-shot"><img loading="lazy" src="ar3d-project-4.webp" alt="Venkatesh Vihar interactive real estate project built on Rekixo AR3D" /><div><strong>Venkatesh Vihar</strong><span>Irregular project geometry and large plot areas handled inside the same runtime.</span></div></article>
+        </div>
+      </section>
+
+      <section class="ar-section">
+        <div class="ar-section-head"><div><div class="kicker">Rekixo Super Admin</div><h2>The control center behind every AR3D project.</h2></div><p>Super Admin is the internal operating system Rekixo uses to provision, map, configure, publish and recover projects while keeping customer data project-scoped.</p></div>
+        <div class="control-grid">
+          <div class="control-item"><b>Projects & Access</b><span>Create projects, assign Builder/Admin access, manage recovery and project lifecycle.</span></div>
+          <div class="control-item"><b>Project Profile</b><span>Brand, address, phone, WhatsApp, maps, brochure and customer action controls.</span></div>
+          <div class="control-item"><b>Plot Mapper Engine</b><span>Turn masterplans into clickable plot boundaries with normal and irregular polygon workflows.</span></div>
+          <div class="control-item"><b>Mapping Controls</b><span>Safely maintain area, dimensions, road/facing and front/back/depth metadata.</span></div>
+          <div class="control-item"><b>Geo Mapper</b><span>GPS/WGS84 calibration, project boundaries, roads, amenities and GeoJSON workflows.</span></div>
+          <div class="control-item"><b>3D Engine Link</b><span>Connect a platform project to a separate Rekixo AR3D Engine project without sharing databases.</span></div>
+          <div class="control-item"><b>Share Builder</b><span>Project title, description, logo, cover and branded WhatsApp/social preview management.</span></div>
+          <div class="control-item"><b>Project Assets</b><span>Recovery-ready source files, working data and published snapshot export for safer operations.</span></div>
+        </div>
+      </section>
+
+      <section class="ar-section">
+        <div class="ar-section-head"><div><div class="kicker">Builder Admin</div><h2>Give the builder control without exposing the factory.</h2></div><p>Builder Admin is intentionally scoped. It gives a project team the operational controls they need while mapper, CAD, platform routing and other Rekixo-only controls stay protected.</p></div>
+        <div class="builder-split">
+          <article class="builder-card"><h3>Builder can manage</h3><p>Day-to-day project operations that should stay current for customers.</p><ul><li>Available / Booked / Sold plot status</li><li>Gallery images</li><li>Customer-facing phone, WhatsApp and location</li><li>Enabled plot pricing workflows</li><li>Project overview and live public-site access</li></ul></article>
+          <article class="builder-card"><h3>Rekixo keeps protected</h3><p>Technical controls remain inside Super Admin so the project cannot accidentally damage geometry or platform infrastructure.</p><ul><li>Plot mapping and CAD calibration</li><li>Project provisioning and tenant routing</li><li>Publishing architecture and recovery assets</li><li>Geo source management</li><li>AR3D Engine linking and platform-level controls</li></ul></article>
+        </div>
+      </section>
+
+      <section class="ar-section">
+        <div class="ar-section-head"><div><div class="kicker">Architecture</div><h2>One platform. Isolated project data. Independent branding.</h2></div><p>Normal customers reuse the generic runtime instead of receiving a copied repository or a new worker for every project.</p></div>
+        <div class="architecture">
+          <div class="arch-box primary"><b>Rekixo Super Admin</b><span>Owner control plane for projects, access, mapping, geo, publishing and assets.</span></div>
+          <div><div class="arch-arrow">→</div><div class="arch-box"><b>Many Builder Projects</b><span>Each project keeps its own plot data, settings, gallery, admins, domains and assets.</span></div><div class="arch-arrow">→</div></div>
+          <div class="arch-box primary"><b>Customer Site + Builder Admin</b><span>Independent branding and project-scoped customer experience.</span></div>
+        </div>
+        <div class="note">3D is presented as an optional capability, not a blanket promise. A project can be linked to the isolated Rekixo AR3D Engine when a compatible 3D model experience is available.</div>
+      </section>
+
+      <section class="ar-section">
+        <div class="ar-section-head"><div><div class="kicker">Why It Matters</div><h2>Move beyond static layout images.</h2></div><p>The sales team can share one branded project experience instead of repeatedly checking separate PDFs, images and status sheets.</p></div>
+        <div class="compare">
+          <article class="compare-card"><h3>Traditional project sharing</h3><ul><li>Static PDF or JPEG layout</li><li>Manual availability checking</li><li>Repeated phone calls for plot status</li><li>Different files for brochure, location and details</li><li>No controlled builder-side live updates</li></ul></article>
+          <article class="compare-card good"><h3>With Rekixo AR3D</h3><ul><li>Interactive masterplan and plot search</li><li>Live Available / Booked / Sold status</li><li>Individual plot details and hover preview</li><li>Gallery, amenities, location and WhatsApp in one site</li><li>Builder Admin plus Rekixo-controlled technical backend</li></ul></article>
+        </div>
+      </section>
+
+      <section class="ar-section">
+        <div class="ar-section-head"><div><div class="kicker">Built by Rekixo</div><h2>Need an interactive real-estate project like this?</h2></div><p>Send your masterplan, plot inventory and project details. Rekixo can review the source material and define the safest path for mapping, customer presentation, Builder Admin and optional geo/3D work.</p></div>
+        <div class="ar-actions"><a class="button primary" href="contact.html">Request a Demo</a><a class="button" href="mailto:ai@rekixo.com">ai@rekixo.com</a><a class="button" href="portfolio.html">View Rekixo Portfolio</a></div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid"><div>&copy; 2026 Rekixo. Built for practical digital products.</div><div class="footer-links"><a href="rekixo-ar3d.html">Rekixo AR3D</a><a href="portfolio.html">Portfolio</a><a href="custom-software-development.html">Custom Software</a><a href="dashboard-development.html">Dashboards</a><a href="about.html">About</a><a href="contact.html">Contact</a></div></div>
+  </footer>
+</body>
+</html>
