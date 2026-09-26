@@ -81,6 +81,14 @@ body.rx-v3-page .eyebrow{
 body.rx-v3-page .kicker::before,
 body.rx-v3-page .eyebrow::before{display:none!important}
 
+body.rx-v3-page main strong,
+body.rx-v3-page main b{color:var(--rx3-ink)!important}
+body.rx-v3-page .point strong{color:var(--rx3-green)!important}
+body.rx-v3-page .ar-floating strong,
+body.rx-v3-page .rx3-ar-pop strong{color:#fff!important}
+body.rx-v3-page .ar-floating span,
+body.rx-v3-page .rx3-ar-pop span{color:#c7d5e5!important}
+
 /* Shared shell */
 .rx3-header{
   position:sticky;
@@ -227,6 +235,7 @@ body.rx-v3-page .service-card{
   color:var(--rx3-ink)!important;
 }
 body.rx-v3-page .hero:not(.rx3-hero){
+  position:relative!important;
   width:min(calc(100% - 40px),var(--rx3-max))!important;
   margin:44px auto 24px!important;
   padding:36px!important;
