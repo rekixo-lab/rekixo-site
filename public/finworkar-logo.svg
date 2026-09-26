@@ -1,0 +1,189 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 572 188" role="img" aria-labelledby="title desc">
+  <title id="title">FIN WORKAR logo</title>
+  <desc id="desc">FIN WORKAR logo rebuilt as transparent SVG with separate animated parts.</desc>
+  <defs>
+    <linearGradient id="finOrange" x1="0" y1="0" x2="560" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#72e6ff"/>
+      <stop offset="0.13" stop-color="#12b8ff"/>
+      <stop offset="0.32" stop-color="#0a9dff"/>
+      <stop offset="0.53" stop-color="#0797ff"/>
+      <stop offset="0.78" stop-color="#057bf4"/>
+      <stop offset="1" stop-color="#044de0"/>
+    </linearGradient>
+    <linearGradient id="workarTeal" x1="35" y1="110" x2="570" y2="188" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#70efe6"/>
+      <stop offset="0.24" stop-color="#26cfc5"/>
+      <stop offset="0.5" stop-color="#25d5cc"/>
+      <stop offset="0.8" stop-color="#18b9b0"/>
+      <stop offset="1" stop-color="#60f0e6"/>
+    </linearGradient>
+  </defs>
+
+  <g id="fin-worker-logo" fill-rule="evenodd" clip-rule="evenodd">
+    <g id="fin-word" fill="url(#finOrange)">
+      <path id="letter-f" d="
+        M2 42
+        C2 18 16 4 39 4
+        H180
+        V41
+        H39
+        V75
+        H174
+        L137 112
+        H39
+        V183
+        H2
+        V42
+        Z"/>
+
+      <path id="letter-i-top" d="
+        M197 4
+        H372
+        V41
+        H304
+        V106
+        H372
+        V115
+        H197
+        V106
+        H267
+        V41
+        H197
+        V4
+        Z"/>
+
+      <path id="letter-n" d="
+        M391 27
+        C391 13 399 5 412 5
+        C419 5 424 8 430 14
+        L531 108
+        V4
+        H568
+        V115
+        H520
+        L428 66
+        V108
+        H391
+        V27
+        Z"/>
+    </g>
+
+    <g id="workar-word" transform="translate(0 -5)" fill="url(#workarTeal)">
+      <path id="letter-w" d="
+        M53 122
+        H67
+        V176
+        H77
+        V122
+        H91
+        V176
+        H101
+        V122
+        H115
+        V188
+        H53
+        V122
+        Z"/>
+
+      <path id="letter-o" d="
+        M157 122
+        H195
+        C203 122 209 128 209 137
+        V173
+        C209 182 203 188 195 188
+        H157
+        C148 188 142 182 142 173
+        V137
+        C142 128 148 122 157 122
+        Z
+        M155 137
+        V176
+        H196
+        V137
+        H155
+        Z"/>
+
+      <path id="letter-r-1" d="
+        M228 122
+        H283
+        C292 122 298 128 298 137
+        V150
+        C298 159 292 164 283 164
+        H276
+        L300 188
+        H279
+        L256 164
+        H242
+        V188
+        H228
+        V122
+        Z
+        M242 137
+        V150
+        H283
+        V137
+        H242
+        Z"/>
+
+      <path id="letter-k" d="
+        M318 122
+        H333
+        V150
+        H344
+        L371 122
+        H390
+        L355 156
+        L392 188
+        H371
+        L344 164
+        H333
+        V188
+        H318
+        V122
+        Z"/>
+
+      <path id="letter-a" d="
+        M421 122
+        H463
+        C471 122 477 128 477 137
+        V188
+        H463
+        V164
+        H420
+        V188
+        H406
+        V137
+        C406 128 412 122 421 122
+        Z
+        M420 137
+        V150
+        H463
+        V137
+        H420
+        Z"/>
+
+      <path id="letter-r-2" d="
+        M493 122
+        H548
+        C557 122 563 128 563 137
+        V150
+        C563 159 557 164 548 164
+        H541
+        L565 188
+        H544
+        L521 164
+        H507
+        V188
+        H493
+        V122
+        Z
+        M507 137
+        V150
+        H548
+        V137
+        H507
+        Z"/>
+    </g>
+
+  </g>
+</svg>
