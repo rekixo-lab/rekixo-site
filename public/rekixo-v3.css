@@ -371,6 +371,60 @@ body.rx-v3-page code{color:#154b89!important;background:#eef5ff!important}
 body.rx-v3-page .breadcrumb,
 body.rx-v3-page .breadcrumb a{color:var(--rx3-muted)!important}
 
+
+/* Rekixo AR3D product page alignment */
+body.rx-v3-page .ar-hero{
+  width:min(calc(100% - 40px),var(--rx3-max))!important;
+  margin:36px auto 22px!important;
+  padding:34px!important;
+  border:1px solid var(--rx3-line)!important;
+  border-radius:24px!important;
+  background:linear-gradient(135deg,#fff,#f7fbff 64%,#f0f9f5)!important;
+  box-shadow:var(--rx3-shadow)!important;
+}
+body.rx-v3-page .ar-hero h1{color:var(--rx3-ink)!important;font-size:clamp(36px,5vw,56px)!important;line-height:1.03!important}
+body.rx-v3-page .ar-badge{background:#eaf8f3!important;color:#078554!important;border-color:#cdeedd!important}
+body.rx-v3-page .ar-metrics{width:min(calc(100% - 40px),var(--rx3-max))!important;margin:0 auto 22px!important;gap:12px!important}
+body.rx-v3-page .ar-metric,
+body.rx-v3-page .ar-step,
+body.rx-v3-page .compare-card,
+body.rx-v3-page .builder-card,
+body.rx-v3-page .arch-box,
+body.rx-v3-page .hires-note{
+  border:1px solid var(--rx3-line)!important;
+  background:#fff!important;
+  color:var(--rx3-ink)!important;
+  box-shadow:var(--rx3-shadow-soft)!important;
+}
+body.rx-v3-page .ar-metric,
+body.rx-v3-page .ar-step,
+body.rx-v3-page .compare-card,
+body.rx-v3-page .builder-card,
+body.rx-v3-page .arch-box{border-radius:16px!important}
+body.rx-v3-page .ar-metric span,
+body.rx-v3-page .ar-step span,
+body.rx-v3-page .compare-card p,
+body.rx-v3-page .builder-card p,
+body.rx-v3-page .arch-box span,
+body.rx-v3-page .hires-note span{color:var(--rx3-muted)!important}
+body.rx-v3-page .ar-flow{gap:10px!important}
+body.rx-v3-page .architecture{gap:12px!important}
+body.rx-v3-page .arch-arrow{color:var(--rx3-blue)!important}
+body.rx-v3-page .showcase-list{gap:16px!important}
+body.rx-v3-page .showcase-card__head{border-bottom-color:var(--rx3-line)!important}
+body.rx-v3-page .showcase-card__head strong{color:var(--rx3-ink)!important}
+body.rx-v3-page .showcase-card__head span{color:var(--rx3-muted)!important}
+body.rx-v3-page .showcase-open{
+  border:1px solid rgba(255,255,255,.35)!important;
+  background:rgba(10,29,54,.86)!important;
+  color:#fff!important;
+}
+body.rx-v3-page .hires-note{border-radius:14px!important;padding:14px 16px!important}
+body.rx-v3-page .note{background:#eef8ff!important;color:var(--rx3-ink-2)!important;border-color:#d6e7f8!important}
+body.rx-v3-page .media-lightbox{background:rgba(7,18,34,.94)!important}
+body.rx-v3-page .media-lightbox *{color:#fff!important}
+body.rx-v3-page .builder-split{gap:16px!important}
+
 /* Homepage */
 .rx3-home{padding-bottom:4px}
 .rx3-home-section{padding:62px 0}
