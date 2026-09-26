@@ -1045,16 +1045,6 @@ html[data-theme="light"]{color-scheme:light}
   font-size:18px;
   line-height:1;
 }
-.rx3-mobile-theme{
-  display:flex!important;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-.rx3-mobile-theme span:last-child{
-  font-size:18px;
-  line-height:1;
-}
 
 html[data-theme="dark"] body.rx-v3-page{
   background:
@@ -1104,11 +1094,6 @@ html[data-theme="dark"] .rx3-footer-links a,
 html[data-theme="dark"] .rx3-footer-brand p,
 html[data-theme="dark"] .rx3-footer-bottom-inner{color:var(--rx3-muted)!important}
 html[data-theme="dark"] .rx3-footer-links strong{color:var(--rx3-ink)}
-html[data-theme="dark"] .rx3-brand img,
-html[data-theme="dark"] .rx3-footer-brand img{
-  filter:brightness(0) invert(1) saturate(0) brightness(1.9);
-}
-
 html[data-theme="dark"] .rx3-slider,
 html[data-theme="dark"] .rx3-product-card,
 html[data-theme="dark"] .rx3-feature-pill,
