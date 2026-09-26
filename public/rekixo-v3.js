@@ -3,6 +3,7 @@
   if (!body || !body.classList.contains("rx-v3-page")) return;
 
   const page = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+  const shellless = page === "business-card.html";
   const homeHref = page === "index.html" || page === "" ? "#top" : "index.html";
   const productsHref = page === "index.html" || page === "" ? "#products" : "index.html#products";
   const solutionsHref = page === "index.html" || page === "" ? "#solutions" : "index.html#solutions";
@@ -36,8 +37,10 @@
     '</div>';
 
   const existingHeader = document.querySelector("body > header");
-  if (existingHeader) existingHeader.replaceWith(header);
-  else body.prepend(header);
+  if (!shellless) {
+    if (existingHeader) existingHeader.replaceWith(header);
+    else body.prepend(header);
+  }
 
   const menuBtn = header.querySelector("[data-rx3-menu-btn]");
   const mobileMenu = header.querySelector("[data-rx3-mobile-menu]");
@@ -93,8 +96,10 @@
     '</div>';
 
   const existingFooter = document.querySelector("body > footer");
-  if (existingFooter) existingFooter.replaceWith(footer);
-  else body.append(footer);
+  if (!shellless) {
+    if (existingFooter) existingFooter.replaceWith(footer);
+    else body.append(footer);
+  }
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
