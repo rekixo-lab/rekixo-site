@@ -29,7 +29,7 @@
     .ar-actions .primary{background:linear-gradient(135deg,var(--ar),var(--ar2));color:#041018;border-color:transparent}
     .ar-window{position:relative;padding:12px;border:1px solid rgba(145,224,255,.22);border-radius:24px;background:linear-gradient(180deg,rgba(12,28,45,.92),rgba(6,14,25,.92));box-shadow:0 28px 80px rgba(0,0,0,.42),0 0 60px rgba(97,230,255,.08)}
     .ar-window::before{content:"";display:block;width:56px;height:7px;margin:0 0 10px;border-radius:999px;background:linear-gradient(90deg,#ff647c 0 16%,#ffc95c 16% 33%,#6dffb4 33% 50%,transparent 50%)}
-    .ar-window img{display:block;width:100%;border-radius:14px;aspect-ratio:2.29/1;object-fit:cover;background:#050b13}
+    .ar-window img{display:block;width:100%;height:auto;border-radius:14px;object-fit:contain;background:#050b13;image-rendering:auto}
     .ar-floating{position:absolute;right:-15px;bottom:-18px;max-width:260px;padding:14px 16px;border:1px solid rgba(109,255,180,.32);border-radius:16px;background:rgba(5,13,25,.94);box-shadow:0 20px 45px rgba(0,0,0,.45)}
     .ar-floating strong{display:block;color:#fff;font-size:14px}.ar-floating span{display:block;margin-top:4px;color:#9fb6c9;font-size:12px;line-height:1.45}
     .ar-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:26px 0 12px}
@@ -47,7 +47,33 @@
     .ar-step b{display:block;color:var(--ar2);font-size:11px;letter-spacing:.1em}.ar-step span{display:block;margin-top:8px;color:#fff;font-size:13px;font-weight:800;line-height:1.35}
     .ar-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
     .ar-shot{overflow:hidden;border:1px solid rgba(255,255,255,.09);border-radius:20px;background:#06101a}
-    .ar-shot img{display:block;width:100%;aspect-ratio:2.29/1;object-fit:cover}.ar-shot div{padding:15px 17px}.ar-shot strong{display:block;font-size:16px}.ar-shot span{display:block;margin-top:5px;color:#95a9be;font-size:13px}
+    .ar-shot img{display:block;width:100%;height:auto;object-fit:contain;image-rendering:auto}.ar-shot div{padding:15px 17px}.ar-shot strong{display:block;font-size:16px}.ar-shot span{display:block;margin-top:5px;color:#95a9be;font-size:13px}
+    .hires-note{display:flex;align-items:flex-start;gap:10px;margin:0 0 18px;padding:13px 15px;border:1px solid rgba(97,230,255,.16);border-radius:14px;background:rgba(97,230,255,.055);color:#bcd7e7;font-size:13px;line-height:1.6}
+    .hires-note b{color:#fff}
+    .showcase-list{display:grid;gap:20px}
+    .showcase-card{overflow:hidden;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:linear-gradient(180deg,#07111d,#050b13);box-shadow:0 18px 50px rgba(0,0,0,.24)}
+    .showcase-card[hidden]{display:none!important}
+    .showcase-card__head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.07)}
+    .showcase-card__head strong{display:block;color:#fff;font-size:17px}
+    .showcase-card__head span{display:block;margin-top:5px;color:#91a8bc;font-size:13px;line-height:1.5}
+    .showcase-card__tag{flex:none;padding:6px 9px;border:1px solid rgba(109,255,180,.18);border-radius:999px;background:rgba(109,255,180,.06);color:#bffff0;font-size:10px;font-weight:900;letter-spacing:.08em}
+    .showcase-media{position:relative;display:flex;justify-content:center;align-items:center;min-height:120px;padding:14px;background:#02070d}
+    .showcase-media img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain;filter:none;transform:none;image-rendering:auto;background:#02070d}
+    .showcase-card.native .showcase-media img{width:auto;max-width:100%}
+    .showcase-open{position:absolute;right:26px;bottom:26px;display:inline-flex;align-items:center;gap:7px;padding:9px 12px;border:1px solid rgba(255,255,255,.14);border-radius:11px;background:rgba(3,10,18,.90);color:#effaff;font-size:12px;font-weight:850;cursor:pointer;backdrop-filter:blur(8px);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .showcase-open:hover,.showcase-open:focus-visible{border-color:rgba(97,230,255,.45);outline:none}
+    .showcase-grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+    .showcase-grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+    .showcase-grid-2 .showcase-card,.showcase-grid-3 .showcase-card{height:100%}
+    .showcase-grid-2 .showcase-media,.showcase-grid-3 .showcase-media{height:100%;min-height:260px}
+    .showcase-grid-2 .showcase-media img,.showcase-grid-3 .showcase-media img{max-height:560px}
+    .media-lightbox{width:min(96vw,1500px);max-width:1500px;padding:0;border:1px solid rgba(145,224,255,.24);border-radius:22px;background:#030914;color:#fff;box-shadow:0 30px 100px rgba(0,0,0,.7)}
+    .media-lightbox::backdrop{background:rgba(0,5,12,.86);backdrop-filter:blur(5px)}
+    .media-lightbox__bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+    .media-lightbox__bar strong{font-size:14px}.media-lightbox__actions{display:flex;gap:8px}
+    .media-lightbox__actions a,.media-lightbox__actions button{padding:8px 11px;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:rgba(255,255,255,.04);color:#eaf8ff;font:inherit;font-size:12px;font-weight:800;text-decoration:none;cursor:pointer}
+    .media-lightbox__canvas{display:grid;place-items:center;max-height:82vh;overflow:auto;padding:12px;background:#01050a}
+    .media-lightbox__canvas img{display:block;width:auto;height:auto;max-width:100%;max-height:none;object-fit:contain;image-rendering:auto}
     .control-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
     .control-item{padding:17px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02))}
     .control-item b{display:block;color:#eaf8ff;margin-bottom:7px}.control-item span{color:#9cb2c6;font-size:13px;line-height:1.55}
@@ -63,8 +89,8 @@
     .compare-card{padding:24px;border-radius:20px;border:1px solid rgba(255,255,255,.09);background:rgba(3,10,18,.52)}
     .compare-card.good{border-color:rgba(109,255,180,.22)}.compare-card h3{margin:0 0 14px;font-size:22px}.compare-card ul{padding-left:18px;margin:0;color:#c7d7e4;line-height:1.9}
     .note{margin-top:18px;padding:15px 17px;border-left:3px solid var(--amber);border-radius:12px;background:rgba(255,201,92,.07);color:#ffe9b9;line-height:1.65}
-    @media(max-width:980px){.ar-hero{grid-template-columns:1fr}.ar-floating{right:10px;bottom:10px}.ar-metrics,.ar-grid,.control-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ar-flow{grid-template-columns:repeat(2,minmax(0,1fr))}.architecture{grid-template-columns:1fr}.arch-arrow{transform:rotate(90deg)}}
-    @media(max-width:680px){.ar-section{padding:20px}.ar-section-head{display:block}.ar-section-head p{margin-top:10px}.ar-gallery,.builder-split,.compare,.ar-metrics,.ar-grid,.control-grid,.ar-flow{grid-template-columns:1fr}.ar-floating{position:static;margin-top:10px;max-width:none}.ar-hero h1{font-size:42px}.ar-window{padding:8px}}
+    @media(max-width:980px){.ar-hero{grid-template-columns:1fr}.ar-floating{right:10px;bottom:10px}.ar-metrics,.ar-grid,.control-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ar-flow{grid-template-columns:repeat(2,minmax(0,1fr))}.showcase-grid-3{grid-template-columns:1fr 1fr}.architecture{grid-template-columns:1fr}.arch-arrow{transform:rotate(90deg)}}
+    @media(max-width:680px){.ar-section{padding:20px}.ar-section-head{display:block}.ar-section-head p{margin-top:10px}.ar-gallery,.builder-split,.compare,.ar-metrics,.ar-grid,.control-grid,.ar-flow,.showcase-grid-2,.showcase-grid-3{grid-template-columns:1fr}.showcase-card__head{display:block}.showcase-card__tag{display:inline-flex;margin-top:10px}.showcase-media{padding:8px}.showcase-open{right:16px;bottom:16px}.ar-floating{position:static;margin-top:10px;max-width:none}.ar-hero h1{font-size:42px}.ar-window{padding:8px}}
   </style>
   <script type="application/ld+json">
   {
@@ -154,13 +180,73 @@
         </div>
       </section>
 
-      <section class="ar-section">
-        <div class="ar-section-head"><div><div class="kicker">Platform Examples</div><h2>Different layouts, one reusable platform.</h2></div><p>These current Rekixo AR3D builds show that the same product can support compact layouts, large inventories and irregular project boundaries without creating a separate codebase per project.</p></div>
-        <div class="ar-gallery">
-          <article class="ar-shot"><img loading="lazy" src="ar3d-project-1.webp" alt="Mangal Raj Park interactive plot project built on Rekixo AR3D" /><div><strong>Mangal Raj Park</strong><span>Interactive masterplan with live plot inventory and customer actions.</span></div></article>
-          <article class="ar-shot"><img loading="lazy" src="ar3d-project-2.webp" alt="Shree Banashankari Nagara interactive plot project built on Rekixo AR3D" /><div><strong>Shree Banashankari Nagara</strong><span>Large multi-block layout with live Available, Booked and Sold status.</span></div></article>
-          <article class="ar-shot"><img loading="lazy" src="ar3d-project-3.webp" alt="Arising Future City interactive real estate project built on Rekixo AR3D" /><div><strong>Arising Future City</strong><span>Interactive hover details, project search and real-time plot presentation.</span></div></article>
-          <article class="ar-shot"><img loading="lazy" src="ar3d-project-4.webp" alt="Venkatesh Vihar interactive real estate project built on Rekixo AR3D" /><div><strong>Venkatesh Vihar</strong><span>Irregular project geometry and large plot areas handled inside the same runtime.</span></div></article>
+      <section class="ar-section" id="showcase">
+        <div class="ar-section-head"><div><div class="kicker">High-Resolution Product Showcase</div><h2>See the real product surfaces, not blurred mockups.</h2></div><p>Customer project sites, Super Admin tools, Builder Admin and mapping workflows are shown at their native screenshot dimensions. Images are never force-cropped or stretched; open any screenshot to inspect it at full resolution.</p></div>
+        <div class="hires-note"><b>Sharp-image rule:</b><span>native pixel dimensions + WebP quality 100 + <code>height:auto</code> + <code>object-fit:contain</code>. Small admin screenshots stay at their natural size instead of being enlarged and blurred.</span></div>
+
+        <div class="showcase-list">
+          <article class="showcase-card" data-hires-card>
+            <div class="showcase-card__head"><div><strong>Mangal Raj Park</strong><span>Interactive project site with search, plot status, amenities, gallery, location and project controls.</span></div><div class="showcase-card__tag">CUSTOMER SITE</div></div>
+            <div class="showcase-media"><img data-hires-image data-fallback="ar3d-project-1.webp" loading="lazy" src="ar3d-showcase/ar3d-showcase-01-mangal-raj-park.webp" alt="Mangal Raj Park customer project site on Rekixo AR3D" /><button class="showcase-open" type="button" data-open-hires>↗ Full resolution</button></div>
+          </article>
+
+          <article class="showcase-card" data-hires-card>
+            <div class="showcase-card__head"><div><strong>Shree Banashankari Nagara</strong><span>Large multi-block project inventory with live Available, Booked and Sold visualization.</span></div><div class="showcase-card__tag">CUSTOMER SITE</div></div>
+            <div class="showcase-media"><img data-hires-image data-fallback="ar3d-project-2.webp" loading="lazy" src="ar3d-showcase/ar3d-showcase-02-shree-banashankari.webp" alt="Shree Banashankari Nagara customer project site on Rekixo AR3D" /><button class="showcase-open" type="button" data-open-hires>↗ Full resolution</button></div>
+          </article>
+
+          <article class="showcase-card" data-hires-card>
+            <div class="showcase-card__head"><div><strong>Vatika Green City Vistar</strong><span>Long-format project masterplan with hover plot intelligence and live inventory status.</span></div><div class="showcase-card__tag">CUSTOMER SITE</div></div>
+            <div class="showcase-media"><img data-hires-image loading="lazy" src="ar3d-showcase/ar3d-showcase-03-vatika-green-city.webp" alt="Vatika Green City Vistar customer project site on Rekixo AR3D" /><button class="showcase-open" type="button" data-open-hires>↗ Full resolution</button></div>
+          </article>
+
+          <article class="showcase-card" data-hires-card>
+            <div class="showcase-card__head"><div><strong>Arising Future City</strong><span>Interactive hover details showing live plot number, area and road information.</span></div><div class="showcase-card__tag">CUSTOMER SITE</div></div>
+            <div class="showcase-media"><img data-hires-image data-fallback="ar3d-project-3.webp" loading="lazy" src="ar3d-showcase/ar3d-showcase-04-arising-future-city.webp" alt="Arising Future City customer project site on Rekixo AR3D" /><button class="showcase-open" type="button" data-open-hires>↗ Full resolution</button></div>
+          </article>
+
+          <article class="showcase-card" data-hires-card>
+            <div class="showcase-card__head"><div><strong>Venkatesh Vihar</strong><span>Irregular boundaries, large plots, open spaces and interactive customer-facing project controls.</span></div><div class="showcase-card__tag">CUSTOMER SITE</div></div>
+            <div class="showcase-media"><img data-hires-image data-fallback="ar3d-project-4.webp" loading="lazy" src="ar3d-showcase/ar3d-showcase-05-venkatesh-vihar.webp" alt="Venkatesh Vihar customer project site on Rekixo AR3D" /><button class="showcase-open" type="button" data-open-hires>↗ Full resolution</button></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="ar-section" id="platform-surfaces">
+        <div class="ar-section-head"><div><div class="kicker">Inside the Platform</div><h2>Super Admin, Builder Admin, Plot Mapper and Geo Mapper.</h2></div><p>These are working product surfaces used to configure projects, map plot geometry, manage live data and give builders controlled operational access.</p></div>
+
+        <div class="showcase-list">
+          <article class="showcase-card" data-hires-card>
+            <div class="showcase-card__head"><div><strong>Plot Mapper</strong><span>High-zoom corner mapping, plot side assignment and geometry controls for accurate interactive plots.</span></div><div class="showcase-card__tag">SUPER ADMIN</div></div>
+            <div class="showcase-media"><img data-hires-image loading="lazy" src="ar3d-showcase/ar3d-showcase-08-plot-mapper.webp" alt="Rekixo AR3D Plot Mapper interface" /><button class="showcase-open" type="button" data-open-hires>↗ Full resolution</button></div>
+          </article>
+
+          <article class="showcase-card" data-hires-card>
+            <div class="showcase-card__head"><div><strong>Geo Mapper</strong><span>Satellite masterplan placement with calibrated project geometry, live plot detail and map actions.</span></div><div class="showcase-card__tag">GEO MAPPER</div></div>
+            <div class="showcase-media"><img data-hires-image loading="lazy" src="ar3d-showcase/ar3d-showcase-09-geo-mapper.webp" alt="Rekixo AR3D Geo Mapper satellite masterplan interface" /><button class="showcase-open" type="button" data-open-hires>↗ Full resolution</button></div>
+          </article>
+
+          <article class="showcase-card" data-hires-card>
+            <div class="showcase-card__head"><div><strong>Builder Admin Dashboard</strong><span>Project-scoped dashboard for plot inventory, status updates, gallery and customer contact operations.</span></div><div class="showcase-card__tag">BUILDER ADMIN</div></div>
+            <div class="showcase-media"><img data-hires-image loading="lazy" src="ar3d-showcase/ar3d-showcase-11-builder-admin-dashboard.webp" alt="Rekixo AR3D Builder Admin dashboard" /><button class="showcase-open" type="button" data-open-hires>↗ Full resolution</button></div>
+          </article>
+
+          <div class="showcase-grid-3">
+            <article class="showcase-card native" data-hires-card>
+              <div class="showcase-card__head"><div><strong>Builder Admin Login</strong><span>Project-branded secure entry point for the builder team.</span></div><div class="showcase-card__tag">ACCESS</div></div>
+              <div class="showcase-media"><img data-hires-image loading="lazy" src="ar3d-showcase/ar3d-showcase-07-builder-admin-login.webp" alt="Rekixo AR3D Builder Admin login" /><button class="showcase-open" type="button" data-open-hires>↗ Full resolution</button></div>
+            </article>
+
+            <article class="showcase-card native" data-hires-card>
+              <div class="showcase-card__head"><div><strong>Super Admin Navigation</strong><span>Clients, profile, Plot Mapper, mapping controls, Geo Mapper, 3D Engine, sharing and project assets.</span></div><div class="showcase-card__tag">CONTROL PLANE</div></div>
+              <div class="showcase-media"><img data-hires-image loading="lazy" src="ar3d-showcase/ar3d-showcase-10-super-admin-navigation.webp" alt="Rekixo Super Admin navigation" /><button class="showcase-open" type="button" data-open-hires>↗ Full resolution</button></div>
+            </article>
+
+            <article class="showcase-card native" data-hires-card>
+              <div class="showcase-card__head"><div><strong>Engineering Repositories</strong><span>Separate platform, 3D engine, backend, Android and website repositories support independent evolution.</span></div><div class="showcase-card__tag">ENGINEERING</div></div>
+              <div class="showcase-media"><img data-hires-image loading="lazy" src="ar3d-showcase/ar3d-showcase-06-github-repositories.webp" alt="Rekixo GitHub repositories used for product engineering" /><button class="showcase-open" type="button" data-open-hires>↗ Full resolution</button></div>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -211,8 +297,66 @@
     </div>
   </main>
 
+  <dialog class="media-lightbox" data-media-lightbox>
+    <div class="media-lightbox__bar">
+      <strong data-lightbox-title>Rekixo AR3D screenshot</strong>
+      <div class="media-lightbox__actions">
+        <a data-lightbox-original href="#" target="_blank" rel="noopener">Open original</a>
+        <button type="button" data-lightbox-close>Close</button>
+      </div>
+    </div>
+    <div class="media-lightbox__canvas"><img data-lightbox-image alt="" /></div>
+  </dialog>
+
   <footer>
     <div class="wrap footer-grid"><div>&copy; 2026 Rekixo. Built for practical digital products.</div><div class="footer-links"><a href="rekixo-ar3d.html">Rekixo AR3D</a><a href="portfolio.html">Portfolio</a><a href="custom-software-development.html">Custom Software</a><a href="dashboard-development.html">Dashboards</a><a href="about.html">About</a><a href="contact.html">Contact</a></div></div>
   </footer>
+  <script>
+    (() => {
+      const images = Array.from(document.querySelectorAll('[data-hires-image]'));
+      const handleMissing = (img) => {
+        if (img.naturalWidth > 0) return;
+        const fallback = img.dataset.fallback;
+        if (fallback && img.getAttribute('src') !== fallback) {
+          img.src = fallback;
+          return;
+        }
+        const card = img.closest('[data-hires-card]');
+        if (card) card.hidden = true;
+      };
+      images.forEach((img) => {
+        if (img.complete) handleMissing(img);
+        img.addEventListener('error', () => handleMissing(img), { once: true });
+      });
+
+      const dialog = document.querySelector('[data-media-lightbox]');
+      const lightboxImage = dialog?.querySelector('[data-lightbox-image]');
+      const lightboxTitle = dialog?.querySelector('[data-lightbox-title]');
+      const originalLink = dialog?.querySelector('[data-lightbox-original]');
+      const closeButton = dialog?.querySelector('[data-lightbox-close]');
+
+      document.querySelectorAll('[data-open-hires]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const card = button.closest('[data-hires-card]');
+          const img = card?.querySelector('[data-hires-image]');
+          const title = card?.querySelector('.showcase-card__head strong')?.textContent?.trim() || 'Rekixo AR3D screenshot';
+          if (!dialog || !img || !img.currentSrc) return;
+          lightboxImage.src = img.currentSrc;
+          lightboxImage.alt = img.alt || title;
+          lightboxTitle.textContent = title;
+          originalLink.href = img.currentSrc;
+          dialog.showModal();
+        });
+      });
+
+      closeButton?.addEventListener('click', () => dialog.close());
+      dialog?.addEventListener('click', (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+      dialog?.addEventListener('close', () => {
+        if (lightboxImage) lightboxImage.removeAttribute('src');
+      });
+    })();
+  </script>
 </body>
 </html>
