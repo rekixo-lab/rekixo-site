@@ -1104,6 +1104,7 @@
       .orbit-ring {
         animation: none;
       }
+      .product-track,
       .slide,
       .reveal,
       .btn,
@@ -1287,6 +1288,108 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
+    }
+
+    .product-carousel {
+      position: relative;
+      min-width: 0;
+    }
+
+    .product-viewport {
+      overflow: hidden;
+      border-radius: 28px;
+    }
+
+    .product-track {
+      display: flex;
+      align-items: stretch;
+      transition: transform .72s cubic-bezier(.22, 1, .36, 1);
+      will-change: transform;
+    }
+
+    .product-slide {
+      flex: 0 0 100%;
+      min-width: 0;
+      padding: 2px;
+    }
+
+    .product-slide .product-card {
+      height: 100%;
+    }
+
+    .product-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 16px;
+      padding: 0 2px;
+    }
+
+    .product-nav-group,
+    .product-dots {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .product-arrow,
+    .product-dot {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.045);
+      color: #eaf7ff;
+      cursor: pointer;
+      transition: border-color .18s ease, background .18s ease, transform .18s ease;
+    }
+
+    .product-arrow {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .product-arrow:hover,
+    .product-arrow:focus-visible {
+      border-color: rgba(125,255,207,.42);
+      background: rgba(125,255,207,.09);
+      outline: none;
+    }
+
+    .product-arrow:active { transform: scale(.96); }
+
+    .product-dot {
+      width: 9px;
+      height: 9px;
+      padding: 0;
+      border-radius: 999px;
+    }
+
+    .product-dot.is-active {
+      width: 30px;
+      border-color: transparent;
+      background: linear-gradient(90deg, var(--primary), var(--primary-2));
+    }
+
+    .product-counter {
+      min-width: 56px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-align: center;
+    }
+
+    .product-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -18% -45% 34%;
+      height: 250px;
+      background: radial-gradient(circle, rgba(87,199,255,.12), transparent 67%);
+      pointer-events: none;
     }
 
     .product-card {
@@ -2152,46 +2255,66 @@
           <p class="section-text">Rekixo products are proof of the same engineering used for client work: practical workflows, admin control, project isolation, responsive UI and long-term ownership.</p>
         </div>
 
-        <div class="product-duo">
-          <article class="product-card featured reveal">
-            <div class="product-pill">02 · REKIXO PRODUCT</div>
-            <h2>Rekixo AR3D</h2>
-            <p>Interactive real-estate project and plot management platform. It turns masterplans into branded customer websites with live plot status, Builder Admin, mapping, geo tools and optional 3D integration.</p>
-            <div class="product-preview">
-              <img src="ar3d-project-3.webp" loading="lazy" alt="Rekixo AR3D interactive real estate plot management platform" />
-            </div>
-            <div class="product-mini-stats">
-              <span><strong>Interactive</strong><br />Plot search + live details</span>
-              <span><strong>Builder Admin</strong><br />Scoped daily controls</span>
-              <span><strong>Multi-project</strong><br />Reusable platform runtime</span>
-            </div>
-            <div class="product-links">
-              <a class="playstore-btn" href="rekixo-ar3d.html">Explore Rekixo AR3D</a>
-              <a class="playstore-btn" href="contact.html">Request Demo</a>
-            </div>
-          </article>
+        <div class="product-carousel reveal" data-product-slider role="region" aria-roledescription="carousel" aria-label="Products by Rekixo">
+          <div class="product-viewport">
+            <div class="product-track" data-product-track>
+              <div class="product-slide" data-product-slide role="group" aria-roledescription="slide" aria-label="1 of 2">
+                <article class="product-card featured">
+                  <div class="product-pill">02 · REKIXO PRODUCT</div>
+                  <h2>Rekixo AR3D</h2>
+                  <p>Interactive real-estate project and plot management platform. It turns masterplans into branded customer websites with live plot status, Builder Admin, mapping, geo tools and optional 3D integration.</p>
+                  <div class="product-preview">
+                    <img src="ar3d-project-3.webp" loading="lazy" alt="Rekixo AR3D interactive real estate plot management platform" />
+                  </div>
+                  <div class="product-mini-stats">
+                    <span><strong>Interactive</strong><br />Plot search + live details</span>
+                    <span><strong>Builder Admin</strong><br />Scoped daily controls</span>
+                    <span><strong>Multi-project</strong><br />Reusable platform runtime</span>
+                  </div>
+                  <div class="product-links">
+                    <a class="playstore-btn" href="rekixo-ar3d.html">Explore Rekixo AR3D</a>
+                    <a class="playstore-btn" href="contact.html">Request Demo</a>
+                  </div>
+                </article>
+              </div>
 
-          <article class="product-card reveal">
-            <div class="product-pill">01 · BY REKIXO</div>
-            <h2>FinWorkar</h2>
-            <p>A practical local work and service platform focused on real-world opportunities, protected contact flows and useful mobile-first workflows.</p>
-            <div class="product-mini-stats">
-              <span><strong>Android</strong><br />Mobile product direction</span>
-              <span><strong>Web</strong><br />Public product presence</span>
-              <span><strong>Real-world</strong><br />Built for actual usage</span>
+              <div class="product-slide" data-product-slide role="group" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true" inert>
+                <article class="product-card">
+                  <div class="product-pill">01 · BY REKIXO</div>
+                  <h2>FinWorkar</h2>
+                  <p>A practical local work and service platform focused on real-world opportunities, protected contact flows and useful mobile-first workflows.</p>
+                  <div class="product-mini-stats">
+                    <span><strong>Android</strong><br />Mobile product direction</span>
+                    <span><strong>Web</strong><br />Public product presence</span>
+                    <span><strong>Real-world</strong><br />Built for actual usage</span>
+                  </div>
+                  <div class="product-links">
+                    <a class="playstore-btn" href="https://play.google.com/store/apps/details?id=com.finworkar.pro" target="_blank" rel="noopener noreferrer" aria-label="Get FinWorkar on Play Store">
+                      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.61 2.74c-.19.2-.31.5-.31.91v16.7c0 .41.12.71.31.91l.05.04 9.52-9.53v-.44L3.66 2.7l-.05.04zm13.3 12.21-3.17-3.18v-.44l3.17-3.18.07.04 3.76 2.14c1.07.61 1.07 1.61 0 2.22l-3.76 2.14-.07.04zM16.22 15.7l-3.24-3.25-9.57 9.57c.3.31.8.35 1.37.03l11.44-6.35zm-11.44-13C4.21 2.38 3.71 2.42 3.41 2.73l9.57 9.57 3.24-3.25L4.78 2.7z"></path></svg>
+                      Get it on Play Store
+                    </a>
+                    <a class="playstore-btn" href="https://finworkar.rekixo.com" target="_blank" rel="noopener noreferrer">Open FinWorkar Website</a>
+                  </div>
+                  <div class="trust-item" style="margin-top:18px;">
+                    <strong>Product-first thinking</strong>
+                    <span>Every feature should solve a visible problem, reduce confusion, or create practical value for the user.</span>
+                  </div>
+                </article>
+              </div>
             </div>
-            <div class="product-links">
-              <a class="playstore-btn" href="https://play.google.com/store/apps/details?id=com.finworkar.pro" target="_blank" rel="noopener noreferrer" aria-label="Get FinWorkar on Play Store">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.61 2.74c-.19.2-.31.5-.31.91v16.7c0 .41.12.71.31.91l.05.04 9.52-9.53v-.44L3.66 2.7l-.05.04zm13.3 12.21-3.17-3.18v-.44l3.17-3.18.07.04 3.76 2.14c1.07.61 1.07 1.61 0 2.22l-3.76 2.14-.07.04zM16.22 15.7l-3.24-3.25-9.57 9.57c.3.31.8.35 1.37.03l11.44-6.35zm-11.44-13C4.21 2.38 3.71 2.42 3.41 2.73l9.57 9.57 3.24-3.25L4.78 2.7z"></path></svg>
-                Get it on Play Store
-              </a>
-              <a class="playstore-btn" href="https://finworkar.rekixo.com" target="_blank" rel="noopener noreferrer">Open FinWorkar Website</a>
+          </div>
+
+          <div class="product-controls" aria-label="Product slider controls">
+            <div class="product-nav-group">
+              <button class="product-arrow" type="button" data-product-prev aria-label="Previous product">←</button>
+              <button class="product-arrow" type="button" data-product-next aria-label="Next product">→</button>
             </div>
-            <div class="trust-item" style="margin-top:18px;">
-              <strong>Product-first thinking</strong>
-              <span>Every feature should solve a visible problem, reduce confusion, or create practical value for the user.</span>
+            <div class="product-dots" role="tablist" aria-label="Choose product">
+              <button class="product-dot is-active" type="button" data-product-dot aria-label="Show Rekixo AR3D" aria-selected="true"></button>
+              <button class="product-dot" type="button" data-product-dot aria-label="Show FinWorkar" aria-selected="false"></button>
             </div>
-          </article>
+            <div class="product-counter" data-product-counter aria-live="polite">01 / 02</div>
+          </div>
         </div>
       </div>
     </section>
@@ -2323,6 +2446,90 @@
       heroSlider.addEventListener('mouseenter', () => window.clearInterval(slideTimer));
       heroSlider.addEventListener('mouseleave', startSlider);
       startSlider();
+    }
+
+    const productSlider = document.querySelector('[data-product-slider]');
+    if (productSlider) {
+      const track = productSlider.querySelector('[data-product-track]');
+      const productSlides = Array.from(productSlider.querySelectorAll('[data-product-slide]'));
+      const productDots = Array.from(productSlider.querySelectorAll('[data-product-dot]'));
+      const prevButton = productSlider.querySelector('[data-product-prev]');
+      const nextButton = productSlider.querySelector('[data-product-next]');
+      const counter = productSlider.querySelector('[data-product-counter]');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let currentProduct = 0;
+      let productTimer = 0;
+      let pointerStartX = null;
+
+      const showProduct = (nextIndex, userInitiated = false) => {
+        currentProduct = (nextIndex + productSlides.length) % productSlides.length;
+        track.style.transform = `translate3d(-${currentProduct * 100}%, 0, 0)`;
+        productSlides.forEach((slide, index) => {
+          const active = index === currentProduct;
+          slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+          slide.toggleAttribute('inert', !active);
+        });
+        productDots.forEach((dot, index) => {
+          const active = index === currentProduct;
+          dot.classList.toggle('is-active', active);
+          dot.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        if (counter) counter.textContent = `${String(currentProduct + 1).padStart(2, '0')} / ${String(productSlides.length).padStart(2, '0')}`;
+        if (userInitiated) restartProductSlider();
+      };
+
+      const stopProductSlider = () => {
+        window.clearInterval(productTimer);
+        productTimer = 0;
+      };
+
+      const startProductSlider = () => {
+        if (reduceMotion || productSlides.length < 2 || productTimer) return;
+        productTimer = window.setInterval(() => showProduct(currentProduct + 1), 5200);
+      };
+
+      const restartProductSlider = () => {
+        stopProductSlider();
+        startProductSlider();
+      };
+
+      prevButton?.addEventListener('click', () => showProduct(currentProduct - 1, true));
+      nextButton?.addEventListener('click', () => showProduct(currentProduct + 1, true));
+      productDots.forEach((dot, index) => dot.addEventListener('click', () => showProduct(index, true)));
+
+      productSlider.addEventListener('mouseenter', stopProductSlider);
+      productSlider.addEventListener('mouseleave', startProductSlider);
+      productSlider.addEventListener('focusin', stopProductSlider);
+      productSlider.addEventListener('focusout', (event) => {
+        if (!productSlider.contains(event.relatedTarget)) startProductSlider();
+      });
+
+      productSlider.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          showProduct(currentProduct - 1, true);
+        } else if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          showProduct(currentProduct + 1, true);
+        }
+      });
+
+      productSlider.addEventListener('pointerdown', (event) => {
+        if (event.pointerType === 'mouse') return;
+        pointerStartX = event.clientX;
+      }, { passive: true });
+
+      productSlider.addEventListener('pointerup', (event) => {
+        if (pointerStartX === null) return;
+        const delta = event.clientX - pointerStartX;
+        pointerStartX = null;
+        if (Math.abs(delta) < 42) return;
+        showProduct(currentProduct + (delta < 0 ? 1 : -1), true);
+      }, { passive: true });
+
+      productSlider.addEventListener('pointercancel', () => { pointerStartX = null; }, { passive: true });
+      showProduct(0);
+      startProductSlider();
     }
   </script>
 </body>
