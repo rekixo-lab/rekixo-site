@@ -32,6 +32,9 @@
     root.style.colorScheme = next;
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute("content", next === "dark" ? "#07111f" : "#ffffff");
+    document.querySelectorAll("[data-rx3-brand-logo]").forEach((logo) => {
+      logo.setAttribute("src", next === "dark" ? "rekixo-logo-static.svg" : "rekixo-logo-light.svg");
+    });
     if (persist) localStorage.setItem(THEME_KEY, next);
     syncThemeControls();
   };
@@ -49,7 +52,7 @@
   header.innerHTML =
     '<div class="rx3-nav">' +
       '<a class="rx3-brand" href="' + homeHref + '" aria-label="Rekixo home">' +
-        '<img src="rekixo-logo-light.svg" alt="Rekixo" width="148" height="35" />' +
+        '<img data-rx3-brand-logo src="rekixo-logo-light.svg" alt="Rekixo" width="148" height="35" />' +
       '</a>' +
       '<nav class="rx3-navlinks" aria-label="Main navigation">' +
         '<a href="' + productsHref + '">Products</a>' +
@@ -69,7 +72,6 @@
         '<a href="portfolio.html">Portfolio</a>' +
         '<a href="about.html">About</a>' +
         '<a href="contact.html">Contact</a>' +
-        '<button class="rx3-mobile-theme" type="button" data-rx3-theme-toggle aria-label="Switch theme" aria-pressed="false"><span data-rx3-theme-text>Dark mode</span><span data-rx3-theme-icon aria-hidden="true">☾</span></button>' +
         '<a href="contact.html">Get in touch →</a>' +
       '</div>' +
     '</div>';
@@ -120,7 +122,7 @@
   footer.innerHTML =
     '<div class="rx3-footer-main">' +
       '<div class="rx3-footer-brand">' +
-        '<img src="rekixo-logo-light.svg" alt="Rekixo" width="140" height="33" />' +
+        '<img data-rx3-brand-logo src="rekixo-logo-light.svg" alt="Rekixo" width="140" height="33" />' +
         '<p>Digital products, apps, web platforms, dashboards and business software built with clear ownership and production-ready delivery.</p>' +
       '</div>' +
       '<div class="rx3-footer-links">' +
@@ -155,6 +157,9 @@
   if (!shellless) {
     if (existingFooter) existingFooter.replaceWith(footer);
     else body.append(footer);
+    document.querySelectorAll("[data-rx3-brand-logo]").forEach((logo) => {
+      logo.setAttribute("src", root.dataset.theme === "dark" ? "rekixo-logo-static.svg" : "rekixo-logo-light.svg");
+    });
   }
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
