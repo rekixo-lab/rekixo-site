@@ -36,7 +36,8 @@ test("all five product families have a homepage card and a portfolio entry", () 
 
 test("mobile cards reflow to one column and all routes remain local or grounded", () => {
   assert.match(css, /@media\(max-width:680px\)\{\.rx3-product-cards\{grid-template-columns:minmax\(0,1fr\)\}\}/);
-  for (const anchor of ["geolive", "ludopaws", "entronex"]) {
+  assert.match(home, /href="geolive\.html"/);
+  for (const anchor of ["ludopaws", "entronex"]) {
     assert.match(home, new RegExp('href="portfolio\\.html#' + anchor + '"'));
   }
   assert.match(portfolio, /https:\/\/ludopaws\.rekixo\.com\//);
