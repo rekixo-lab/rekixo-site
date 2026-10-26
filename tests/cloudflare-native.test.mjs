@@ -341,8 +341,9 @@ test("Wrangler config executes root through Worker and keeps API routing", async
   const { readFileSync } = await import("node:fs");
   const config = JSON.parse(readFileSync(new URL("../wrangler.jsonc", import.meta.url), "utf8"));
   assert.equal(config.assets.html_handling, "none");
-  assert.ok(config.assets.run_worker_first.includes("/"));
-  assert.ok(config.assets.run_worker_first.includes("/api/*"));
+  // Every www path, including assets and .html, must reach the canonical redirect.
+  // The script still hands apex static files back to the ASSETS binding.
+  assert.deepEqual(config.assets.run_worker_first, ["/*"]);
   assert.equal(config.assets.not_found_handling, "404-page");
 });
 
