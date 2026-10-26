@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { hmacHex, verifyHmac, equalHex, bookingIdentity, validateIdentity, sameBooking, handleRequest } from "../worker/index.js";
+import worker, { hmacHex, verifyHmac, equalHex, bookingIdentity, validateIdentity, sameBooking, handleRequest } from "../worker/index.js";
 
 const key = "test-razorpay-secret";
 const person = { clientName: "Test Owner", mobile: "+919876543210", email: "owner@example.com", businessName: "Example Company" };
@@ -258,4 +258,44 @@ test("two distinct signed partial refunds add up without double-counting webhook
   assert.equal((await emitRefund("rfnd_2", 60000, "evt_rfnd_2")).status, 200);
   assert.equal(db.orders.get("order_refund").status, "refunded");
   assert.equal(db.orders.get("order_refund").refunded_paise, 100000);
+});
+
+test("company domain root serves index.html while retaining search parameters", async () => {
+  const visited = [];
+  const environment = { ASSETS: {
+    fetch(request) {
+      visited.push(new URL(request.url));
+      return new Response("<title>REKIXO homepage</title>", { status: 200, headers: {"Content-Type": "text/html"} });
+    }
+  } };
+  const response = await worker.fetch(new Request("https://rekixo.com/?utm_source=company"), environment);
+  assert.equal(response.status, 200);
+  assert.equal(await response.text(), "<title>REKIXO homepage</title>");
+  assert.equal(visited[0].pathname, "/index.html");
+  assert.equal(visited[0].searchParams.get("utm_source"), "company");
+});
+
+test("old .html links stay unchanged and unknown wildcard paths never become homepage", async () => {
+  const visited = [];
+  const environment = { ASSETS: {
+    fetch(request) {
+      const pathname = new URL(request.url).pathname;
+      visited.push(pathname);
+      return new Response(pathname, { status: pathname === "/**" ? 404 : 200 });
+    }
+  } };
+  const oldLink = await worker.fetch(new Request("https://rekixo.com/contact.html"), environment);
+  const missing = await worker.fetch(new Request("https://rekixo.com/**?utm_source=chatgpt.com"), environment);
+  assert.equal(await oldLink.text(), "/contact.html");
+  assert.equal(missing.status, 404);
+  assert.deepEqual(visited, ["/contact.html", "/**"]);
+});
+
+test("Wrangler config executes root through Worker and keeps API routing", async () => {
+  const { readFileSync } = await import("node:fs");
+  const config = JSON.parse(readFileSync(new URL("../wrangler.jsonc", import.meta.url), "utf8"));
+  assert.equal(config.assets.html_handling, "none");
+  assert.ok(config.assets.run_worker_first.includes("/"));
+  assert.ok(config.assets.run_worker_first.includes("/api/*"));
+  assert.equal(config.assets.not_found_handling, "404-page");
 });
