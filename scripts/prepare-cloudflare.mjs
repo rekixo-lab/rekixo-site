@@ -4,9 +4,9 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 const template = JSON.parse(await readFile(path.resolve("wrangler.example.jsonc"), "utf8"));
-const id = String(process.env.REKIXO_D1_DATABASE_ID || "").trim();
+const id = String(process.env.REKIXO_D1_DATABASE_ID || template.d1_databases[0].database_id || "").trim();
 if (!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(id)) {
-  console.error("Set REKIXO_D1_DATABASE_ID to the real Cloudflare D1 UUID. No fake database binding is allowed.");
+  console.error("No valid Cloudflare D1 database UUID configured.");
   process.exit(1);
 }
 template.d1_databases[0].database_id = id;
