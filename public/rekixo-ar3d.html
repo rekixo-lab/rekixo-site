@@ -51,7 +51,9 @@
     .ar-shot img{display:block;width:100%;height:auto;object-fit:contain;image-rendering:auto}.ar-shot div{padding:15px 17px}.ar-shot strong{display:block;font-size:16px}.ar-shot span{display:block;margin-top:5px;color:#95a9be;font-size:13px}
     .hires-note{display:flex;align-items:flex-start;gap:10px;margin:0 0 18px;padding:13px 15px;border:1px solid rgba(97,230,255,.16);border-radius:14px;background:rgba(97,230,255,.055);color:#bcd7e7;font-size:13px;line-height:1.6}
     .hires-note b{color:#fff}
-    .showcase-list{display:grid;gap:20px}
+    .showcase-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;min-width:0}
+    .showcase-list>.showcase-grid-3{grid-column:1/-1;grid-template-columns:repeat(2,minmax(0,1fr))}
+    .showcase-hint{display:none}
     .showcase-card{overflow:hidden;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:linear-gradient(180deg,#07111d,#050b13);box-shadow:0 18px 50px rgba(0,0,0,.24)}
     .showcase-card[hidden]{display:none!important}
     .showcase-card__head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.07)}
@@ -59,7 +61,7 @@
     .showcase-card__head span{display:block;margin-top:5px;color:#91a8bc;font-size:13px;line-height:1.5}
     .showcase-card__tag{flex:none;padding:6px 9px;border:1px solid rgba(109,255,180,.18);border-radius:999px;background:rgba(109,255,180,.06);color:#bffff0;font-size:10px;font-weight:900;letter-spacing:.08em}
     .showcase-media{position:relative;display:flex;justify-content:center;align-items:center;min-height:120px;padding:14px;background:#02070d}
-    .showcase-media img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain;filter:none;transform:none;image-rendering:auto;background:#02070d}
+    .showcase-media img{display:block;width:100%;height:auto;max-width:100%;max-height:350px;object-fit:contain;filter:none;transform:none;image-rendering:auto;background:#02070d}
     .showcase-card.native .showcase-media img{width:auto;max-width:100%}
     .showcase-open{position:absolute;right:26px;bottom:26px;display:inline-flex;align-items:center;gap:7px;padding:9px 12px;border:1px solid rgba(255,255,255,.14);border-radius:11px;background:rgba(3,10,18,.90);color:#effaff;font-size:12px;font-weight:850;cursor:pointer;backdrop-filter:blur(8px);box-shadow:0 10px 30px rgba(0,0,0,.35)}
     .showcase-open:hover,.showcase-open:focus-visible{border-color:rgba(97,230,255,.45);outline:none}
@@ -67,7 +69,7 @@
     .showcase-grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
     .showcase-grid-2 .showcase-card,.showcase-grid-3 .showcase-card{height:100%}
     .showcase-grid-2 .showcase-media,.showcase-grid-3 .showcase-media{height:100%;min-height:260px}
-    .showcase-grid-2 .showcase-media img,.showcase-grid-3 .showcase-media img{max-height:560px}
+    .showcase-grid-2 .showcase-media img,.showcase-grid-3 .showcase-media img{max-height:350px}
     .media-lightbox{width:min(96vw,1500px);max-width:1500px;padding:0;border:1px solid rgba(145,224,255,.24);border-radius:22px;background:#030914;color:#fff;box-shadow:0 30px 100px rgba(0,0,0,.7)}
     .media-lightbox::backdrop{background:rgba(0,5,12,.86);backdrop-filter:blur(5px)}
     .media-lightbox__bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
@@ -92,6 +94,36 @@
     .note{margin-top:18px;padding:15px 17px;border-left:3px solid var(--amber);border-radius:12px;background:rgba(255,201,92,.07);color:#ffe9b9;line-height:1.65}
     @media(max-width:980px){.ar-hero{grid-template-columns:1fr}.ar-floating{right:10px;bottom:10px}.ar-metrics,.ar-grid,.control-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ar-flow{grid-template-columns:repeat(2,minmax(0,1fr))}.showcase-grid-3{grid-template-columns:1fr 1fr}.architecture{grid-template-columns:1fr}.arch-arrow{transform:rotate(90deg)}}
     @media(max-width:680px){.ar-section{padding:20px}.ar-section-head{display:block}.ar-section-head p{margin-top:10px}.ar-gallery,.builder-split,.compare,.ar-metrics,.ar-grid,.control-grid,.ar-flow,.showcase-grid-2,.showcase-grid-3{grid-template-columns:1fr}.showcase-card__head{display:block}.showcase-card__tag{display:inline-flex;margin-top:10px}.showcase-media{padding:8px}.showcase-open{right:16px;bottom:16px}.ar-floating{position:static;margin-top:10px;max-width:none}.ar-hero h1{font-size:42px}.ar-window{padding:8px}}
+    /* Let both hero columns shrink instead of pushing small screens sideways. */
+    @media(max-width:680px){
+      .ar-hero{width:100%;max-width:100%;min-width:0;grid-template-columns:minmax(0,1fr)}
+      .ar-hero>*{min-width:0;max-width:100%}
+      .ar-hero-copy{min-width:0;max-width:100%;overflow-wrap:anywhere}
+      .ar-window{width:100%;max-width:100%;box-sizing:border-box}
+      .showcase-list{max-width:100%}
+    }
+    /* Compact mobile previews stay readable; full-sized images remain one tap away. */
+    @media(max-width:680px){
+      .showcase-list{
+        grid-template-columns:none;
+        grid-auto-flow:column;
+        grid-auto-columns:minmax(250px,min(82vw,400px));
+        gap:12px;
+        overflow-x:auto;
+        scroll-snap-type:x proximity;
+        overscroll-behavior-x:contain;
+        -webkit-overflow-scrolling:touch;
+        padding-bottom:14px;
+      }
+      .showcase-list>.showcase-card{scroll-snap-align:start;min-width:0}
+      .showcase-list>.showcase-grid-3{display:contents}
+      .showcase-list>.showcase-grid-3>.showcase-card{scroll-snap-align:start;min-width:0}
+      .showcase-card__head{padding:12px}
+      .showcase-card__head strong{font-size:15px}
+      .showcase-card__head span{font-size:12px}
+      .showcase-media img,.showcase-grid-3 .showcase-media img{max-height:260px}
+      .showcase-hint{display:block;margin:8px 0 16px;color:var(--rx3-muted);font-size:13px;line-height:1.6}
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -184,6 +216,7 @@
 
       <section class="ar-section" id="showcase">
         <div class="ar-section-head"><div><div class="kicker">Product Showcase</div><h2>Explore the product surfaces in full detail.</h2></div><p>Explore customer project sites, Builder Admin, Super Admin and mapping workflows with sharp screenshots that preserve the original layout.</p></div>
+        <p class="showcase-hint">Swipe sideways to explore the screenshots. Select Full resolution to inspect details.</p>
         <div class="showcase-list">
           <article class="showcase-card" data-hires-card>
             <div class="showcase-card__head"><div><strong>Mangal Raj Park</strong><span>Interactive project site with search, plot status, amenities, gallery, location and project controls.</span></div><div class="showcase-card__tag">CUSTOMER SITE</div></div>
@@ -215,6 +248,7 @@
       <section class="ar-section" id="platform-surfaces">
         <div class="ar-section-head"><div><div class="kicker">Inside the Platform</div><h2>Super Admin, Builder Admin, Plot Mapper and Geo Mapper.</h2></div><p>These product surfaces configure projects, map plot geometry, manage live data and give builders controlled operational access.</p></div>
 
+        <p class="showcase-hint">Swipe across the admin and mapping previews; select Full resolution for the full interface.</p>
         <div class="showcase-list">
           <article class="showcase-card" data-hires-card>
             <div class="showcase-card__head"><div><strong>Plot Mapper</strong><span>High-zoom corner mapping, plot side assignment and geometry controls for accurate interactive plots.</span></div><div class="showcase-card__tag">SUPER ADMIN</div></div>

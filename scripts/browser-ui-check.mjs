@@ -30,7 +30,7 @@ let checks = 0;
 try {
   browser = await chromium.launch({ headless: true });
   for (const width of [320, 360, 390, 430, 768, 1024, 1440]) {
-    for (const path of ["/", "/contact.html", "/portfolio.html"]) {
+    for (const path of ["/", "/contact.html", "/portfolio.html", "/privacy-policy.html", "/rekixo-ar3d.html"]) {
       const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: "reduce" });
       try {
         // Ensure synthetic QA never reaches analytics, Razorpay, external sites or APIs.
@@ -57,6 +57,23 @@ try {
             skip: Boolean(document.querySelector('a.rx3-skip-link[href^="#"]')),
           };
         });
+        if (dimensions.documentWidth > width + 1) {
+          const offenders = await page.evaluate(() =>
+            [...document.querySelectorAll("body *")].map((node) => {
+              const rect = node.getBoundingClientRect();
+              return {
+                element: node.tagName.toLowerCase(),
+                id: node.id,
+                className: typeof node.className === "string" ? node.className.slice(0, 70) : "",
+                left: Math.round(rect.left),
+                right: Math.round(rect.right),
+                width: Math.round(rect.width),
+              };
+            }).filter((row) => row.right > innerWidth + 2 && row.left < innerWidth)
+              .sort((a, b) => b.right - a.right).slice(0, 18)
+          );
+          console.error("Responsive overflow diagnostic", path, width, JSON.stringify(offenders));
+        }
         assert.ok(dimensions.documentWidth <= width + 1,
           path + " at " + width + "px overflowed: " + JSON.stringify(dimensions));
         assert.ok(dimensions.skip, path + " must have keyboard skip-navigation");
@@ -74,6 +91,20 @@ try {
           const rect = await form.locator('input[name="client_name"]').boundingBox();
           assert.ok(rect && rect.x >= -1 && rect.x + rect.width <= width + 1,
             "contact input spills beyond viewport at " + width);
+        }
+        if (path === "/privacy-policy.html") {
+          assert.equal(await page.locator("#website-data").count(), 1, "privacy needs actual processing details");
+          assert.equal(await page.locator("#preferences").count(), 1, "privacy needs analytics/local-storage details");
+        }
+        if (path === "/rekixo-ar3d.html" && width <= 430) {
+          const scrollData = await page.locator("#showcase .showcase-list").evaluate((node) => ({
+            flow: getComputedStyle(node).gridAutoFlow,
+            scrollWidth: node.scrollWidth,
+            clientWidth: node.clientWidth,
+          }));
+          assert.equal(scrollData.flow, "column", "AR3D previews should use mobile swipe gallery");
+          assert.ok(scrollData.scrollWidth > scrollData.clientWidth,
+            "AR3D preview gallery should scroll sideways without document overflow");
         }
         if (width === 390) {
           const menu = page.locator(".rx3-menu-btn");

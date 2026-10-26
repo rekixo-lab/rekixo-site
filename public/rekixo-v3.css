@@ -1066,6 +1066,40 @@ html[data-theme="dark"] .rx3-company-highlights{border-color:var(--rx3-line);bac
 /* Keep mobile cards single-column after the tablet rule cascade. */
 @media(max-width:680px){.rx3-product-cards{grid-template-columns:minmax(0,1fr)}}
 
+/* AR3D hero lives inside .wrap: prevent its own nested width and large
+   desktop padding from shrinking the grid below mobile text min-content. */
+@media(max-width:680px){
+  body.rx-v3-page .ar-hero{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    margin:18px auto 22px!important;
+    padding:20px!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:18px!important;
+  }
+  body.rx-v3-page .ar-hero>*{min-width:0;max-width:100%}
+  /* .ar-hero-copy was a nested grid whose implicit auto track inherited
+     the non-wrapping 292px kicker width and expanded past 320px viewports. */
+  body.rx-v3-page .ar-hero-copy{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    min-width:0;
+    max-width:100%;
+  }
+  body.rx-v3-page .ar-hero-copy>*{min-width:0;max-width:100%}
+  body.rx-v3-page .ar-hero-copy .kicker{
+    width:auto!important;
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+  body.rx-v3-page .ar-hero h1{
+    font-size:clamp(29px,7.6vw,36px)!important;
+    overflow-wrap:anywhere;
+  }
+}
+
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important}
   .rx3-slider-track,.rx3-reveal{transition:none!important}
