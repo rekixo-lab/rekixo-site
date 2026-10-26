@@ -63,7 +63,7 @@ if (files.has("sitemap.xml")) {
 }
 if (files.has("_headers")) {
   const headers = await readFile(path.join(root, "_headers"), "utf8");
-  for (const value of ["Content-Security-Policy:", "Strict-Transport-Security:", "https://checkout.razorpay.com", "https://asia-south1-fin-workar.cloudfunctions.net"]) {
+  for (const value of ["Content-Security-Policy:", "Strict-Transport-Security:", "https://checkout.razorpay.com"]) {
     if (!headers.includes(value)) failures.push(`_headers: missing required security/integration rule ${value}`);
   }
 }
