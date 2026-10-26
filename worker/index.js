@@ -367,7 +367,15 @@ export async function handleRequest(request, env) {
 }
 export default {
   async fetch(request, env) {
-    if (new URL(request.url).pathname.startsWith("/api/")) return handleRequest(request, env);
+    const url = new URL(request.url);
+    if (url.pathname.startsWith("/api/")) return handleRequest(request, env);
+    // Cloudflare static assets HTML handling is deliberately "none" to preserve
+    // existing .html URLs and SEO canonicals. Explicitly map only the domain root
+    // to index.html; never return the homepage for unknown URLs (keep real 404s).
+    if (url.pathname === "/") {
+      url.pathname = "/index.html";
+      return env.ASSETS.fetch(new Request(url.toString(), request));
+    }
     return env.ASSETS.fetch(request);
   },
   async scheduled(_event, env) {
