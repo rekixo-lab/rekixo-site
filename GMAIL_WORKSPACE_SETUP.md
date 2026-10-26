@@ -23,3 +23,7 @@ This is a production-only, send-only Gmail API integration for the Cloudflare-na
 - Failure is recorded as `email_state='failed'` and can be retried with authorized admin credentials.
 - Keep OAuth credentials and all bearer tokens exclusively in encrypted Cloudflare Secrets.
 - Google Workspace daily sending and API quotas still apply. Gmail API Enabled does **not** mean that OAuth or successful delivery is complete.
+
+## Production credential wiring verification
+
+Production configuration was reported as populated in Cloudflare `rekixo-site` encrypted runtime secrets (`GMAIL_OAUTH_CLIENT_ID`, `GMAIL_OAUTH_CLIENT_SECRET`, `GMAIL_OAUTH_REFRESH_TOKEN`). No secret values are stored here. Validate by submitting exactly one labeled non-paying QA contact through the opt-in `[verify-lead]` GitHub workflow and inspecting the logged `emailNotification` state. A `sent` API state means Gmail accepted the message; mailbox delivery must still be confirmed separately.
