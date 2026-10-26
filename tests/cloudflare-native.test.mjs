@@ -168,6 +168,27 @@ test("API health validates D1 availability", async () => {
   assert.equal(response.status, 200);
   assert.equal((await response.json()).database, "ready");
 });
+test("health reports Gmail credentials as configured without legacy Email Service", async () => {
+  const config = env();
+  delete config.EMAIL;
+  config.GMAIL_OAUTH_CLIENT_ID = "client";
+  config.GMAIL_OAUTH_CLIENT_SECRET = "secret";
+  config.GMAIL_OAUTH_REFRESH_TOKEN = "refresh";
+  const response = await handleRequest(new Request("https://rekixo.com/api/health"), config);
+  assert.equal(response.status, 200);
+  assert.equal((await response.json()).emailConfigured, true);
+});
+test("admin records refuse missing and incorrect tokens without exposing private enquiries", async () => {
+  const config = env();
+  config.ADMIN_TOKEN = "local-admin-token-for-regression-only-abcdefghijklmnopqrstuvwxyz";
+  const noAuth = await handleRequest(new Request("https://rekixo.com/api/admin/contacts"), config);
+  assert.equal(noAuth.status, 401);
+  const bogus = await handleRequest(new Request("https://rekixo.com/api/admin/contacts", {
+    headers: { Authorization: "Bearer deliberately-invalid-test-value" }
+  }), config);
+  assert.equal(bogus.status, 401);
+  assert.equal((await bogus.json()).error, "Unauthorized");
+});
 test("cross-origin browser POST is denied", async () => {
   const res = await handleRequest(request("/api/contact", { ...person }, { origin: "https://attacker.invalid" }), env());
   assert.equal(res.status, 403);
