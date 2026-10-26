@@ -275,7 +275,7 @@ async function webhook(req, env) {
       await db.prepare(
         "UPDATE payment_orders SET status = 'captured', payment_id = ?, paid_at = COALESCE(paid_at, CURRENT_TIMESTAMP) " +
         "WHERE id = ? AND amount_paise = ? AND currency = ? " +
-        "AND (payment_id IS NULL OR payment_id = ?)"
+        "AND (payment_id IS NULL OR payment_id = ?) AND status NOT IN (\'refunded\', \'partially_refunded\')"
       ).bind(paymentId, orderId, AMOUNT_PAISE, CURRENCY, paymentId).run();
     }
   }
@@ -349,5 +349,9 @@ export default {
   async fetch(request, env) {
     if (new URL(request.url).pathname.startsWith("/api/")) return handleRequest(request, env);
     return env.ASSETS.fetch(request);
+  },
+  async scheduled(_event, env) {
+    // Expired request counters only. Never delete payment or enquiry records automatically.
+    await dbRequired(env).prepare("DELETE FROM api_rate_limits WHERE expires_at < ?").bind(Date.now()).run();
   }
 };
