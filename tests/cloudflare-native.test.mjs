@@ -16,6 +16,7 @@ class MockDB {
     this.contacts = new Map();
     this.rates = new Map();
     this.events = new Map();
+    this.refunds = new Map();
   }
   prepare(sql) {
     const self = this;
@@ -30,6 +31,11 @@ class MockDB {
           const c = self.contacts.get(values[0]); return c ? { payment_id: c.payment_id } : null;
         }
         if (sql.includes("SELECT * FROM contacts")) return self.contacts.get(values[0]) || null;
+        if (sql.includes("SELECT COALESCE(SUM(amount_paise), 0) AS amount")) {
+          const sum = [...self.refunds.values()].filter((r) => r.payment_id === values[0])
+            .reduce((acc, r) => acc + r.amount_paise, 0);
+          return { amount: sum };
+        }
         if (sql.includes("SELECT event_id FROM payment_events")) return self.events.has(values[0]) ? { event_id: values[0] } : null;
         if (sql.includes("SELECT id, email_state FROM contacts")) {
           const c = self.contacts.get(values[0]); return c ? { id: c.id, email_state: c.email_state } : null;
@@ -83,6 +89,22 @@ class MockDB {
         if (sql.startsWith("UPDATE contacts SET email_state = 'failed'")) {
           const [reason, id] = values; const c = self.contacts.get(id);
           c.email_state = "failed"; c.email_error = reason;
+          return { meta: { changes: 1 } };
+        }
+        if (sql.startsWith("INSERT OR IGNORE INTO payment_refunds")) {
+          const [id, payment_id, amount_paise] = values;
+          if (self.refunds.has(id)) return { meta: { changes: 0 } };
+          self.refunds.set(id, { id, payment_id, amount_paise });
+          return { meta: { changes: 1 } };
+        }
+        if (sql.startsWith("UPDATE payment_orders SET refunded_paise")) {
+          const [amount, current, ceiling, pid] = values;
+          for (const o of self.orders.values()) {
+            if (o.payment_id === pid) {
+              o.refunded_paise = Math.max(o.refunded_paise || 0, amount);
+              o.status = Math.max(o.refunded_paise, current) >= ceiling ? "refunded" : "partially_refunded";
+            }
+          }
           return { meta: { changes: 1 } };
         }
         if (sql.startsWith("INSERT OR IGNORE INTO payment_events")) {
@@ -208,4 +230,32 @@ test("native webhook requires valid HMAC and ignores unsigned events", async () 
     method: "POST", body, headers: { "x-razorpay-signature": sig, "x-razorpay-event-id": "evt_1" }
   }), environment);
   assert.equal(signed.status, 200);
+});
+
+test("two distinct signed partial refunds add up without double-counting webhook replays", async () => {
+  const db = new MockDB();
+  const environment = env(db);
+  db.orders.set("order_refund", {
+    id: "order_refund", payment_id: "pay_refund", amount_paise: 100000,
+    currency: "INR", status: "captured", refunded_paise: 0
+  });
+  async function emitRefund(id, amount, eventId) {
+    const raw = JSON.stringify({ event: "refund.processed", payload: { refund: {
+      entity: { id, payment_id: "pay_refund", amount }
+    } } });
+    return handleRequest(new Request("https://rekixo.com/api/payment/webhook", {
+      method: "POST", body: raw, headers: {
+        "x-razorpay-signature": await hmacHex("webhook-secret", raw),
+        "x-razorpay-event-id": eventId
+      }
+    }), environment);
+  }
+  assert.equal((await emitRefund("rfnd_1", 40000, "evt_rfnd_1")).status, 200);
+  assert.equal(db.orders.get("order_refund").status, "partially_refunded");
+  assert.equal(db.orders.get("order_refund").refunded_paise, 40000);
+  assert.equal((await emitRefund("rfnd_1", 40000, "evt_rfnd_1")).status, 200);
+  assert.equal(db.orders.get("order_refund").refunded_paise, 40000);
+  assert.equal((await emitRefund("rfnd_2", 60000, "evt_rfnd_2")).status, 200);
+  assert.equal(db.orders.get("order_refund").status, "refunded");
+  assert.equal(db.orders.get("order_refund").refunded_paise, 100000);
 });
