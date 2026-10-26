@@ -141,8 +141,12 @@
           '<a href="about.html">About</a>' +
           '<a href="contact.html">Contact</a>' +
           '<a href="business-info.html">Business Info</a>' +
-          '<a href="privacy-policy.html">Privacy</a>' +
-          '<a href="terms-and-conditions.html">Terms</a>' +
+        '</div>' +
+        '<div><strong>Legal</strong>' +
+          '<a href="privacy-policy.html">Privacy Policy</a>' +
+          '<a href="terms-and-conditions.html">Terms &amp; Conditions</a>' +
+          '<a href="refund-cancellation-policy.html">Refund &amp; Cancellation</a>' +
+          '<a href="delivery-policy.html">Delivery Policy</a>' +
         '</div>' +
       '</div>' +
     '</div>' +
