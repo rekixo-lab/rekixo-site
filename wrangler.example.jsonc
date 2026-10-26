@@ -30,5 +30,10 @@
   "vars": {
     "REKIXO_FROM_EMAIL": "no-reply@rekixo.com",
     "REKIXO_TO_EMAIL": "ai@rekixo.com"
+  },
+  "triggers": {
+    "crons": [
+      "0 3 * * *"
+    ]
   }
 }
