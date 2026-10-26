@@ -10,6 +10,7 @@
     "deploy": "npm run validate && npx --yes wrangler@4 d1 migrations apply rekixo-site-production --remote && npx --yes wrangler@4 deploy",
     "dev": "npx --yes wrangler@4 dev",
     "migrate:remote": "npx --yes wrangler@4 d1 migrations apply rekixo-site-production --remote",
-    "smoke:production": "node scripts/production-smoke.mjs"
+    "smoke:production": "node scripts/production-smoke.mjs",
+    "test:ui": "node scripts/browser-ui-check.mjs"
   }
 }
