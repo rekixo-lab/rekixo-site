@@ -718,13 +718,28 @@
       const paymentFields = [amountField, paymentStatusField, paymentIdField, orderIdField, signatureField].filter(Boolean);
 
       const config = {
-        orderEndpoint: "https://asia-south1-fin-workar.cloudfunctions.net/api/create-website-advance-order",
-        submitEndpoint: "https://asia-south1-fin-workar.cloudfunctions.net/api/submit-rekixo-contact",
-        successUrl: "https://rekixo.com/thank-you.html",
+        orderEndpoint: "/api/payment/order",
+        submitEndpoint: "/api/contact",
+        successUrl: "/thank-you.html",
         amountLabel: "INR 1,000",
         amountPaise: 100000,
         currency: "INR",
       };
+
+      // Recovery prevents a second charge if the contact API temporarily fails.
+      // Checkout proof is not trusted by the backend without signature + Razorpay verification.
+      const PAYMENT_RECOVERY_KEY = "rekixo-paid-booking-pending-v1";
+      const readPendingPayment = () => {
+        try {
+          const saved = JSON.parse(sessionStorage.getItem(PAYMENT_RECOVERY_KEY) || "null");
+          return saved && saved.orderData && saved.paymentResponse ? saved : null;
+        } catch (_) { return null; }
+      };
+      const bookingDetailsMatch = (details) =>
+        details && details.clientName === fieldValue("client_name") &&
+        details.mobile === fieldValue("mobile_number") &&
+        details.email.toLowerCase() === fieldValue("email").toLowerCase() &&
+        details.businessName === fieldValue("business_name");
 
       const setStatus = (message, state = "") => {
         if (!statusMessage) return;
@@ -804,6 +819,7 @@
         if (!response.ok || data.ok !== true) {
           throw new Error(data.error || "Request could not be submitted.");
         }
+        sessionStorage.removeItem(PAYMENT_RECOVERY_KEY);
         window.location.href = config.successUrl;
       };
 
@@ -847,7 +863,20 @@
             business: fieldValue("business_name"),
           },
           theme: { color: "#57c7ff" },
-          handler: (paymentResponse) => submitAfterPayment(paymentResponse, orderData),
+          handler: (paymentResponse) => {
+            try {
+              sessionStorage.setItem(PAYMENT_RECOVERY_KEY, JSON.stringify({
+                orderData, paymentResponse,
+                details: {
+                  clientName: fieldValue("client_name"),
+                  mobile: fieldValue("mobile_number"),
+                  email: fieldValue("email"),
+                  businessName: fieldValue("business_name"),
+                },
+              }));
+            } catch (_) { /* Backend will still validate the checkout. */ }
+            submitAfterPayment(paymentResponse, orderData);
+          },
           modal: {
             ondismiss: () => {
               setBusy(false);
@@ -883,6 +912,17 @@
           return;
         }
 
+        const pending = readPendingPayment();
+        if (pending) {
+          if (!bookingDetailsMatch(pending.details)) {
+            setStatus("You have a previous completed payment awaiting submission. Use the same name, mobile, email and business to recover it. Do not pay a second time.", "error");
+            return;
+          }
+          setStatus("Retrying your previous payment request without charging you again...", "ok");
+          await submitAfterPayment(pending.paymentResponse, pending.orderData);
+          return;
+        }
+
         try {
           setBusy(true);
           setStatus("Creating secure Razorpay order...");
@@ -896,6 +936,11 @@
       });
 
       syncBookingState();
+      if (readPendingPayment()) {
+        fastBooking.checked = true;
+        setStatus("Previous payment found. Fill the original booking details and submit to retry without paying again.", "ok");
+      }
+
     })();
   </script>
   <script src="rekixo-v3.js" defer></script>
