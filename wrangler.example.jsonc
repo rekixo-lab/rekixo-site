@@ -17,7 +17,7 @@
     {
       "binding": "DB",
       "database_name": "rekixo-site-production",
-      "database_id": "__SET_D1_DATABASE_ID__",
+      "database_id": "a0236b88-27b2-4066-a0c5-06e6e17bb3e3",
       "migrations_dir": "migrations"
     }
   ],
