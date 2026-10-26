@@ -20,7 +20,7 @@ test("privacy notice identifies real website data flows without blanket certific
 test("enquiry form visibly links to its privacy policy and does not require payment", () => {
   assert.ok(contact.includes('href="privacy-policy.html"'));
   assert.ok(contact.includes("Standard enquiries are free."));
-  assert.ok(contact.includes('data-booking-recovery-option" hidden'));
+  assert.ok(contact.includes('data-booking-recovery-option hidden'));
   assert.ok(contact.includes("fastBooking.disabled = !initialPaidRecovery"));
   assert.ok(contact.includes("PAYMENT_RECOVERY_KEY"));
   assert.doesNotMatch(contact, /<script src="https:\/\/checkout\.razorpay\.com/);
