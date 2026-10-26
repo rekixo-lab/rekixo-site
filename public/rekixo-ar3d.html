@@ -94,6 +94,14 @@
     .note{margin-top:18px;padding:15px 17px;border-left:3px solid var(--amber);border-radius:12px;background:rgba(255,201,92,.07);color:#ffe9b9;line-height:1.65}
     @media(max-width:980px){.ar-hero{grid-template-columns:1fr}.ar-floating{right:10px;bottom:10px}.ar-metrics,.ar-grid,.control-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ar-flow{grid-template-columns:repeat(2,minmax(0,1fr))}.showcase-grid-3{grid-template-columns:1fr 1fr}.architecture{grid-template-columns:1fr}.arch-arrow{transform:rotate(90deg)}}
     @media(max-width:680px){.ar-section{padding:20px}.ar-section-head{display:block}.ar-section-head p{margin-top:10px}.ar-gallery,.builder-split,.compare,.ar-metrics,.ar-grid,.control-grid,.ar-flow,.showcase-grid-2,.showcase-grid-3{grid-template-columns:1fr}.showcase-card__head{display:block}.showcase-card__tag{display:inline-flex;margin-top:10px}.showcase-media{padding:8px}.showcase-open{right:16px;bottom:16px}.ar-floating{position:static;margin-top:10px;max-width:none}.ar-hero h1{font-size:42px}.ar-window{padding:8px}}
+    /* Let both hero columns shrink instead of pushing small screens sideways. */
+    @media(max-width:680px){
+      .ar-hero{width:100%;max-width:100%;min-width:0;grid-template-columns:minmax(0,1fr)}
+      .ar-hero>*{min-width:0;max-width:100%}
+      .ar-hero-copy{min-width:0;max-width:100%;overflow-wrap:anywhere}
+      .ar-window{width:100%;max-width:100%;box-sizing:border-box}
+      .showcase-list{max-width:100%}
+    }
     /* Compact mobile previews stay readable; full-sized images remain one tap away. */
     @media(max-width:680px){
       .showcase-list{
