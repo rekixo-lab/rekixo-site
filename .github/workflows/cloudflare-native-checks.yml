@@ -27,6 +27,7 @@ jobs:
           expected = {"contacts", "payment_orders", "payment_events", "payment_refunds", "api_rate_limits"}
           assert expected <= names, (expected - names)
           assert "email_claimed_at" in {r[1] for r in db.execute("PRAGMA table_info(contacts)")}
+          assert {"project_description", "request_admin_mobile"} <= {r[1] for r in db.execute("PRAGMA table_info(payment_orders)")}
           print("D1 migration tables and email recovery column verified")
           PY
   smoke-production:
