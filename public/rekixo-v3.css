@@ -463,6 +463,77 @@ body.rx-v3-page .builder-split{gap:16px!important}
 .rx3-section-head>div:first-child{max-width:740px}
 .rx3-section-head>a{flex:0 0 auto}
 
+/* Company introduction and discoverable product families */
+.rx3-skip-link{
+  position:fixed;left:12px;top:12px;z-index:500;
+  padding:12px 18px;border-radius:12px;background:#0b1d3a;color:#fff!important;
+  font-size:14px;font-weight:800;text-decoration:none;
+  transform:translateY(-180%);transition:transform .15s ease;
+}
+.rx3-skip-link:focus{transform:translateY(0);outline:3px solid #79b7ff;outline-offset:3px}
+.rx3-navlinks a:focus-visible,.rx3-mobile-menu a:focus-visible,
+.rx3-navcta:focus-visible,.rx3-product-card:focus-visible,
+.rx3-slider-arrow:focus-visible,.rx3-slider-dot:focus-visible{
+  outline:3px solid #358bff;outline-offset:3px
+}
+.rx3-company-hero{
+  margin:0;
+  padding:clamp(34px,5vw,64px) 0 clamp(28px,4vw,48px);
+  border-bottom:1px solid var(--rx3-line);
+  background:radial-gradient(circle at 85% 10%,rgba(56,167,255,.12),transparent 38%);
+}
+.rx3-company-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:clamp(26px,5vw,64px);align-items:center}
+.rx3-company-copy{min-width:0}
+.rx3-company-eyebrow{
+  margin:0 0 15px;color:#087a50!important;
+  font-size:12px;line-height:1.5;font-weight:800;letter-spacing:.1em;text-transform:uppercase
+}
+.rx3-company-copy h1{
+  max-width:760px;margin:0;color:var(--rx3-ink)!important;
+  font-size:clamp(36px,5.2vw,64px)!important;line-height:1.075!important;letter-spacing:-.045em!important
+}
+.rx3-company-description{max-width:670px;margin:20px 0 0!important;font-size:clamp(15px,1.5vw,18px);line-height:1.7}
+.rx3-company-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:26px}
+.rx3-company-highlights{
+  padding:22px;border:1px solid var(--rx3-line);border-radius:24px;
+  background:var(--rx3-paper);box-shadow:var(--rx3-shadow-soft)
+}
+.rx3-company-highlights-heading{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--rx3-muted);margin:0 0 12px}
+.rx3-company-highlight{display:flex;align-items:center;gap:16px;padding:15px 0;border-top:1px solid var(--rx3-line)}
+.rx3-company-highlight>span{display:grid;place-items:center;flex:0 0 42px;height:42px;border-radius:12px;background:#e9f5ff;color:#125eab;font-size:12px;font-weight:850}
+.rx3-company-highlight:nth-child(3)>span{background:#e6f7ee;color:#086742}
+.rx3-company-highlight:nth-child(4)>span{background:#f0eeff;color:#5540a0}
+.rx3-company-highlight strong{display:block;color:var(--rx3-ink);font-size:15px}
+.rx3-company-highlight small{display:block;color:var(--rx3-muted);font-size:12px;line-height:1.5;margin-top:2px}
+.rx3-spotlight-head{display:flex;align-items:baseline;gap:18px;margin:0 0 18px}
+.rx3-spotlight-head h2{font-size:clamp(21px,2.2vw,28px);margin:0;letter-spacing:-.025em}
+.rx3-product-type{display:block;color:var(--rx3-muted);font-size:11px;line-height:1.4;font-weight:800;letter-spacing:.025em;margin-bottom:3px}
+.rx3-card-icon.gl{background:linear-gradient(145deg,#075d7c,#0c91ae);color:#fff;font-size:25px;font-weight:850}
+.rx3-card-icon.lp{background:linear-gradient(145deg,#6840bd,#dd5592);color:#fff;font-size:18px;font-weight:850}
+.rx3-card-icon.en{background:linear-gradient(145deg,#192f53,#4556a4);color:#fff;font-size:25px;font-weight:850}
+html[data-theme="dark"] .rx3-company-hero{background:radial-gradient(circle at 85% 10%,rgba(56,167,255,.1),transparent 38%);border-bottom-color:var(--rx3-line)}
+html[data-theme="dark"] .rx3-company-eyebrow{color:#67e2ae!important}
+html[data-theme="dark"] .rx3-company-highlight>span{background:#122b47;color:#8ec6ff}
+html[data-theme="dark"] .rx3-company-highlight:nth-child(3)>span{background:#113328;color:#86e3b5}
+html[data-theme="dark"] .rx3-company-highlight:nth-child(4)>span{background:#242041;color:#c6b5ff}
+html[data-theme="dark"] .rx3-company-highlights{border-color:var(--rx3-line);background:var(--rx3-paper)}
+@media(max-width:1040px){
+  .rx3-company-layout{grid-template-columns:minmax(0,1fr) minmax(240px,.65fr)}
+  .rx3-product-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:680px){
+  .rx3-company-hero{padding:30px 0 24px}
+  .rx3-company-layout{grid-template-columns:1fr}
+  .rx3-company-highlights{display:none}
+  .rx3-company-copy h1{font-size:clamp(30px,8.4vw,39px)!important}
+  .rx3-company-description{margin-top:14px!important;font-size:14px}
+  .rx3-company-actions{margin-top:20px;gap:10px}
+  .rx3-company-actions a{width:100%}
+  .rx3-product-cards{grid-template-columns:1fr}
+  .rx3-spotlight-head{display:block}
+  .rx3-spotlight-head h2{margin-top:6px;font-size:23px}
+}
+
 /* Product hero */
 .rx3-hero{
   padding:24px 0 20px;
@@ -569,7 +640,7 @@ body.rx-v3-page .builder-split{gap:16px!important}
   font-weight:900;
 }
 .rx3-product-name{font-size:28px;font-weight:800;letter-spacing:-.03em}
-.rx3-slide h1{
+.rx3-slide h3{
   margin:0;
   max-width:520px;
   color:var(--rx3-ink)!important;
@@ -780,7 +851,7 @@ body.rx-v3-page .builder-split{gap:16px!important}
 .rx3-slider-dot.is-active{width:28px;background:linear-gradient(90deg,var(--rx3-green),var(--rx3-blue))}
 
 /* Product cards */
-.rx3-product-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.rx3-product-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .rx3-product-card{
   min-height:116px;
   display:grid;
@@ -924,7 +995,7 @@ body.rx-v3-page .builder-split{gap:16px!important}
   body.rx-v3-page .side-nav{position:static!important;display:flex!important;overflow-x:auto!important;white-space:nowrap!important;scrollbar-width:none!important}
   body.rx-v3-page .side-nav::-webkit-scrollbar{display:none!important}
   .rx3-section-head{align-items:flex-start;flex-direction:column}
-  .rx3-product-cards{grid-template-columns:1fr}
+  .rx3-product-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
   .rx3-contact-band{grid-template-columns:auto 1fr}
   .rx3-contact-actions{grid-column:1/-1}
   .rx3-footer-main{grid-template-columns:1fr}
@@ -946,7 +1017,7 @@ body.rx-v3-page .builder-split{gap:16px!important}
   .rx3-count{margin-bottom:16px}
   .rx3-product-brand{margin-bottom:12px}
   .rx3-product-name{font-size:22px}
-  .rx3-slide h1{font-size:32px!important}
+  .rx3-slide h3{font-size:32px!important}
   .rx3-slide p{font-size:14px}
   .rx3-feature-pills{grid-template-columns:1fr;gap:7px;margin-top:16px}
   .rx3-feature-pill{min-height:40px}
@@ -984,7 +1055,7 @@ body.rx-v3-page .builder-split{gap:16px!important}
   body.rx-v3-page .legal-card{padding:18px!important}
 }
 @media(max-width:430px){
-  .rx3-slide h1{font-size:29px!important}
+  .rx3-slide h3{font-size:29px!important}
   .rx3-fw-stage{min-height:330px}
   .rx3-fw-desktop{width:92%}
   .rx3-fw-screen{min-height:240px}
@@ -992,6 +1063,9 @@ body.rx-v3-page .builder-split{gap:16px!important}
   .rx3-fw-phone-screen{min-height:276px}
   .rx3-fw-logo-card{bottom:0}
 }
+/* Keep mobile cards single-column after the tablet rule cascade. */
+@media(max-width:680px){.rx3-product-cards{grid-template-columns:minmax(0,1fr)}}
+
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important}
   .rx3-slider-track,.rx3-reveal{transition:none!important}

@@ -7,7 +7,8 @@
   const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
 
   const preferredTheme = () => {
-    const saved = localStorage.getItem(THEME_KEY);
+    let saved = null;
+    try { saved = localStorage.getItem(THEME_KEY); } catch (_) { /* Storage may be disabled. */ }
     if (saved === "dark" || saved === "light") return saved;
     return systemTheme.matches ? "dark" : "light";
   };
@@ -35,7 +36,9 @@
     document.querySelectorAll("[data-rx3-brand-logo]").forEach((logo) => {
       logo.setAttribute("src", next === "dark" ? "rekixo-logo-static.svg" : "rekixo-logo-light.svg");
     });
-    if (persist) localStorage.setItem(THEME_KEY, next);
+    if (persist) {
+      try { localStorage.setItem(THEME_KEY, next); } catch (_) { /* Keep in-memory theme. */ }
+    }
     syncThemeControls();
   };
 
@@ -46,6 +49,20 @@
   const homeHref = page === "index.html" || page === "" ? "#top" : "index.html";
   const productsHref = page === "index.html" || page === "" ? "#products" : "index.html#products";
   const solutionsHref = page === "index.html" || page === "" ? "#solutions" : "index.html#solutions";
+
+  // A keyboard-accessible skip link exists on every normal site page.
+  if (!shellless) {
+    const main = document.querySelector("main");
+    if (main) {
+      if (!main.id) main.id = "main-content";
+      main.setAttribute("tabindex", "-1");
+      const skip = document.createElement("a");
+      skip.className = "rx3-skip-link";
+      skip.href = "#" + main.id;
+      skip.textContent = "Skip to content";
+      body.prepend(skip);
+    }
+  }
 
   const header = document.createElement("header");
   header.className = "rx3-header";
@@ -63,9 +80,9 @@
       '</nav>' +
       '<button class="rx3-theme-toggle" type="button" data-rx3-theme-toggle aria-label="Switch theme" aria-pressed="false"><span class="rx3-theme-icon" data-rx3-theme-icon aria-hidden="true">☾</span></button>' +
       '<a class="rx3-navcta" href="contact.html">Get in touch</a>' +
-      '<button class="rx3-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" data-rx3-menu-btn>☰</button>' +
+      '<button class="rx3-menu-btn" type="button" aria-label="Open menu" aria-controls="rx3-mobile-navigation" aria-expanded="false" data-rx3-menu-btn>☰</button>' +
     '</div>' +
-    '<div class="rx3-mobile-menu" data-rx3-mobile-menu>' +
+    '<div class="rx3-mobile-menu" id="rx3-mobile-navigation" data-rx3-mobile-menu>' +
       '<div class="rx3-mobile-menu-inner">' +
         '<a href="' + productsHref + '">Products</a>' +
         '<a href="' + solutionsHref + '">Solutions</a>' +
@@ -85,16 +102,22 @@
   const menuBtn = header.querySelector("[data-rx3-menu-btn]");
   const mobileMenu = header.querySelector("[data-rx3-mobile-menu]");
   if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener("click", () => {
-      const open = mobileMenu.classList.toggle("is-open");
+    const setMenuOpen = (open) => {
+      mobileMenu.classList.toggle("is-open", open);
       menuBtn.setAttribute("aria-expanded", String(open));
+      menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
       menuBtn.textContent = open ? "×" : "☰";
+    };
+    menuBtn.addEventListener("click", () => {
+      setMenuOpen(!mobileMenu.classList.contains("is-open"));
     });
     mobileMenu.addEventListener("click", (event) => {
-      if (event.target.closest("a")) {
-        mobileMenu.classList.remove("is-open");
-        menuBtn.setAttribute("aria-expanded", "false");
-        menuBtn.textContent = "☰";
+      if (event.target.closest("a")) setMenuOpen(false);
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && mobileMenu.classList.contains("is-open")) {
+        setMenuOpen(false);
+        menuBtn.focus();
       }
     });
   }
@@ -108,7 +131,7 @@
   syncThemeControls();
 
   const onSystemThemeChange = (event) => {
-    if (localStorage.getItem(THEME_KEY)) return;
+    try { if (localStorage.getItem(THEME_KEY)) return; } catch (_) { /* Follow OS setting. */ }
     applyTheme(event.matches ? "dark" : "light", false);
   };
   if (typeof systemTheme.addEventListener === "function") {
@@ -176,10 +199,9 @@
     const prev = slider.querySelector("[data-rx3-prev]");
     const next = slider.querySelector("[data-rx3-next]");
     let index = 0;
-    let timer = 0;
     let pointerStartX = null;
 
-    const render = (nextIndex, restart) => {
+    const render = (nextIndex) => {
       index = (nextIndex + slides.length) % slides.length;
       if (track) track.style.transform = "translate3d(-" + String(index * 100) + "%,0,0)";
       slides.forEach((slide, i) => {
@@ -191,38 +213,21 @@
         dot.classList.toggle("is-active", i === index);
         dot.setAttribute("aria-current", i === index ? "true" : "false");
       });
-      if (restart) {
-        stop();
-        start();
-      }
     };
 
-    const stop = () => {
-      if (timer) window.clearInterval(timer);
-      timer = 0;
-    };
-    const start = () => {
-      if (reduceMotion || slides.length < 2 || timer) return;
-      timer = window.setInterval(() => render(index + 1, false), 5600);
-    };
+    // The showcase is user-controlled: no timed slide changes while reading.
 
-    if (prev) prev.addEventListener("click", () => render(index - 1, true));
-    if (next) next.addEventListener("click", () => render(index + 1, true));
-    dots.forEach((dot, i) => dot.addEventListener("click", () => render(i, true)));
+    if (prev) prev.addEventListener("click", () => render(index - 1));
+    if (next) next.addEventListener("click", () => render(index + 1));
+    dots.forEach((dot, i) => dot.addEventListener("click", () => render(i)));
 
-    slider.addEventListener("mouseenter", stop);
-    slider.addEventListener("mouseleave", start);
-    slider.addEventListener("focusin", stop);
-    slider.addEventListener("focusout", (event) => {
-      if (!slider.contains(event.relatedTarget)) start();
-    });
     slider.addEventListener("keydown", (event) => {
       if (event.key === "ArrowLeft") {
         event.preventDefault();
-        render(index - 1, true);
+        render(index - 1);
       } else if (event.key === "ArrowRight") {
         event.preventDefault();
-        render(index + 1, true);
+        render(index + 1);
       }
     });
     slider.addEventListener("pointerdown", (event) => {
@@ -234,14 +239,13 @@
       const delta = event.clientX - pointerStartX;
       pointerStartX = null;
       if (Math.abs(delta) < 44) return;
-      render(index + (delta < 0 ? 1 : -1), true);
+      render(index + (delta < 0 ? 1 : -1));
     }, { passive: true });
     slider.addEventListener("pointercancel", () => {
       pointerStartX = null;
     }, { passive: true });
 
-    render(0, false);
-    start();
+    render(0);
   }
 
   const gallery = document.querySelector("[data-rx3-gallery]");

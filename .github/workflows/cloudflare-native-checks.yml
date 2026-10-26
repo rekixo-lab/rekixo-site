@@ -30,6 +30,22 @@ jobs:
           assert {"project_description", "request_admin_mobile"} <= {r[1] for r in db.execute("PRAGMA table_info(payment_orders)")}
           print("D1 migration tables and email recovery column verified")
           PY
+  ui-browser:
+    needs: validate
+    # Playwright Chromium 1.56 supports Ubuntu 24.04; ubuntu-latest may be 26.04.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install isolated browser test dependency
+        run: npm install --no-save --package-lock=false playwright@1.56.1
+      - name: Install Chromium for responsive and keyboard QA
+        run: npx playwright install --with-deps chromium
+      - name: Check local HTML/CSS/JS at seven viewport widths (no real submissions)
+        run: npm run test:ui
   smoke-production:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: validate
