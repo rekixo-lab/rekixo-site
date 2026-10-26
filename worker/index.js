@@ -389,6 +389,12 @@ export async function handleRequest(request, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    // Once the www custom domain is attached, keep one canonical website.
+    // Preserve paths and query strings; 308 also preserves non-GET methods.
+    if (url.hostname === "www.rekixo.com") {
+      url.hostname = "rekixo.com";
+      return Response.redirect(url.toString(), 308);
+    }
     if (url.pathname.startsWith("/api/")) return handleRequest(request, env);
     // Cloudflare static assets HTML handling is deliberately "none" to preserve
     // existing .html URLs and SEO canonicals. Explicitly map only the domain root
