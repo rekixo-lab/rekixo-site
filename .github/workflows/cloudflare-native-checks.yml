@@ -40,3 +40,14 @@ jobs:
           node-version: '22'
       - name: Smoke-test the live production website and API without payment
         run: npm run smoke:production
+  verify-live-contact-once:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[verify-lead]')
+    needs: [validate, smoke-production]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Confirm one labeled synthetic non-paid enquiry can persist in D1
+        run: node scripts/verify-production-contact-once.mjs
