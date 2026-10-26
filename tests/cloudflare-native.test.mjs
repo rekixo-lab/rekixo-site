@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import worker, { hmacHex, verifyHmac, equalHex, bookingIdentity, validateIdentity, sameBooking, handleRequest } from "../worker/index.js";
+import worker, { hmacHex, verifyHmac, equalHex, bookingIdentity, validateIdentity, sameBooking, handleRequest, gmailConfigured, gmailSend } from "../worker/index.js";
 
 const key = "test-razorpay-secret";
 const person = { clientName: "Test Owner", mobile: "+919876543210", email: "owner@example.com", businessName: "Example Company" };
@@ -446,4 +446,66 @@ test("captured webhook recovers booking when browser callback never arrives", as
   assert.equal(duplicate.status, 200);
   assert.equal(db.contacts.size, 1);
   assert.equal(mails, 1);
+});
+
+
+test("Google Workspace Gmail sends only with Cloudflare-stored OAuth credentials and never sends unapproved From", async () => {
+  const oauth = {
+    GMAIL_OAUTH_CLIENT_ID: "oauth-client-id.apps.googleusercontent.com",
+    GMAIL_OAUTH_CLIENT_SECRET: "local-test-secret",
+    GMAIL_OAUTH_REFRESH_TOKEN: "local-test-refresh-token",
+    REKIXO_TO_EMAIL: "ai@rekixo.com"
+  };
+  const urls = [];
+  const send = async (url, options) => {
+    urls.push(url);
+    if (url === "https://oauth2.googleapis.com/token") {
+      assert.equal(options.method, "POST");
+      const params = new URLSearchParams(options.body);
+      assert.equal(params.get("grant_type"), "refresh_token");
+      assert.equal(params.get("refresh_token"), oauth.GMAIL_OAUTH_REFRESH_TOKEN);
+      return Response.json({ access_token: "temporary-access-token", token_type: "Bearer" });
+    }
+    if (url === "https://gmail.googleapis.com/gmail/v1/users/me/messages/send") {
+      assert.equal(options.headers.Authorization, "Bearer temporary-access-token");
+      const data = JSON.parse(options.body);
+      const mime = Buffer.from(data.raw, "base64url").toString("utf8");
+      assert.match(mime, /^From: ai@rekixo.com\r\nTo: ai@rekixo.com\r\nReply-To: owner@example.com\r\n/);
+      assert.match(mime, /\r\nSubject: REKIXO project request: booking1234\r\n/);
+      assert.match(mime, /Unicode: नमस्ते/);
+      assert.ok(!mime.includes("local-test-secret"));
+      return Response.json({ id: "gmail-message-id" });
+    }
+    throw new Error("Unexpected external request");
+  };
+  assert.equal(gmailConfigured(oauth), true);
+  const result = await gmailSend(oauth, {
+    to: "ai@rekixo.com", from: "no-reply@rekixo.com",
+    replyTo: "owner@example.com", subject: "REKIXO project request: booking1234",
+    text: "Unicode: नमस्ते"
+  }, send);
+  assert.equal(result.messageId, "gmail-message-id");
+  assert.deepEqual(urls, ["https://oauth2.googleapis.com/token",
+    "https://gmail.googleapis.com/gmail/v1/users/me/messages/send"]);
+});
+
+test("Gmail OAuth incomplete credentials fail closed and avoid provider calls", async () => {
+  const credential = { GMAIL_OAUTH_CLIENT_ID: "id", REKIXO_TO_EMAIL: "ai@rekixo.com" };
+  assert.equal(gmailConfigured(credential), false);
+  await assert.rejects(() => gmailSend(credential, {
+    to: "ai@rekixo.com", replyTo: "owner@example.com",
+    subject: "REKIXO project request: booking1234", text: "Example"
+  }, () => { throw Error("Never called"); }), /not fully configured/);
+});
+
+test("Gmail send aborts before API call when sender is invalid", async () => {
+  const oauth = {
+    GMAIL_OAUTH_CLIENT_ID: "id", GMAIL_OAUTH_CLIENT_SECRET: "secret",
+    GMAIL_OAUTH_REFRESH_TOKEN: "refresh", GMAIL_FROM_EMAIL: "ai@rekixo.com\r\nBcc: attacker@example.com",
+    REKIXO_TO_EMAIL: "ai@rekixo.com"
+  };
+  await assert.rejects(() => gmailSend(oauth, {
+    to: "ai@rekixo.com", replyTo: "owner@example.com",
+    subject: "REKIXO project request: booking1234", text: "Example"
+  }, () => { throw Error("Never called"); }), /Invalid outbound email address/);
 });
