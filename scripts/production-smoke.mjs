@@ -53,4 +53,17 @@ const webhookRejection = JSON.parse(await test("Reject unsigned live Razorpay we
 if (!/signature/i.test(webhookRejection.error || "")) {
   throw new Error("Unexpected invalid-signature webhook response");
 }
+// Live www should canonicalize all paths to the apex, not just the homepage.
+for (const path of ["/", "/contact.html?utm_source=www-smoke"]) {
+  const response = await fetch("https://www.rekixo.com" + path, {
+    redirect: "manual",
+    signal: AbortSignal.timeout(12000)
+  });
+  const expected = "https://rekixo.com" + path;
+  if (response.status !== 308 || response.headers.get("location") !== expected) {
+    throw new Error("WWW redirect invalid for " + path +
+      ": HTTP " + response.status + " location " + response.headers.get("location"));
+  }
+  console.log("PASS www canonical redirect " + path + " (HTTP 308)");
+}
 console.log("Production smoke checks passed. No charges, orders or contact enquiries were created.");
