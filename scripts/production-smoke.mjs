@@ -22,6 +22,15 @@ if (!contact.includes('data-project-request-form') || !contact.includes("/api/pa
   throw new Error("Contact form or same-origin payment route missing");
 }
 await test("Unknown page is a genuine 404", "/not-a-real-rekixo-page-smoke-404", {}, 404);
+// Negative admin checks only: never supply a valid token or read customer data.
+for (const [label, auth] of [["No admin credentials", undefined], ["Incorrect admin credentials", "Bearer invalid-smoke-test-token"]]) {
+  const protectedBody = JSON.parse(await test(label, "/api/admin/contacts", auth ? {
+    headers: { Authorization: auth }
+  } : {}, 401));
+  if (!/unauthorized/i.test(protectedBody.error || "")) {
+    throw new Error("Admin authorization boundary returned an unexpected response");
+  }
+}
 // The body intentionally fails server-side validation before any paid order is created.
 const badOrder = JSON.parse(await test("No checkout for short description", "/api/payment/order", {
   method: "POST",
