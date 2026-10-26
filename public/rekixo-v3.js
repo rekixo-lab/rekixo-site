@@ -146,24 +146,27 @@
     '<div class="rx3-footer-main">' +
       '<div class="rx3-footer-brand">' +
         '<img data-rx3-brand-logo src="rekixo-logo-light.svg" alt="Rekixo" width="140" height="33" />' +
-        '<p>Digital products, apps, web platforms, dashboards and business software built with clear ownership and production-ready delivery.</p>' +
+        '<p>Independently developed software products, developer infrastructure and selected custom engineering. Product availability varies.</p>' +
       '</div>' +
       '<div class="rx3-footer-links">' +
         '<div><strong>Products</strong>' +
           '<a href="https://finworkar.rekixo.com" target="_blank" rel="noopener">FinWorkar</a>' +
           '<a href="rekixo-ar3d.html">Rekixo AR3D</a>' +
-          '<a href="portfolio.html">Portfolio</a>' +
+          '<a href="geolive.html">GeoLive</a>' +
+          '<a href="portfolio.html#ludopaws">LudoPaws</a>' +
+          '<a href="portfolio.html#entronex">EntroNex (research)</a>' +
+          '<a href="portfolio.html">Full Portfolio</a>' +
         '</div>' +
         '<div><strong>Solutions</strong>' +
-          '<a href="android-app-development.html">Android Apps</a>' +
-          '<a href="web-app-development.html">Web Apps</a>' +
-          '<a href="dashboard-development.html">Dashboards</a>' +
-          '<a href="custom-software-development.html">Custom Software</a>' +
+          '<a href="android-app-development.html">Custom Apps</a>' +
+          '<a href="web-app-development.html">Business Platforms</a>' +
+          '<a href="custom-software-development.html">Software Engineering</a>' +
         '</div>' +
         '<div><strong>Company</strong>' +
           '<a href="about.html">About</a>' +
           '<a href="contact.html">Contact</a>' +
-          '<a href="business-info.html">Business Info</a>' +
+          '<a href="business-info.html">Business Information</a>' +
+          '<a href="product-status.html">Product Status</a>' +
         '</div>' +
         '<div><strong>Legal</strong>' +
           '<a href="privacy-policy.html">Privacy Policy</a>' +
@@ -176,7 +179,7 @@
     '<div class="rx3-footer-bottom">' +
       '<div class="rx3-footer-bottom-inner">' +
         '<span>© 2026 Rekixo. All rights reserved.</span>' +
-        '<span>Apps · Web Apps · Dashboards · Custom Software</span>' +
+        '<span>Products · Engineering · Research</span>' +
       '</div>' +
     '</div>';
 
