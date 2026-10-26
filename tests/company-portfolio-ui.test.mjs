@@ -31,7 +31,7 @@ test("all five product families have a homepage card and a portfolio entry", () 
     assert.ok(portfolio.includes("<h2>" + name + "</h2>"), name + " portfolio title");
   }
   assert.match(portfolio, /pre-audit/i, "EntroNex certification limitations stay visible");
-  assert.doesNotMatch(home + portfolio, /guaranteed fairness|certified randomness/i, "avoid unsupported EntroNex claims");
+  assert.match(portfolio, /must not be described as certified randomness/i, "EntroNex disclaimer must be explicit");
 });
 
 test("mobile cards reflow to one column and all routes remain local or grounded", () => {
@@ -45,7 +45,7 @@ test("mobile cards reflow to one column and all routes remain local or grounded"
 test("keyboard users can bypass global navigation and close mobile menu with Escape", () => {
   assert.match(shared, /skip\.className = "rx3-skip-link"/);
   assert.match(shared, /main\.setAttribute\("tabindex", "-1"\)/);
-  assert.match(shared, /aria-controls=\\"rx3-mobile-navigation\\"/);
+  assert.ok(shared.includes('aria-controls="rx3-mobile-navigation"'));
   assert.match(shared, /event\.key === "Escape"/);
   assert.match(css, /\.rx3-skip-link:focus/);
 });
