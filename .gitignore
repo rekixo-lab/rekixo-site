@@ -101,3 +101,9 @@ firebase.admin.*.json
 
 dist/
 .cache/
+
+# Cloudflare generated deployment config and local Worker state
+wrangler.jsonc
+.dev.vars
+.dev.vars.*
+.wrangler/
