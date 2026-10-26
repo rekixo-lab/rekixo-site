@@ -658,7 +658,7 @@
 
           <label>
             Description
-            <textarea name="project_description" placeholder="Describe your project." required></textarea>
+            <textarea name="project_description" placeholder="Describe your project (at least 10 characters)." minlength="10" maxlength="4000" required></textarea>
           </label>
 
           <label class="checkbox-field booking-option">
@@ -782,6 +782,7 @@
             mobile: fieldValue("mobile_number"),
             email: fieldValue("email"),
             businessName: fieldValue("business_name"),
+            projectDescription: fieldValue("project_description"),
           }),
         });
 
@@ -899,6 +900,12 @@
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
         if (!form.reportValidity()) return;
+        // Do not open a real payment checkout for a request that the API will reject.
+        if (fieldValue("project_description").length < 10) {
+          setStatus("Please describe your project in at least 10 characters before submitting or paying.", "error");
+          form.elements["project_description"]?.focus();
+          return;
+        }
 
         if (!fastBooking.checked && readPendingPayment()) {
           fastBooking.checked = true;

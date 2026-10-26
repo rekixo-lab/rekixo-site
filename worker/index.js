@@ -123,6 +123,10 @@ async function paymentOrder(req, env) {
   const info = bookingIdentity(body);
   const invalid = validateIdentity(info);
   if (invalid) return reject(invalid);
+  // Validate the full booking BEFORE creating a payable Razorpay order.
+  if (safeText(body.projectDescription, 4000).length < 10) {
+    return reject("Project description must be at least 10 characters");
+  }
   const receipt = "rekixo_web_" + crypto.randomUUID().replaceAll("-", "").slice(0, 24);
   const result = await razorpay(env, "orders", "POST", {
     amount: AMOUNT_PAISE,

@@ -194,7 +194,7 @@ test("paid booking checks fixed amount, Razorpay signature, captured status and 
     throw new Error("Unexpected fetch " + url);
   };
   try {
-    const orderRes = await handleRequest(request("/api/payment/order", person), environment);
+    const orderRes = await handleRequest(request("/api/payment/order", { ...person, projectDescription: "A business website with project management" }), environment);
     assert.equal(orderRes.status, 200);
     assert.equal((await orderRes.json()).amount, 100000);
     const body = {
@@ -217,6 +217,29 @@ test("paid booking checks fixed amount, Razorpay signature, captured status and 
     assert.equal([...db.contacts.values()][0].advance_booking, 1);
   } finally { globalThis.fetch = oldFetch; }
 });
+test("payment order refuses a short description before contacting Razorpay", async () => {
+  const db = new MockDB();
+  const environment = env(db);
+  const oldFetch = globalThis.fetch;
+  let requests = 0;
+  globalThis.fetch = async () => {
+    requests++;
+    throw new Error("Razorpay must not be called when description is invalid");
+  };
+  try {
+    const rejected = await handleRequest(request("/api/payment/order", {
+      ...person,
+      projectDescription: "Demo demo"
+    }), environment);
+    assert.equal(rejected.status, 400);
+    assert.match((await rejected.json()).error, /at least 10 characters/);
+    assert.equal(requests, 0);
+    assert.equal(db.orders.size, 0);
+  } finally {
+    globalThis.fetch = oldFetch;
+  }
+});
+
 test("native webhook requires valid HMAC and ignores unsigned events", async () => {
   const environment = env();
   const body = JSON.stringify({ event: "payment.captured", payload: { payment: { entity: {
