@@ -35,4 +35,22 @@ const badOrder = JSON.parse(await test("No checkout for short description", "/ap
   })
 }, 400));
 if (!/description/i.test(badOrder.error || "")) throw new Error("Unexpected invalid checkout response");
+// Invalid-signature security check: this cannot create payment events or charges.
+const webhookRejection = JSON.parse(await test("Reject unsigned live Razorpay webhook", "/api/payment/webhook", {
+  method: "POST",
+  headers: { "Content-Type": "application/json", "X-Razorpay-Signature": "invalid-test-signature" },
+  body: JSON.stringify({
+    event: "payment.captured",
+    payload: { payment: { entity: {
+      id: "pay_invalid_test",
+      order_id: "order_invalid_test",
+      amount: 100000,
+      currency: "INR",
+      status: "captured"
+    } } }
+  })
+}, 401));
+if (!/signature/i.test(webhookRejection.error || "")) {
+  throw new Error("Unexpected invalid-signature webhook response");
+}
 console.log("Production smoke checks passed. No charges, orders or contact enquiries were created.");
