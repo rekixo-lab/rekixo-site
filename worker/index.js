@@ -124,9 +124,11 @@ async function paymentOrder(req, env) {
   const invalid = validateIdentity(info);
   if (invalid) return reject(invalid);
   // Validate the full booking BEFORE creating a payable Razorpay order.
-  if (safeText(body.projectDescription, 4000).length < 10) {
+  const projectDescription = safeText(body.projectDescription, 4000);
+  if (projectDescription.length < 10) {
     return reject("Project description must be at least 10 characters");
   }
+  const requestAdminMobile = Number(body.requestAdminMobile === true);
   const receipt = "rekixo_web_" + crypto.randomUUID().replaceAll("-", "").slice(0, 24);
   const result = await razorpay(env, "orders", "POST", {
     amount: AMOUNT_PAISE,
@@ -142,9 +144,10 @@ async function paymentOrder(req, env) {
     return reject("Invalid payment order response", 502);
   }
   await dbRequired(env).prepare(
-    "INSERT INTO payment_orders (id, client_name, mobile, email, business_name, amount_paise, currency, status) " +
-    "VALUES (?, ?, ?, ?, ?, ?, ?, 'created')"
-  ).bind(result.id, info.clientName, info.mobile, info.email, info.businessName, AMOUNT_PAISE, CURRENCY).run();
+    "INSERT INTO payment_orders (id, client_name, mobile, email, business_name, amount_paise, currency, project_description, request_admin_mobile, status) " +
+    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'created')"
+  ).bind(result.id, info.clientName, info.mobile, info.email, info.businessName,
+    AMOUNT_PAISE, CURRENCY, projectDescription, requestAdminMobile).run();
   return respond({ key: env.RAZORPAY_KEY_ID, orderId: result.id, amount: AMOUNT_PAISE, currency: CURRENCY });
 }
 async function notifyContact(env, id) {
@@ -299,6 +302,29 @@ async function webhook(req, env) {
         "WHERE id = ? AND amount_paise = ? AND currency = ? " +
         "AND (payment_id IS NULL OR payment_id = ?) AND status NOT IN (\'refunded\', \'partially_refunded\')"
       ).bind(paymentId, orderId, AMOUNT_PAISE, CURRENCY, paymentId).run();
+      const savedOrder = await db.prepare("SELECT * FROM payment_orders WHERE id = ?").bind(orderId).first();
+      // The checkout callback can disappear when a visitor closes their browser.
+      // Recover only a verified captured payment tied to an order created by this site.
+      if (savedOrder?.status === "captured" &&
+          savedOrder.payment_id === paymentId &&
+          safeText(savedOrder.project_description, 4000).length >= 10) {
+        const contactId = "booking_" + orderId;
+        await db.batch([
+          db.prepare(
+            "INSERT OR IGNORE INTO contacts " +
+            "(id, order_id, client_name, mobile, email, business_name, project_description, " +
+            "request_admin_mobile, advance_booking, payment_id, status, email_state) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?, 'new', 'pending')"
+          ).bind(contactId, orderId, savedOrder.client_name, savedOrder.mobile, savedOrder.email,
+            savedOrder.business_name, savedOrder.project_description,
+            Number(savedOrder.request_admin_mobile || 0), paymentId),
+          db.prepare(
+            "UPDATE payment_orders SET contact_id = COALESCE(contact_id, ?) " +
+            "WHERE id = ? AND payment_id = ? AND (contact_id IS NULL OR contact_id = ?)"
+          ).bind(contactId, orderId, paymentId, contactId)
+        ]);
+        await notifyContact(env, contactId);
+      }
     }
   }
   if ((eventType === "refund.processed" || eventType === "payment.refunded") && (refund || payment)) {

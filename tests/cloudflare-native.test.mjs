@@ -56,8 +56,9 @@ class MockDB {
           return { meta: { changes: 1 } };
         }
         if (sql.startsWith("INSERT INTO payment_orders")) {
-          const [id, client_name, mobile, email, business_name, amount_paise, currency] = values;
-          self.orders.set(id, { id, client_name, mobile, email, business_name, amount_paise, currency, payment_id: null, contact_id: null, status: "created" });
+          const [id, client_name, mobile, email, business_name, amount_paise, currency, project_description, request_admin_mobile] = values;
+          self.orders.set(id, { id, client_name, mobile, email, business_name, amount_paise, currency,
+            project_description, request_admin_mobile, payment_id: null, contact_id: null, status: "created" });
           return { meta: { changes: 1 } };
         }
         if (sql.startsWith("INSERT OR IGNORE INTO contacts")) {
@@ -83,6 +84,15 @@ class MockDB {
           const [pid, oid] = values; const o = self.orders.get(oid);
           if (o && (!o.payment_id || o.payment_id === pid)) Object.assign(o, { payment_id: pid, status: "captured" });
           return { meta: { changes: 1 } };
+        }
+        if (sql.startsWith("UPDATE payment_orders SET contact_id")) {
+          const [cid, oid, pid] = values;
+          const order = self.orders.get(oid);
+          if (order && order.payment_id === pid && (!order.contact_id || order.contact_id === cid)) {
+            order.contact_id = cid;
+            return { meta: { changes: 1 } };
+          }
+          return { meta: { changes: 0 } };
         }
         if (sql.startsWith("UPDATE contacts SET email_state = 'sending'")) {
           const c = self.contacts.get(values[0]);
@@ -393,4 +403,46 @@ test("www production domain redirects to the canonical apex and preserves URL", 
   assert.equal(result.status, 308);
   assert.equal(result.headers.get("location"),
     "https://rekixo.com/contact.html?utm_source=partner");
+});
+
+test("captured webhook recovers booking when browser callback never arrives", async () => {
+  const db = new MockDB();
+  db.orders.set("order_recovery", {
+    id: "order_recovery",
+    client_name: person.clientName,
+    mobile: person.mobile,
+    email: person.email.toLowerCase(),
+    business_name: person.businessName,
+    amount_paise: 100000, currency: "INR",
+    project_description: "Website development request with priority admin contact",
+    request_admin_mobile: 1,
+    payment_id: null, contact_id: null, status: "created"
+  });
+  let mails = 0;
+  const environment = env(db, async () => { mails++; return { messageId: "recovery-msg" }; });
+  const body = JSON.stringify({ event: "payment.captured", payload: { payment: { entity: {
+    id: "pay_recovery", order_id: "order_recovery", amount: 100000,
+    currency: "INR", status: "captured"
+  } } } });
+  const headers = {
+    "x-razorpay-signature": await hmacHex("webhook-secret", body),
+    "x-razorpay-event-id": "evt_recovery"
+  };
+  const response = await handleRequest(new Request("https://rekixo.com/api/payment/webhook", {
+    method: "POST", headers, body
+  }), environment);
+  assert.equal(response.status, 200);
+  const contact = db.contacts.get("booking_order_recovery");
+  assert.equal(contact?.advance_booking, 1);
+  assert.equal(contact?.request_admin_mobile, 1);
+  assert.equal(contact?.payment_id, "pay_recovery");
+  assert.equal(contact?.email_state, "sent");
+  assert.equal(db.orders.get("order_recovery").contact_id, "booking_order_recovery");
+  assert.equal(mails, 1);
+  const duplicate = await handleRequest(new Request("https://rekixo.com/api/payment/webhook", {
+    method: "POST", headers, body
+  }), environment);
+  assert.equal(duplicate.status, 200);
+  assert.equal(db.contacts.size, 1);
+  assert.equal(mails, 1);
 });
