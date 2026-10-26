@@ -385,3 +385,12 @@ test("signed captured webhook updates an existing REKIXO D1 order", async () => 
   assert.equal(db.orders.get("order_website").status, "captured");
   assert.equal(db.events.size, 1);
 });
+
+test("www production domain redirects to the canonical apex and preserves URL", async () => {
+  const result = await worker.fetch(new Request(
+    "https://www.rekixo.com/contact.html?utm_source=partner"
+  ), {});
+  assert.equal(result.status, 308);
+  assert.equal(result.headers.get("location"),
+    "https://rekixo.com/contact.html?utm_source=partner");
+});
