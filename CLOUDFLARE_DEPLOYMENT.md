@@ -11,15 +11,15 @@ This replaces the earlier Pages-only configuration. **Choose Workers with Static
 - worker/index.js: Cloudflare API, payment capture/signature verification, webhook processing, native Email Service notifications and protected contact viewing.
 - public/contact.html: same-origin /api/contact and /api/payment/order, with recovery to retry a paid enquiry without paying twice.
 - migrations/0001_initial.sql: D1 tables for orders, contacts, webhooks and abuse-limiting counters.
-- wrangler.example.jsonc and scripts/prepare-cloudflare.mjs: generate deployment configuration with actual D1 UUID, keep secrets out of Git.
+- wrangler.example.jsonc and scripts/prepare-cloudflare.mjs: production Worker config now has the actual D1 UUID; the generator can still be used for account-specific overrides without exposing API secrets.
 - public/_headers: browser security headers. Existing Firebase API hostname is removed from the CSP.
 - tests/cloudflare-native.test.mjs and .github/workflows/cloudflare-native-checks.yml: payment-security and API regression tests.
 
 ## Account-specific setup after code review
 
-1. **D1 database:** Cloudflare Workers & Pages -> D1 -> Create database, name **rekixo-site-production**. Copy its real UUID (not a placeholder).
-2. **Generate configuration** in the authenticated build environment (or local checkout). Set **REKIXO_D1_DATABASE_ID** to that real UUID. Optionally set **REKIXO_TO_EMAIL** (default ai@rekixo.com) and **REKIXO_FROM_EMAIL** (default no-reply@rekixo.com). Run: node scripts/prepare-cloudflare.mjs. It creates local ignored wrangler.jsonc (never commit it). The config includes a Worker, public static assets, DB binding, EMAIL binding and daily cleanup cron.
-3. **Apply database migration BEFORE public deployment:** npx wrangler@4 d1 migrations apply rekixo-site-production --remote. Confirm tables exist. New enquiries will enter D1, while OLD Firebase records are NOT automatically copied.
+1. **D1 database:** Cloudflare Workers & Pages -> D1 -> Create database, name **rekixo-site-production**. Production database created; UUID recorded in the repository Worker config.
+2. **Generate configuration** in the authenticated build environment (or local checkout). The real D1 UUID is committed as nonsecret data in `wrangler.jsonc`; you do NOT need to set `REKIXO_D1_DATABASE_ID`. Optionally set **REKIXO_TO_EMAIL** (default ai@rekixo.com) and **REKIXO_FROM_EMAIL** (default no-reply@rekixo.com). Use the committed `wrangler.jsonc`. Optional overrides can be generated with node scripts/prepare-cloudflare.mjs. The config includes a Worker, public static assets, DB binding, EMAIL binding and daily cleanup cron.
+3. **Apply D1 migrations before the Worker becomes public:** Cloudflare Workers Builds deploy command is `npm run deploy`, which automatically runs `npm run validate`, applies both production D1 migrations remotely, then deploys the Worker. Do NOT paste these migrations manually in the D1 Console if you intend to use this deploy command. Manual alternative: npx wrangler@4 d1 migrations apply rekixo-site-production --remote. Confirm tables exist. New enquiries will enter D1, while OLD Firebase records are NOT automatically copied.
 4. **Cloudflare Email Service:** onboard/verify the sending domain rekixo.com. Enable outbound email, allow ai@rekixo.com as a destination and verify the sender no-reply@rekixo.com is permitted. Preserve MX/SPF/DKIM/DMARC/mail delivery settings, and check your eligibility/Email Service availability.
 5. **Worker secrets** (put via Cloudflare UI or npx wrangler@4 secret put NAME; never commit/paste into chat):
    - RAZORPAY_KEY_ID: matching active Razorpay key ID.
@@ -71,3 +71,7 @@ Keep Firebase Hosting and existing Firebase Functions untouched for your other R
 ## What is not completed by a GitHub commit
 
 Cloudflare account actions (D1 creation, Email Service verification, secrets, Worker build authorization, custom domain), Razorpay webhook setup and real end-to-end testing require authenticated Cloudflare/Razorpay access. The repository alone cannot perform or prove those actions. Do **not** claim the new production site is live until actual deployment and checks confirm it.
+
+## Production D1 binding update (2026-10-26)
+
+The D1 database was created with ID `a0236b88-27b2-4066-a0c5-06e6e17bb3e3`. `wrangler.jsonc` is now tracked and ready for GitHub Workers Builds. Production deploy command `npm run deploy` runs local validation and Cloudflare D1 migrations before publishing assets/API. No `REKIXO_D1_DATABASE_ID` build variable is needed. Do not run SQL migration scripts manually in Cloudflare's Console, since Wrangler tracks applied migration versions in `d1_migrations`.

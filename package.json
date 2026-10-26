@@ -7,8 +7,8 @@
     "validate": "node scripts/validate-pages.mjs && node --test tests/*.test.mjs",
     "test": "node --test tests/*.test.mjs",
     "configure": "node scripts/prepare-cloudflare.mjs",
-    "deploy": "node scripts/prepare-cloudflare.mjs && npx --yes wrangler@4 deploy",
-    "dev": "node scripts/prepare-cloudflare.mjs && npx --yes wrangler@4 dev",
-    "migrate:remote": "node scripts/prepare-cloudflare.mjs && npx --yes wrangler@4 d1 migrations apply rekixo-site-production --remote"
+    "deploy": "npm run validate && npx --yes wrangler@4 d1 migrations apply rekixo-site-production --remote && npx --yes wrangler@4 deploy",
+    "dev": "npx --yes wrangler@4 dev",
+    "migrate:remote": "npx --yes wrangler@4 d1 migrations apply rekixo-site-production --remote"
   }
 }
