@@ -57,6 +57,23 @@ try {
             skip: Boolean(document.querySelector('a.rx3-skip-link[href^="#"]')),
           };
         });
+        if (dimensions.documentWidth > width + 1) {
+          const offenders = await page.evaluate(() =>
+            [...document.querySelectorAll("body *")].map((node) => {
+              const rect = node.getBoundingClientRect();
+              return {
+                element: node.tagName.toLowerCase(),
+                id: node.id,
+                className: typeof node.className === "string" ? node.className.slice(0, 70) : "",
+                left: Math.round(rect.left),
+                right: Math.round(rect.right),
+                width: Math.round(rect.width),
+              };
+            }).filter((row) => row.right > innerWidth + 2 && row.left < innerWidth)
+              .sort((a, b) => b.right - a.right).slice(0, 18)
+          );
+          console.error("Responsive overflow diagnostic", path, width, JSON.stringify(offenders));
+        }
         assert.ok(dimensions.documentWidth <= width + 1,
           path + " at " + width + "px overflowed: " + JSON.stringify(dimensions));
         assert.ok(dimensions.skip, path + " must have keyboard skip-navigation");
