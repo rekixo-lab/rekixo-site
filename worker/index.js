@@ -468,7 +468,7 @@ export async function handleRequest(request, env) {
   try {
     if (path === "/api/health" && request.method === "GET") {
       await dbRequired(env).prepare("SELECT 1").first();
-      return respond({ ok: true, platform: "cloudflare", database: "ready", emailConfigured: Boolean(env.EMAIL && env.REKIXO_FROM_EMAIL && env.REKIXO_TO_EMAIL) });
+      return respond({ ok: true, platform: "cloudflare", database: "ready", emailConfigured: Boolean(env.REKIXO_TO_EMAIL && (gmailConfigured(env) || (env.EMAIL?.send && env.REKIXO_FROM_EMAIL))) });
     }
     if (path.startsWith("/api/admin/")) return await admin(request, env, path);
     if (path === "/api/payment/webhook" && request.method === "POST") return await webhook(request, env);
