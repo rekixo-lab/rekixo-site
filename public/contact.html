@@ -900,6 +900,13 @@
         event.preventDefault();
         if (!form.reportValidity()) return;
 
+        if (!fastBooking.checked && readPendingPayment()) {
+          fastBooking.checked = true;
+          syncBookingState();
+          setStatus("A previous payment is waiting for the contact request. Submit again with the original booking details to recover it without paying twice.", "error");
+          return;
+        }
+
         if (!fastBooking.checked) {
           try {
             setBusy(true, "Submitting...");
