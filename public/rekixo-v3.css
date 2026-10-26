@@ -137,7 +137,7 @@ body.rx-v3-page .rx3-ar-pop span{color:#c7d5e5!important}
   padding:0 20px;
   border-radius:12px;
   color:#fff!important;
-  background:linear-gradient(135deg,var(--rx3-green),#08a96a)!important;
+  background:linear-gradient(135deg,#087a50,#05643f)!important;
   box-shadow:0 12px 26px rgba(9,185,111,.18);
   text-decoration:none;
   font-size:14px!important;
@@ -195,7 +195,7 @@ body.rx-v3-page .rx3-ar-pop span{color:#c7d5e5!important}
 }
 .rx3-footer-brand img{width:140px;height:auto}
 .rx3-footer-brand p{max-width:360px;margin:12px 0 0;color:var(--rx3-muted)!important;font-size:13px;line-height:1.6}
-.rx3-footer-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.rx3-footer-links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
 .rx3-footer-links strong{display:block;margin-bottom:8px;color:var(--rx3-ink);font-size:12px;text-transform:uppercase;letter-spacing:.11em}
 .rx3-footer-links a{display:block;margin:7px 0;color:var(--rx3-muted)!important;text-decoration:none;font-size:13px}
 .rx3-footer-links a:hover{color:var(--rx3-blue)!important}
@@ -1082,7 +1082,7 @@ html[data-theme="dark"] .rx3-menu-btn{
   color:#eff6ff;
 }
 html[data-theme="dark"] .rx3-navcta{
-  background:linear-gradient(135deg,#18c77e,#079e62)!important;
+  background:linear-gradient(135deg,#087a50,#05643f)!important;
   color:#fff!important;
 }
 html[data-theme="dark"] .rx3-footer{
