@@ -1,0 +1,34 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "rekixo-site",
+  "main": "./worker/index.js",
+  "compatibility_date": "2026-10-26",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "html_handling": "none",
+    "not_found_handling": "404-page",
+    "run_worker_first": [
+      "/api/*"
+    ]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "rekixo-site-production",
+      "database_id": "__SET_D1_DATABASE_ID__",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "destination_address": "ai@rekixo.com"
+    }
+  ],
+  "vars": {
+    "REKIXO_FROM_EMAIL": "no-reply@rekixo.com",
+    "REKIXO_TO_EMAIL": "ai@rekixo.com"
+  }
+}
