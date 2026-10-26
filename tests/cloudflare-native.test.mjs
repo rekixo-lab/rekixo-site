@@ -36,6 +36,14 @@ class MockDB {
             .reduce((acc, r) => acc + r.amount_paise, 0);
           return { amount: sum };
         }
+        if (sql.includes("SELECT id FROM payment_orders WHERE payment_id")) {
+          const order = [...self.orders.values()].find((v) => v.payment_id === values[0]);
+          return order ? { id: order.id } : null;
+        }
+        if (sql.includes("SELECT id FROM payment_orders WHERE id")) {
+          const order = self.orders.get(values[0]);
+          return order ? { id: order.id } : null;
+        }
         if (sql.includes("SELECT event_id FROM payment_events")) return self.events.has(values[0]) ? { event_id: values[0] } : null;
         if (sql.includes("SELECT id, email_state FROM contacts")) {
           const c = self.contacts.get(values[0]); return c ? { id: c.id, email_state: c.email_state } : null;
@@ -164,6 +172,7 @@ test("free contact stored in D1 and forwarded through Cloudflare Email Service",
   const json = await res.json();
   assert.equal(res.status, 200);
   assert.equal(json.ok, true);
+  assert.equal(json.emailNotification, "sent");
   assert.equal(db.contacts.size, 1);
   assert.equal(db.contacts.get(json.requestId).email_state, "sent");
   assert.equal(sends, 1);
@@ -173,7 +182,9 @@ test("email failure does not lose the persisted customer enquiry", async () => {
   const res = await handleRequest(request("/api/contact", {
     ...person, projectDescription: "Please build software for my business"
   }), env(db, async () => { throw new Error("email provider down"); }));
-  assert.equal((await res.json()).ok, true);
+  const json = await res.json();
+  assert.equal(json.ok, true);
+  assert.equal(json.emailNotification, "failed");
   assert.equal([...db.contacts.values()][0].email_state, "failed");
 });
 test("paid booking checks fixed amount, Razorpay signature, captured status and repeat idempotency", async () => {
@@ -253,6 +264,8 @@ test("native webhook requires valid HMAC and ignores unsigned events", async () 
     method: "POST", body, headers: { "x-razorpay-signature": sig, "x-razorpay-event-id": "evt_1" }
   }), environment);
   assert.equal(signed.status, 200);
+  assert.equal((await signed.json()).ignored, true);
+  assert.equal(environment.DB.events.size, 0);
 });
 
 test("two distinct signed partial refunds add up without double-counting webhook replays", async () => {
@@ -321,4 +334,54 @@ test("Wrangler config executes root through Worker and keeps API routing", async
   assert.ok(config.assets.run_worker_first.includes("/"));
   assert.ok(config.assets.run_worker_first.includes("/api/*"));
   assert.equal(config.assets.not_found_handling, "404-page");
+});
+
+test("signed webhook for a different product never enters REKIXO payment tables", async () => {
+  const db = new MockDB();
+  const environment = env(db);
+  const payload = JSON.stringify({
+    event: "payment.captured",
+    payload: { payment: { entity: {
+      id: "pay_other_product",
+      order_id: "order_other_product",
+      amount: 100000,
+      currency: "INR",
+      status: "captured"
+    } } }
+  });
+  const sig = await hmacHex("webhook-secret", payload);
+  const resp = await handleRequest(new Request("https://rekixo.com/api/payment/webhook", {
+    method: "POST",
+    body: payload,
+    headers: { "x-razorpay-signature": sig, "x-razorpay-event-id": "evt_other_product" }
+  }), environment);
+  assert.equal(resp.status, 200);
+  assert.equal((await resp.json()).ignored, true);
+  assert.equal(db.events.size, 0);
+  assert.equal(db.orders.size, 0);
+});
+
+test("signed captured webhook updates an existing REKIXO D1 order", async () => {
+  const db = new MockDB();
+  db.orders.set("order_website", {
+    id: "order_website", payment_id: null, amount_paise: 100000,
+    currency: "INR", status: "created"
+  });
+  const environment = env(db);
+  const payload = JSON.stringify({
+    event: "payment.captured",
+    payload: { payment: { entity: {
+      id: "pay_website", order_id: "order_website",
+      amount: 100000, currency: "INR", status: "captured"
+    } } }
+  });
+  const sig = await hmacHex("webhook-secret", payload);
+  const res = await handleRequest(new Request("https://rekixo.com/api/payment/webhook", {
+    method: "POST", body: payload,
+    headers: { "x-razorpay-signature": sig, "x-razorpay-event-id": "evt_website" }
+  }), environment);
+  assert.equal(res.status, 200);
+  assert.equal(db.orders.get("order_website").payment_id, "pay_website");
+  assert.equal(db.orders.get("order_website").status, "captured");
+  assert.equal(db.events.size, 1);
 });

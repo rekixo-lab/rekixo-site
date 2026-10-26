@@ -155,7 +155,7 @@ async function notifyContact(env, id) {
     "WHERE id = ? AND (email_state IN ('pending', 'failed') OR " +
     "(email_state = 'sending' AND email_claimed_at < datetime('now','-15 minutes')))"
   ).bind(id).run();
-  if (Number(claim.meta?.changes || 0) !== 1) return;
+  if (Number(claim.meta?.changes || 0) !== 1) return "pending";
   const c = await db.prepare("SELECT * FROM contacts WHERE id = ?").bind(id).first();
   try {
     if (!env.EMAIL?.send || !env.REKIXO_TO_EMAIL || !env.REKIXO_FROM_EMAIL) {
@@ -184,11 +184,13 @@ async function notifyContact(env, id) {
     await db.prepare(
       "UPDATE contacts SET email_state = 'sent', email_message_id = ?, email_error = NULL WHERE id = ?"
     ).bind(safeText(result?.messageId || "", 160), id).run();
+    return "sent";
   } catch (error) {
     console.error("Contact email delivery failed for request " + id + ": " + String(error?.code || "SEND_ERROR"));
     await db.prepare(
       "UPDATE contacts SET email_state = 'failed', email_error = ? WHERE id = ?"
     ).bind(safeText(error?.code || "Delivery unavailable", 120), id).run();
+    return "failed";
   }
 }
 async function contact(req, env) {
@@ -252,8 +254,9 @@ async function contact(req, env) {
       "VALUES (?, ?, ?, ?, ?, ?, ?, 0, 'new', 'pending')"
     ).bind(id, info.clientName, info.mobile, info.email, info.businessName, projectDescription, Number(wantsPhone)).run();
   }
-  await notifyContact(env, id);
-  return respond({ ok: true, requestId: id });
+  const emailNotification = await notifyContact(env, id);
+  // Successful D1 persistence is distinct from optional email delivery.
+  return respond({ ok: true, requestId: id, emailNotification });
 }
 async function webhook(req, env) {
   if (!env.RAZORPAY_WEBHOOK_SECRET) return reject("Webhook not configured", 503);
@@ -269,6 +272,20 @@ async function webhook(req, env) {
   const payment = event?.payload?.payment?.entity;
   const refund = event?.payload?.refund?.entity;
   const db = dbRequired(env);
+  // Razorpay webhooks may include events from other apps in the same account.
+  // Ignore events unless the corresponding website order already exists in this D1.
+  let ownOrder = null;
+  if (eventType === "payment.captured" && payment?.order_id) {
+    ownOrder = await db.prepare("SELECT id FROM payment_orders WHERE id = ?")
+      .bind(safeText(payment.order_id, 90)).first();
+  } else if ((eventType === "refund.processed" || eventType === "payment.refunded") &&
+             (refund?.payment_id || payment?.id)) {
+    ownOrder = await db.prepare("SELECT id FROM payment_orders WHERE payment_id = ?")
+      .bind(safeText(refund?.payment_id || payment?.id, 90)).first();
+  } else {
+    return respond({ ok: true, ignored: true });
+  }
+  if (!ownOrder) return respond({ ok: true, ignored: true });
   const seen = await db.prepare("SELECT event_id FROM payment_events WHERE event_id = ?").bind(eventId).first();
   if (seen) return respond({ ok: true });
   let orderId = null;
