@@ -150,6 +150,76 @@ async function paymentOrder(req, env) {
     AMOUNT_PAISE, CURRENCY, projectDescription, requestAdminMobile).run();
   return respond({ key: env.RAZORPAY_KEY_ID, orderId: result.id, amount: AMOUNT_PAISE, currency: CURRENCY });
 }
+// Gmail API OAuth 2.0: use only the gmail.send authorization granted by a
+// REKIXO Google Workspace member. No Google credentials are stored in the repo.
+export function gmailConfigured(env) {
+  return Boolean(env.GMAIL_OAUTH_CLIENT_ID && env.GMAIL_OAUTH_CLIENT_SECRET &&
+    env.GMAIL_OAUTH_REFRESH_TOKEN);
+}
+function safeEmailHeader(value) {
+  const addr = String(value ?? "").trim();
+  if (!/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/.test(addr)) {
+    throw new Error("Invalid outbound email address");
+  }
+  return addr;
+}
+function base64urlUtf8(text) {
+  const bytes = encoder.encode(text);
+  let binary = "";
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/, "");
+}
+export async function gmailSend(env, mail, fetcher = fetch) {
+  if (!gmailConfigured(env)) {
+    throw Object.assign(new Error("Gmail OAuth is not fully configured"), { code: "GMAIL_NOT_CONFIGURED" });
+  }
+  const sender = safeEmailHeader(env.GMAIL_FROM_EMAIL || env.REKIXO_TO_EMAIL);
+  const recipient = safeEmailHeader(mail.to);
+  const reply = safeEmailHeader(mail.replyTo);
+  // The authenticated Google Workspace user's mailbox (or approved Send As alias)
+  // must match the sender. Do not use an unverified no-reply sender.
+  const raw = [
+    "From: " + sender,
+    "To: " + recipient,
+    "Reply-To: " + reply,
+    "Subject: REKIXO project request: " + safeText(mail.subject.split(": ").at(-1), 12),
+    "MIME-Version: 1.0",
+    "Content-Type: text/plain; charset=UTF-8",
+    "Content-Transfer-Encoding: 8bit",
+    "",
+    mail.text
+  ].join("\r\n");
+  const tokenResponse = await fetcher("https://oauth2.googleapis.com/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      client_id: env.GMAIL_OAUTH_CLIENT_ID,
+      client_secret: env.GMAIL_OAUTH_CLIENT_SECRET,
+      refresh_token: env.GMAIL_OAUTH_REFRESH_TOKEN,
+      grant_type: "refresh_token"
+    })
+  });
+  if (!tokenResponse.ok) {
+    throw Object.assign(new Error("Gmail OAuth token refresh failed"), { code: "GMAIL_OAUTH_FAILED" });
+  }
+  const token = await tokenResponse.json();
+  if (!token?.access_token || typeof token.access_token !== "string") {
+    throw Object.assign(new Error("Google did not return a valid access token"), { code: "GMAIL_TOKEN_MISSING" });
+  }
+  const sent = await fetcher("https://gmail.googleapis.com/gmail/v1/users/me/messages/send", {
+    method: "POST",
+    headers: { Authorization: "Bearer " + token.access_token, "Content-Type": "application/json" },
+    body: JSON.stringify({ raw: base64urlUtf8(raw) })
+  });
+  if (!sent.ok) {
+    throw Object.assign(new Error("Gmail API rejected the message"), { code: "GMAIL_SEND_FAILED" });
+  }
+  const message = await sent.json();
+  if (!message?.id) {
+    throw Object.assign(new Error("Gmail did not confirm sending"), { code: "GMAIL_MESSAGE_ID_MISSING" });
+  }
+  return { messageId: safeText(message.id, 160) };
+}
 async function notifyContact(env, id) {
   const db = dbRequired(env);
   // Claim notification once to avoid duplicate email on replay/concurrency.
@@ -161,8 +231,8 @@ async function notifyContact(env, id) {
   if (Number(claim.meta?.changes || 0) !== 1) return "pending";
   const c = await db.prepare("SELECT * FROM contacts WHERE id = ?").bind(id).first();
   try {
-    if (!env.EMAIL?.send || !env.REKIXO_TO_EMAIL || !env.REKIXO_FROM_EMAIL) {
-      throw new Error("Cloudflare Email Service binding / verified sender not configured");
+    if (!env.REKIXO_TO_EMAIL || (!gmailConfigured(env) && (!env.EMAIL?.send || !env.REKIXO_FROM_EMAIL))) {
+      throw new Error("Verified outbound Email provider not configured");
     }
     const message = [
       "New REKIXO parent website enquiry",
@@ -177,13 +247,15 @@ async function notifyContact(env, id) {
       "Razorpay order ID: " + (c.order_id || "-"),
       "Razorpay payment ID: " + (c.payment_id || "-")
     ].join("\n\n");
-    const result = await env.EMAIL.send({
+    const notification = {
       to: env.REKIXO_TO_EMAIL,
-      from: env.REKIXO_FROM_EMAIL,
+      from: gmailConfigured(env) ? (env.GMAIL_FROM_EMAIL || env.REKIXO_TO_EMAIL) : env.REKIXO_FROM_EMAIL,
       replyTo: c.email,
       subject: "REKIXO project request: " + c.id.slice(0, 12),
       text: message
-    });
+    };
+    const result = gmailConfigured(env) ?
+      await gmailSend(env, notification) : await env.EMAIL.send(notification);
     await db.prepare(
       "UPDATE contacts SET email_state = 'sent', email_message_id = ?, email_error = NULL WHERE id = ?"
     ).bind(safeText(result?.messageId || "", 160), id).run();
