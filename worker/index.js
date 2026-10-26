@@ -147,8 +147,9 @@ async function notifyContact(env, id) {
   const db = dbRequired(env);
   // Claim notification once to avoid duplicate email on replay/concurrency.
   const claim = await db.prepare(
-    "UPDATE contacts SET email_state = 'sending', email_error = NULL " +
-    "WHERE id = ? AND email_state IN ('pending', 'failed')"
+    "UPDATE contacts SET email_state = 'sending', email_error = NULL, email_claimed_at = CURRENT_TIMESTAMP " +
+    "WHERE id = ? AND (email_state IN ('pending', 'failed') OR " +
+    "(email_state = 'sending' AND email_claimed_at < datetime('now','-15 minutes')))"
   ).bind(id).run();
   if (Number(claim.meta?.changes || 0) !== 1) return;
   const c = await db.prepare("SELECT * FROM contacts WHERE id = ?").bind(id).first();
@@ -281,12 +282,26 @@ async function webhook(req, env) {
   }
   if ((eventType === "refund.processed" || eventType === "payment.refunded") && (refund || payment)) {
     paymentId = safeText(refund?.payment_id || payment?.id, 90);
+    const refundId = safeText(refund?.id, 100);
     const amount = Number(refund?.amount || payment?.amount_refunded || 0);
-    if (paymentId && amount > 0 && amount <= AMOUNT_PAISE) {
-      await db.prepare(
-        "UPDATE payment_orders SET status = ?, refunded_paise = MAX(refunded_paise, ?), " +
-        "refunded_at = CURRENT_TIMESTAMP WHERE payment_id = ?"
-      ).bind(amount === AMOUNT_PAISE ? "refunded" : "partially_refunded", amount, paymentId).run();
+    if (paymentId && Number.isInteger(amount) && amount > 0 && amount <= AMOUNT_PAISE) {
+      if (eventType === "refund.processed" && refundId) {
+        await db.prepare(
+          "INSERT OR IGNORE INTO payment_refunds (refund_id, payment_id, amount_paise) VALUES (?, ?, ?)"
+        ).bind(refundId, paymentId, amount).run();
+      }
+      const totals = await db.prepare(
+        "SELECT COALESCE(SUM(amount_paise), 0) AS amount FROM payment_refunds WHERE payment_id = ?"
+      ).bind(paymentId).first();
+      const totalRefunded = Math.min(AMOUNT_PAISE, Math.max(Number(totals?.amount || 0),
+        eventType === "payment.refunded" ? amount : 0));
+      if (totalRefunded > 0) {
+        await db.prepare(
+          "UPDATE payment_orders SET refunded_paise = MAX(refunded_paise, ?), " +
+          "status = CASE WHEN MAX(refunded_paise, ?) >= ? THEN 'refunded' ELSE 'partially_refunded' END, " +
+          "refunded_at = CURRENT_TIMESTAMP WHERE payment_id = ?"
+        ).bind(totalRefunded, totalRefunded, AMOUNT_PAISE, paymentId).run();
+      }
     }
   }
   await db.prepare(
@@ -318,7 +333,12 @@ async function admin(req, env, path) {
     const row = await db.prepare("SELECT id, email_state FROM contacts WHERE id = ?").bind(resend[1]).first();
     if (!row) return reject("Not found", 404);
     if (row.email_state === "sent") return respond({ ok: true, alreadySent: true });
-    if (row.email_state === "sending") return reject("Notification already in progress", 409);
+    if (row.email_state === "sending") {
+      const stale = await db.prepare("SELECT email_claimed_at FROM contacts WHERE id = ?").bind(resend[1]).first();
+      if (!stale?.email_claimed_at || Date.now() - new Date(stale.email_claimed_at.replace(" ", "T") + "Z").getTime() < 900000) {
+        return reject("Notification already in progress", 409);
+      }
+    }
     await notifyContact(env, resend[1]);
     return respond({ ok: true });
   }
