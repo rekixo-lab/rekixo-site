@@ -75,3 +75,7 @@ Cloudflare account actions (D1 creation, Email Service verification, secrets, Wo
 ## Production D1 binding update (2026-10-26)
 
 The D1 database was created with ID `a0236b88-27b2-4066-a0c5-06e6e17bb3e3`. `wrangler.jsonc` is now tracked and ready for GitHub Workers Builds. Production deploy command `npm run deploy` runs local validation and Cloudflare D1 migrations before publishing assets/API. No `REKIXO_D1_DATABASE_ID` build variable is needed. Do not run SQL migration scripts manually in Cloudflare's Console, since Wrangler tracks applied migration versions in `d1_migrations`.
+
+## Homepage routing on Cloudflare Workers
+
+The company domain root `/` is explicitly served from `public/index.html` by the Worker, while existing `.html` page URLs and proper unknown-path 404s are preserved. The root mapping requires `assets.run_worker_first` to include `/` in `wrangler.jsonc`. After an authenticated Workers Builds deployment, verify `https://rekixo.com/` independently of `/index.html`.
