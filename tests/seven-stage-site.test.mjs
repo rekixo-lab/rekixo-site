@@ -17,7 +17,7 @@ test("company identity is credible, founder-led, and avoids unsupported address 
 test("company website remains free to contact without a new paid priority checkout", () => {
   const html = read("contact.html");
   assert.match(html, /Standard enquiries are free/);
-  assert.match(html, /data-booking-recovery-option" hidden/);
+  assert.match(html, /data-booking-recovery-option hidden/);
   assert.match(html, /fastBooking\.disabled = !initialPaidRecovery/);
   assert.match(html, /PAYMENT_RECOVERY_KEY/);
   assert.doesNotMatch(html, /<script src="https:\/\/checkout\.razorpay\.com/);
