@@ -29,6 +29,7 @@ test("homepage uses full square art and removes the old 3-token hash demo",()=>{
   assert.match(home,/class="rx4-entro-image" src="entronex-verifiable-outcome-animated.svg"/);
   assert.doesNotMatch(home,/class="rx4-hash-stack"/);
   assert.match(css,/\.rx4-home \.rx4-visual\.rx4-entro-media\{[\s\S]*?aspect-ratio:1\/1/);
+  assert.match(css,/\.rx4-home \.rx4-product-card:nth-child\(5\) \.rx4-visual\.rx4-entro-media\{[\s\S]*?height:auto/);
   assert.match(css,/\.rx4-home \.rx4-entro-image\{[\s\S]*?object-fit:contain/);
   assert.match(css,/\.rx4-home \.rx4-entro-media::after\{display:none\}/);
   assert.match(home,/Pre-audit; not certified/);
