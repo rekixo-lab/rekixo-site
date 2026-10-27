@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="1200" viewBox="0 0 1200 1200" role="img" aria-labelledby="en-title en-desc" data-entronex-asset="verifiable-outcome-concept-v2">
+<title id="en-title">EntroNex — verifiable outcomes illustrated</title>
+<desc id="en-desc">An illustrative dual client and server commitment flows into a balanced outcome field, then signed proof data for independent verification. Not live service data, a certified RNG, or a blockchain.</desc>
+<defs>
+<radialGradient id="bg" cx="50%" cy="43%" r="79%"><stop stop-color="#172d52"/><stop offset=".42" stop-color="#0d1b33"/><stop offset="1" stop-color="#050b16"/></radialGradient>
+<linearGradient id="pane" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#192c4e" stop-opacity=".96"/><stop offset=".54" stop-color="#0c1a30" stop-opacity=".95"/><stop offset="1" stop-color="#081628" stop-opacity=".98"/></linearGradient>
+<linearGradient id="halo" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#60f0d5"/><stop offset=".5" stop-color="#4aaaf8"/><stop offset="1" stop-color="#a090ff"/></linearGradient>
+<linearGradient id="scan" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#44e5cf" stop-opacity=".05"/><stop offset=".5" stop-color="#81f8db" stop-opacity=".8"/><stop offset="1" stop-color="#50a8fb" stop-opacity=".02"/></linearGradient>
+<radialGradient id="core" cx="50%" cy="48%"><stop stop-color="#1b4270"/><stop offset=".66" stop-color="#0c264a"/><stop offset="1" stop-color="#0b1a34"/></radialGradient>
+<filter id="glow"><feGaussianBlur stdDeviation="10" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<filter id="soft"><feGaussianBlur stdDeviation="40"/></filter>
+<filter id="shadow" x="-25%" y="-25%" width="160%" height="175%"><feDropShadow dx="0" dy="20" stdDeviation="21" flood-color="#020713" flood-opacity=".65"/></filter>
+<pattern id="mesh" width="38" height="38" patternUnits="userSpaceOnUse"><path d="M38 0H0V38" stroke="#5e8db2" stroke-opacity=".12" fill="none" stroke-width="1"/></pattern>
+<style><![CDATA[
+  text{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+  .over{font-family:ui-monospace,"SFMono-Regular",Consolas,monospace;letter-spacing:2px;font-weight:750}
+  .route{stroke-dasharray:8 17;animation:enFlow 4.1s linear infinite}
+  .orbit{transform-origin:600px 612px;animation:enOrbit 35s linear infinite}
+  .spark{animation:enPulse 3.1s ease-in-out infinite}
+  .spark2{animation:enPulse 3.1s ease-in-out -1.2s infinite}
+  .corefloat{animation:enFloat 7s ease-in-out infinite}
+  .sweep{animation:enScan 6s ease-in-out infinite;transform-origin:600px 612px}
+  .blink{animation:enBlink 3.4s ease-in-out infinite}
+  @keyframes enFlow{to{stroke-dashoffset:-100}}
+  @keyframes enOrbit{to{transform:rotate(360deg)}}
+  @keyframes enPulse{0%,100%{opacity:.4}45%{opacity:1}}
+  @keyframes enFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  @keyframes enScan{0%,100%{transform:translateX(-180px);opacity:.12}48%{transform:translateX(95px);opacity:.85}65%{transform:translateX(152px);opacity:.17}}
+  @keyframes enBlink{0%,100%{opacity:.38}50%{opacity:1}}
+  @media(prefers-reduced-motion:reduce){.route,.orbit,.spark,.spark2,.corefloat,.sweep,.blink{animation:none!important}}
+]]></style>
+</defs>
+<rect width="1200" height="1200" fill="url(#bg)" rx="40"/>
+<ellipse cx="630" cy="595" rx="510" ry="375" fill="#1b5090" opacity=".15" filter="url(#soft)"/>
+<ellipse cx="600" cy="620" rx="350" ry="275" fill="#12b1bd" opacity=".13" filter="url(#soft)"/>
+<rect x="33" y="33" width="1134" height="1134" rx="32" fill="url(#mesh)" opacity=".55"/>
+<rect x="35" y="35" width="1130" height="1130" rx="30" fill="none" stroke="#5791b8" stroke-opacity=".25" stroke-width="2"/>
+<rect x="56" y="55" width="7" height="38" rx="4" fill="#46f2c5"/>
+<text x="83" y="86" fill="#f3faff" font-size="38" letter-spacing="2" font-weight="850">ENTRONEX</text>
+<text x="86" y="122" fill="#a0cadb" class="over" font-size="13">VERIFIABLE OUTCOME ENGINE</text>
+<rect x="881" y="61" width="252" height="48" rx="14" fill="#132c46" stroke="#3a7a90" stroke-opacity=".8"/>
+<circle cx="905" cy="85" r="5" fill="#ffd07c"/>
+<text x="924" y="92" fill="#d2e5f0" font-size="15" font-weight="700">V2 · PRE-AUDIT</text>
+<text x="62" y="195" fill="#73f8d3" class="over" font-size="14">01  COMMIT</text>
+<path d="M190 189H370" fill="none" stroke="#2d7891" stroke-width="2"/>
+<text x="411" y="195" fill="#7ec8f7" class="over" font-size="14">02  REVEAL</text>
+<path d="M542 189H688" fill="none" stroke="#2d7891" stroke-width="2"/>
+<text x="737" y="195" fill="#b7abff" class="over" font-size="14">03  PROVE</text>
+<path d="M865 189H940" fill="none" stroke="#2d7891" stroke-width="2"/>
+<text x="962" y="195" fill="#a9efce" class="over" font-size="14">04 VERIFY</text>
+
+<path d="M277 399 C380 404 387 458 472 487" stroke="#17456e" stroke-width="16" fill="none" opacity=".22"/><path class="route" d="M277 399 C380 404 387 458 472 487" stroke="#55e8d5" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M277 555 C359 559 375 568 462 570" stroke="#17456e" stroke-width="16" fill="none" opacity=".22"/><path class="route" d="M277 555 C359 559 375 568 462 570" stroke="#55e8d5" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M749 576 C822 561 813 481 889 468" stroke="#17456e" stroke-width="16" fill="none" opacity=".22"/><path class="route" d="M749 576 C822 561 813 481 889 468" stroke="#55e8d5" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M771 666 C840 671 825 750 899 764" stroke="#17456e" stroke-width="16" fill="none" opacity=".22"/><path class="route" d="M771 666 C840 671 825 750 899 764" stroke="#55e8d5" stroke-width="3" fill="none" stroke-linecap="round"/>
+<g filter="url(#shadow)">
+<rect x="66" y="297" width="255" height="140" rx="21" fill="url(#pane)" stroke="#5fb2bb" stroke-opacity=".7" stroke-width="2"/>
+<rect x="66" y="478" width="255" height="140" rx="21" fill="url(#pane)" stroke="#6480de" stroke-opacity=".7" stroke-width="2"/>
+</g>
+<rect x="89" y="322" width="47" height="47" rx="14" fill="#123b40" stroke="#46bca9"/>
+<path d="M102 346v-8a10 10 0 0 1 20 0v8m-22 0h24v15h-24z" stroke="#67ffcf" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="151" y="340" fill="#70f9d1" font-size="15" font-weight="750">CLIENT</text>
+<text x="151" y="364" fill="#f4f9ff" font-size="17" font-weight="780">Commitment</text>
+<text x="89" y="404" fill="#7e9dbb" class="over" font-size="11">SHA-256: c4e8 ...</text>
+<rect x="89" y="505" width="47" height="47" rx="14" fill="#182b58" stroke="#6a95f2"/>
+<path d="M99 528l9-9 9 9-9 9-9-9zm19-11l9 10-9 10" fill="none" stroke="#93c9ff" stroke-width="2.8" stroke-linejoin="round"/>
+<text x="151" y="522" fill="#86c9fc" font-size="15" font-weight="750">SERVER</text>
+<text x="151" y="546" fill="#f4f9ff" font-size="17" font-weight="780">Commitment</text>
+<text x="89" y="585" fill="#7e9dbb" class="over" font-size="11">SHA-256: 9b2f ...</text>
+<text x="69" y="687" fill="#86a1b7" class="over" font-size="11">SEEDS HIDDEN UNTIL REVEAL</text>
+<g filter="url(#shadow)"><rect x="872" y="304" width="273" height="396" rx="24" fill="url(#pane)" stroke="#4576b1" stroke-width="2"/></g>
+<rect x="894" y="326" width="229" height="51" rx="12" fill="#132d4e" stroke="#37658e"/>
+<circle cx="916" cy="351" r="7" fill="#72f5d1" class="spark"/>
+<text x="939" y="356" fill="#edf6ff" font-size="16" font-weight="800">PROOF OUTPUT</text>
+<text x="895" y="415" fill="#8ba8c6" class="over" font-size="12">ILLUSTRATIVE RESULT</text>
+<text x="891" y="479" fill="#f3f9ff" font-size="65" font-weight="800">04</text>
+<text x="989" y="479" fill="#9fc3df" font-size="26" font-weight="700">/ 06</text>
+<path d="M894 498H1118" stroke="#3a5c75" stroke-width="1.5"/>
+<text x="895" y="532" fill="#94bed8" class="over" font-size="13">PROOF DIGEST</text>
+<text x="895" y="554" fill="#daf0ff" class="over" font-size="14">7f2a ... 91c0</text>
+<text x="895" y="595" fill="#94bed8" class="over" font-size="13">ED25519 ATTESTATION</text>
+<path d="M900 633l16 15 28-34" fill="none" stroke="#6cf9d3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="955" y="627" fill="#ecfcf6" font-size="16" font-weight="800">VERIFY LOCALLY</text>
+<text x="955" y="648" fill="#8eabc2" font-size="12">Recompute · check signature</text>
+<path d="M905 715H1110" stroke="#4ecbad" stroke-width="2" stroke-dasharray="4 12"/>
+<text x="888" y="762" fill="#8db4c7" class="over" font-size="11">PROOF ≠ CERTIFICATION</text>
+<g class="orbit" opacity=".42">
+<circle cx="601" cy="616" r="291" fill="none" stroke="#68bcef" stroke-width="1.6" stroke-dasharray="5 24"/>
+<circle cx="601" cy="616" r="267" fill="none" stroke="#6febd2" stroke-width="2" stroke-dasharray="1 31"/>
+</g>
+<ellipse cx="607" cy="836" rx="226" ry="38" fill="#091020" opacity=".8" filter="url(#soft)"/>
+<g filter="url(#shadow)">
+<path d="M394 448Q390 422 423 415L739 420Q766 421 777 448L817 731Q824 759 794 783L573 873Q543 881 518 859L360 744Q347 729 357 705Z" fill="url(#core)" stroke="#57a2c6" stroke-width="3"/>
+<path d="M396 465L737 464L785 729L558 825L379 714Z" fill="#0a2546" stroke="#80acd7" stroke-opacity=".3"/>
+</g>
+<path d="M410 471L742 472L777 712L560 804L398 703Z" fill="#184369" opacity=".25"/>
+<path d="M408 473L742 474L779 715L557 805L395 700Z" fill="url(#mesh)" opacity=".55"/>
+<g class="corefloat">
+<polygon points="432.0,486.0 455.0,491.6 468.0,516.0 445.0,510.4" fill="#55e5bd" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="450.0" cy="501.0" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="459.0,492.5 482.0,498.1 495.0,522.5 472.0,516.9" fill="#72a8ff" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="486.0,499.0 509.0,504.6 522.0,529.0 499.0,523.4" fill="#9b85f0" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="513.0,505.5 536.0,511.1 549.0,535.5 526.0,529.9" fill="#e4bc67" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="540.0,512.0 563.0,517.6 576.0,542.0 553.0,536.4" fill="#63d5e8" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="558.0" cy="527.0" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="567.0,518.5 590.0,524.1 603.0,548.5 580.0,542.9" fill="#75bba6" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="594.0,525.0 617.0,530.6 630.0,555.0 607.0,549.4" fill="#55e5bd" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="621.0,531.5 644.0,537.1 657.0,561.5 634.0,555.9" fill="#72a8ff" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="648.0,538.0 671.0,543.6 684.0,568.0 661.0,562.4" fill="#9b85f0" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="666.0" cy="553.0" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="675.0,544.5 698.0,550.1 711.0,574.5 688.0,568.9" fill="#e4bc67" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="446.4,521.8 469.4,527.4 482.4,551.8 459.4,546.2" fill="#75bba6" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="473.4,528.3 496.4,533.9 509.4,558.3 486.4,552.7" fill="#55e5bd" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="500.4,534.8 523.4,540.4 536.4,564.8 513.4,559.2" fill="#72a8ff" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="527.4,541.3 550.4,546.9 563.4,571.3 540.4,565.7" fill="#9b85f0" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="545.4" cy="556.3" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="554.4,547.8 577.4,553.4 590.4,577.8 567.4,572.2" fill="#e4bc67" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="581.4,554.3 604.4,559.9 617.4,584.3 594.4,578.7" fill="#63d5e8" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="608.4,560.8 631.4,566.4 644.4,590.8 621.4,585.2" fill="#75bba6" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="635.4,567.3 658.4,572.9 671.4,597.3 648.4,591.7" fill="#55e5bd" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="653.4" cy="582.3" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="662.4,573.8 685.4,579.4 698.4,603.8 675.4,598.2" fill="#72a8ff" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="689.4,580.3 712.4,585.9 725.4,610.3 702.4,604.7" fill="#9b85f0" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="460.8,557.6 483.8,563.2 496.8,587.6 473.8,582.0" fill="#63d5e8" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="487.8,564.1 510.8,569.7 523.8,594.1 500.8,588.5" fill="#75bba6" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="514.8,570.6 537.8,576.2 550.8,600.6 527.8,595.0" fill="#55e5bd" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="532.8" cy="585.6" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="541.8,577.1 564.8,582.7 577.8,607.1 554.8,601.5" fill="#72a8ff" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="568.8,583.6 591.8,589.2 604.8,613.6 581.8,608.0" fill="#9b85f0" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="595.8,590.1 618.8,595.7 631.8,620.1 608.8,614.5" fill="#e4bc67" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="622.8,596.6 645.8,602.2 658.8,626.6 635.8,621.0" fill="#63d5e8" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="640.8" cy="611.6" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="649.8,603.1 672.8,608.7 685.8,633.1 662.8,627.5" fill="#75bba6" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="676.8,609.6 699.8,615.2 712.8,639.6 689.8,634.0" fill="#55e5bd" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="703.8,616.1 726.8,621.7 739.8,646.1 716.8,640.5" fill="#72a8ff" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="475.2,593.4 498.2,599.0 511.2,623.4 488.2,617.8" fill="#e4bc67" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="502.2,599.9 525.2,605.5 538.2,629.9 515.2,624.3" fill="#63d5e8" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="520.2" cy="614.9" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="529.2,606.4 552.2,612.0 565.2,636.4 542.2,630.8" fill="#75bba6" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="556.2,612.9 579.2,618.5 592.2,642.9 569.2,637.3" fill="#55e5bd" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="583.2,619.4 606.2,625.0 619.2,649.4 596.2,643.8" fill="#72a8ff" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="610.2,625.9 633.2,631.5 646.2,655.9 623.2,650.3" fill="#9b85f0" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="628.2" cy="640.9" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="637.2,632.4 660.2,638.0 673.2,662.4 650.2,656.8" fill="#e4bc67" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon class="spark" points="637.2,632.4 660.2,638.0 673.2,662.4 650.2,656.8" fill="none" stroke="#f7e9a7" stroke-width="4" filter="url(#glow)"/>
+<polygon points="664.2,638.9 687.2,644.5 700.2,668.9 677.2,663.3" fill="#63d5e8" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="691.2,645.4 714.2,651.0 727.2,675.4 704.2,669.8" fill="#75bba6" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="718.2,651.9 741.2,657.5 754.2,681.9 731.2,676.3" fill="#55e5bd" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="736.2" cy="666.9" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="489.6,629.2 512.6,634.8 525.6,659.2 502.6,653.6" fill="#9b85f0" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="507.6" cy="644.2" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="516.6,635.7 539.6,641.3 552.6,665.7 529.6,660.1" fill="#e4bc67" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="543.6,642.2 566.6,647.8 579.6,672.2 556.6,666.6" fill="#63d5e8" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="570.6,648.7 593.6,654.3 606.6,678.7 583.6,673.1" fill="#75bba6" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="597.6,655.2 620.6,660.8 633.6,685.2 610.6,679.6" fill="#55e5bd" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="615.6" cy="670.2" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="624.6,661.7 647.6,667.3 660.6,691.7 637.6,686.1" fill="#72a8ff" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="651.6,668.2 674.6,673.8 687.6,698.2 664.6,692.6" fill="#9b85f0" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="678.6,674.7 701.6,680.3 714.6,704.7 691.6,699.1" fill="#e4bc67" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="705.6,681.2 728.6,686.8 741.6,711.2 718.6,705.6" fill="#63d5e8" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="723.6" cy="696.2" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="732.6,687.7 755.6,693.3 768.6,717.7 745.6,712.1" fill="#75bba6" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="504.0,665.0 527.0,670.6 540.0,695.0 517.0,689.4" fill="#72a8ff" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="531.0,671.5 554.0,677.1 567.0,701.5 544.0,695.9" fill="#9b85f0" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="558.0,678.0 581.0,683.6 594.0,708.0 571.0,702.4" fill="#e4bc67" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="585.0,684.5 608.0,690.1 621.0,714.5 598.0,708.9" fill="#63d5e8" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="603.0" cy="699.5" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="612.0,691.0 635.0,696.6 648.0,721.0 625.0,715.4" fill="#75bba6" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="639.0,697.5 662.0,703.1 675.0,727.5 652.0,721.9" fill="#55e5bd" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="666.0,704.0 689.0,709.6 702.0,734.0 679.0,728.4" fill="#72a8ff" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="693.0,710.5 716.0,716.1 729.0,740.5 706.0,734.9" fill="#9b85f0" fill-opacity=".72" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<circle cx="711.0" cy="725.5" r="1.9" fill="#e1fafa" opacity=".55"/>
+<polygon points="720.0,717.0 743.0,722.6 756.0,747.0 733.0,741.4" fill="#e4bc67" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+<polygon points="747.0,723.5 770.0,729.1 783.0,753.5 760.0,747.9" fill="#63d5e8" fill-opacity=".46" stroke="#b3eff0" stroke-opacity=".27" stroke-width="1.2"/>
+</g>
+<path d="M453 451Q583 417 720 456" stroke="#82f6db" stroke-opacity=".7" stroke-width="4" fill="none" filter="url(#glow)"/>
+<path d="M417 748Q532 822 659 780" stroke="#64cbf5" stroke-opacity=".55" stroke-width="3" fill="none"/>
+<g class="sweep" opacity=".5">
+<path d="M580 496L650 744" fill="none" stroke="url(#scan)" stroke-width="25"/>
+<path d="M580 496L650 744" fill="none" stroke="#91fff1" stroke-width="3" filter="url(#glow)"/>
+</g>
+<circle class="spark2" cx="603" cy="618" r="9" fill="#f4e8a3" filter="url(#glow)"/>
+<circle cx="603" cy="618" r="22" fill="none" stroke="#fff2c3" stroke-opacity=".67" stroke-width="2" stroke-dasharray="4 7"/>
+<rect x="434" y="399" width="319" height="38" rx="10" fill="#0b2741" stroke="#326f87"/>
+<text x="453" y="424" fill="#83f3dc" class="over" font-size="13">BALANCED OUTCOME FIELD</text>
+<text x="599" y="897" text-anchor="middle" fill="#9ed7e0" class="over" font-size="12">SAMPLE → REPRODUCIBLE TRACE</text>
+<circle class="spark" cx="389" cy="571" r="6" fill="#52ebd3" filter="url(#glow)"/>
+<circle class="spark2" cx="821" cy="603" r="6" fill="#7aa8ff" filter="url(#glow)"/>
+<path class="route" d="M353 767Q424 885 517 939H813Q884 921 933 838" stroke="#4bdbf2" stroke-width="2" fill="none"/>
+<g transform="translate(67 973)"><rect width="1067" height="109" rx="22" fill="#102039" stroke="#2d5c7b" stroke-width="1.7"/>
+<rect x="18" y="18" width="248" height="72" rx="13" fill="#122d42" stroke="#325b78"/>
+<circle cx="43" cy="54" r="8" fill="#55ecbb"/><text x="62" y="50" fill="#e8f8ff" font-size="16" font-weight="750">Dual commitment</text><text x="62" y="70" fill="#89b0c4" font-size="12">Lock before reveal</text>
+<rect x="283" y="18" width="246" height="72" rx="13" fill="#122d42" stroke="#325b78"/>
+<circle cx="309" cy="54" r="8" fill="#79b6fc"/><text x="328" y="50" fill="#e8f8ff" font-size="16" font-weight="750">Deterministic proof</text><text x="328" y="70" fill="#89b0c4" font-size="12">Recompute result</text>
+<rect x="545" y="18" width="239" height="72" rx="13" fill="#122d42" stroke="#325b78"/>
+<circle cx="571" cy="54" r="8" fill="#ad9bff"/><text x="590" y="50" fill="#e8f8ff" font-size="16" font-weight="750">Signed evidence</text><text x="590" y="70" fill="#89b0c4" font-size="12">Ed25519 attestation</text>
+<rect x="801" y="18" width="248" height="72" rx="13" fill="#13283b" stroke="#4d9a9b"/>
+<circle cx="827" cy="54" r="8" fill="#ffcc70"/><text x="846" y="50" fill="#e8f8ff" font-size="16" font-weight="750">Pre-independent-audit</text><text x="846" y="70" fill="#91b1c4" font-size="12">Not certified</text>
+</g>
+<text x="600" y="1129" text-anchor="middle" fill="#688ba8" class="over" font-size="13">ILLUSTRATIVE V2 WORKFLOW · NO LIVE PROOFS OR CERTIFICATION CLAIMS</text>
+</svg>
