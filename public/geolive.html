@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GeoLive — Location Infrastructure by Rekixo</title>
+<meta name="description" content="GeoLive provides project-scoped location ingestion, location history, geofences, webhooks and an integration control plane. Check availability and Cloudflare feature parity before onboarding.">
+
+<link rel="canonical" href="https://rekixo.com/geolive.html">
+<link rel="icon" href="rekixo-favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="GeoLive — Location Infrastructure by Rekixo">
+<meta property="og:description" content="GeoLive provides project-scoped location ingestion, location history, geofences, webhooks and an integration control plane. Check availability and Cloudflare feature parity before onboarding.">
+<meta property="og:url" content="https://rekixo.com/geolive.html">
+<meta property="og:image" content="https://rekixo.com/rekixo-logo-parts.svg">
+<script src="rekixo-theme-init.js"></script>
+<link rel="stylesheet" href="policy.css">
+<link rel="stylesheet" href="rekixo-v3.css">
+</head>
+<body class="rx-v3-page">
+<header><div class="wrap nav"><a class="brand" href="index.html">REKIXO</a><div class="nav-links"><a href="portfolio.html">Portfolio</a><a href="contact.html">Contact</a></div></div></header>
+<main>
+<div class="wrap hero">
+  <div class="kicker">REKIXO · Developer infrastructure</div>
+  <h1>GeoLive: location infrastructure for real applications.</h1>
+  <p class="lead">Build around location events rather than starting every integration from scratch. GeoLive has APIs, project-scoped controls, map views and security boundaries in its source code.</p>
+  <div class="policy-links"><a class="button primary" href="contact.html">Discuss an Integration</a><a class="button" href="portfolio.html#geolive">View Portfolio Summary</a></div>
+</div>
+<div class="wrap layout">
+  <nav class="side-nav" aria-label="GeoLive sections"><a href="#features">Capabilities</a><a href="#integrate">Integration</a><a href="#limits">Availability</a><a href="#privacy">Data Handling</a></nav>
+  <div class="content">
+    <section id="features" class="card"><h2>Product Capabilities</h2>
+      <div class="service-card-grid">
+        <div class="info-tile"><strong>Project Isolation</strong><span>Each tenant and application has its own scoped ingestion, API credentials and limits.</span></div>
+        <div class="info-tile"><strong>Live Location</strong><span>Location ingestion, current state, history and live WebSocket updates.</span></div>
+        <div class="info-tile"><strong>Geofences</strong><span>Circle/polygon boundaries, enter/exit/dwell events and related alerts.</span></div>
+        <div class="info-tile"><strong>Developer Controls</strong><span>API keys, access scopes, history views, signed webhook delivery and support workflows.</span></div>
+      </div>
+    </section>
+    <section id="integrate" class="card"><h2>Integration Model</h2>
+      <p>GeoLive customers should work through its dashboard and approved APIs. The current Cloudflare onboarding uses a trusted backend relay for websites and mobile applications, so long-lived keys never belong in browser JavaScript or APKs. Database provisioning and production Workers are operator-managed.</p>
+      <p>This is developer infrastructure, not a consumer location-sharing application. Client applications must decide when location is collected and provide their own lawful and accurate permission and consent flows.</p>
+    </section>
+    <section id="limits" class="card"><h2>Release and Deployment Status</h2>
+      <p>Code documentation describes a Cloudflare-native runtime and a separate maintained Node/PostgreSQL reference runtime. Cloudflare feature-parity and public customer onboarding must be verified before a production service-level or feature-availability promise.</p>
+      <p><strong>Do not mix the Cloudflare and PostgreSQL/Redis runtimes against one production dataset.</strong> Available integrations, plans and processing locations are confirmed during onboarding, not assumed from a repository checklist.</p>
+      <div class="policy-links"><a class="button" href="product-status.html">Product Status Notes</a><a class="button" href="contact.html">Request Technical Review</a></div>
+    </section>
+    <section id="privacy" class="card"><h2>Location Data and Privacy</h2>
+      <p>Depending on the customer integration, location data may be precise and sensitive. Required controls include limited collection, authorization, retention, user access/deletion workflows, safe handling of keys, and clear customer responsibilities. A dedicated commercial privacy/data-processing agreement is required before customer production data is onboarded.</p>
+    </section>
+  </div>
+</div></main>
+<footer><div class="wrap"><a href="index.html">REKIXO</a> · <a href="privacy-policy.html">Privacy</a> · <a href="contact.html">Contact</a></div></footer>
+<script src="rekixo-v3.js" defer></script>
+</body></html>

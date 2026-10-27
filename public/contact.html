@@ -570,6 +570,7 @@
         width: 100%;
       }
     }
+    .booking-option[hidden]{display:none!important}
   </style>
   <link rel="stylesheet" href="logo-animation.css" />
   <link rel="me" href="https://www.linkedin.com/in/rekixo">
@@ -661,14 +662,15 @@
             <textarea name="project_description" placeholder="Describe your project (at least 10 characters)." minlength="10" maxlength="4000" required></textarea>
           </label>
 
-          <label class="checkbox-field booking-option">
+          <!-- Existing paid requests can be recovered; no new paid priority offer is shown. -->
+          <label class="checkbox-field booking-option" data-booking-recovery-option hidden>
             <input type="checkbox" name="Advance Booking Fast Service" value="Yes - client selected INR 1,000 advance booking for faster service" data-fast-booking />
             <span class="booking-copy">
               <span>Pay INR 1,000 advance booking for faster service</span>
               <small>Tick this if you want priority admin contact and faster project discussion.</small>
             </span>
           </label>
-          <p class="pay-status" data-payment-status-message hidden></p>
+          <p class="pay-status" data-payment-status-message role="status" aria-live="polite" hidden></p>
 
           <label class="checkbox-field">
             <input type="checkbox" name="Request Admin Contact Mobile Number" value="Yes" data-admin-mobile />
@@ -679,7 +681,7 @@
             <button type="submit" data-submit-button>Submit Request</button>
             <p class="note">Your request is saved securely, and Rekixo receives an email notification.</p>
           </div>
-          <p class="note">We use the details you submit to understand and reply to your enquiry. See our <a href="privacy-policy.html">Privacy Policy</a>. A standard enquiry does not require optional advance booking.</p>
+          <p class="note"><strong>Standard enquiries are free.</strong> There is no paid priority offer for new requests at this time. Existing paid requests can still be recovered without another payment. See our <a href="privacy-policy.html">Privacy Policy</a> and <a href="refund-cancellation-policy.html">Refund Policy</a>.</p>
         </form>
 
         <div class="mail-line">
@@ -701,13 +703,14 @@
       </div>
     </div>
   </footer>
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <!-- Checkout is intentionally not loaded while new priority bookings are paused. -->
   <script>
     (() => {
       const form = document.querySelector("[data-project-request-form]");
       if (!form) return;
 
       const fastBooking = form.querySelector("[data-fast-booking]");
+      const bookingRecoveryOption = form.querySelector("[data-booking-recovery-option]");
       const adminMobile = form.querySelector("[data-admin-mobile]");
       const submitButton = form.querySelector("[data-submit-button]");
       const statusMessage = form.querySelector("[data-payment-status-message]");
@@ -897,6 +900,10 @@
         checkout.open();
       };
 
+      // Keep the existing recovery path for a previous paid request; disable new paid selections.
+      const initialPaidRecovery = readPendingPayment();
+      if (bookingRecoveryOption) bookingRecoveryOption.hidden = !initialPaidRecovery;
+      fastBooking.disabled = !initialPaidRecovery;
       fastBooking.addEventListener("change", syncBookingState);
 
       form.addEventListener("submit", async (event) => {
@@ -910,6 +917,8 @@
         }
 
         if (!fastBooking.checked && readPendingPayment()) {
+          if (bookingRecoveryOption) bookingRecoveryOption.hidden = false;
+          fastBooking.disabled = false;
           fastBooking.checked = true;
           syncBookingState();
           setStatus("A previous payment is waiting for the contact request. Submit again with the original booking details to recover it without paying twice.", "error");
@@ -954,6 +963,8 @@
       syncBookingState();
       if (readPendingPayment()) {
         fastBooking.checked = true;
+        if (bookingRecoveryOption) bookingRecoveryOption.hidden = false;
+        fastBooking.disabled = false;
         setStatus("Previous payment found. Fill the original booking details and submit to retry without paying again.", "ok");
       }
 
