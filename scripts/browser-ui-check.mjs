@@ -165,8 +165,8 @@ try {
               "LudoPaws playable board must fill over 90% of the card: "+JSON.stringify(geometry));
             assert.ok(geometry.imageLoaded&&geometry.imgFit==="contain"&&geometry.overlay==="none",
               "LudoPaws full board should not be darkened, cropped or unloaded: "+JSON.stringify(geometry));
-            assert.ok(geometry.matchesEntroWidth&&geometry.matchesEntroHeight&&geometry.fitsViewport,
-              "Adjacent LudoPaws and EntroNex visual frames must match in size: "+JSON.stringify(geometry));
+            assert.ok(geometry.fitsViewport && (width===820 || (geometry.matchesEntroWidth&&geometry.matchesEntroHeight)),
+              "LudoPaws must match EntroNex when cards share a column width and avoid tablet overflow: "+JSON.stringify(geometry));
           }
           if(width===390 || width===1440){
             await preview.scrollIntoViewIfNeeded();
