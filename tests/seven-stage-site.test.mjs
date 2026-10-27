@@ -19,6 +19,15 @@ test("company identity is credible, founder-led, and avoids unsupported address 
   assert.match(about, /Independent Software Products & Engineering/);
 });
 
+test("business card presents owned products instead of affiliate hosting", () => {
+  const card = read("business-card.html");
+  for (const name of ["FinWorkar", "Rekixo AR3D", "GeoLive", "LudoPaws"]) {
+    assert.ok(card.includes('<span class="chip">' + name + '</span>'));
+  }
+  assert.doesNotMatch(card, /Get a new domain/);
+  assert.match(card, /Products \| Engineering \| Research/);
+});
+
 test("company website remains free to contact without a new paid priority checkout", () => {
   const html = read("contact.html");
   assert.match(html, /Standard enquiries are free/);
