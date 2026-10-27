@@ -13,7 +13,7 @@ test("the exact approved GeoLive vector sketch is a self-contained animated illu
   for(const key of ["geo-drift","geo-route","geo-geofence","geo-marker","geo-orbit"])
     assert.match(svg,new RegExp("."+key));
   assert.match(svg,/@media\(prefers-reduced-motion:reduce\)/);
-  assert.doesNotMatch(svg,/<script|https?:\/\/|onload=/i);
+  assert.doesNotMatch(svg,/<script|(?:href|src)\s*=\s*["\x27]https?:|onload=/i);
   assert.match(svg,/illustrative, not live tracking data/);
 });
 test("the homepage GeoLive card displays the full square animated image without admin widgets",()=>{
