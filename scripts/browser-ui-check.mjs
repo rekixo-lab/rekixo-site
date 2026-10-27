@@ -93,6 +93,25 @@ try {
         }
         if (path === "/") {
           assert.equal(await page.locator("#products .rx3-product-card").count(), 5, "missing product catalog items");
+          assert.equal(await page.locator(".rx4-geo-globe-image").count(),1,"GeoLive animated globe missing from product grid");
+          if(width===320 || width===390 || width===1440){
+            await page.locator(".rx4-geo-globe-image").scrollIntoViewIfNeeded();
+            await page.locator(".rx4-geo-globe-image").evaluate(img=>img.decode());
+            const geoView=await page.locator(".rx4-geo-globe-image").evaluate(img=>{
+              const holder=img.closest(".rx4-geo-globe");
+              const box=holder.getBoundingClientRect(),v=img.getBoundingClientRect();
+              return {loaded:img.naturalWidth===1200 && img.naturalHeight===1200,
+                src:img.getAttribute("src"),ratio:box.width/box.height,
+                fit:getComputedStyle(img).objectFit,
+                full:v.width>=box.width-5 && v.height>=box.height-5,
+                masked:getComputedStyle(holder,"::after").display};
+            });
+            assert.ok(geoView.loaded && geoView.src==="geolive-globe-animated.svg",
+              "GeoLive concept SVG did not decode: "+JSON.stringify(geoView));
+            assert.ok(Math.abs(geoView.ratio-1)<.02 && geoView.fit==="contain" &&
+              geoView.full && geoView.masked==="none",
+              "GeoLive globe image must remain full-square and uncovered: "+JSON.stringify(geoView));
+          }
           // User-approved square artwork; verify full image rather than old Classic SVG.
           assert.equal(await page.locator(".rx4-lp-board-image").count(),1,
             "Approved LudoPaws board image missing");
@@ -236,6 +255,25 @@ try {
         if (path === "/geolive.html") {
           assert.equal(await page.locator("#features h2").count(), 1);
           assert.equal(await page.locator("#privacy h2").count(), 1);
+          assert.equal(await page.locator(".gl-showcase-visual img").count(),1);
+          assert.ok(await page.locator(".gl-showcase-copy").innerText().then(t=>
+            t.includes("Websites") && t.includes("Custom Software") && t.includes("Dashboards") && t.includes("API integration")),
+            "GeoLive must explicitly explain secure integration with other applications");
+          if(width===320 || width===390 || width===1440){
+            const img=page.locator(".gl-showcase-visual img");
+            await img.scrollIntoViewIfNeeded();
+            await img.evaluate(el=>el.decode());
+            const geo=await img.evaluate(el=>{
+              const r=el.getBoundingClientRect();
+              return {loaded:el.naturalWidth===1200,src:el.getAttribute("src"),
+                fit:getComputedStyle(el).objectFit,
+                bounds:r.left>=-1&&r.right<=innerWidth+1,
+                ratio:r.width/r.height};
+            });
+            assert.ok(geo.loaded && geo.src==="geolive-globe-animated.svg" &&
+              geo.fit==="contain" && geo.bounds && Math.abs(geo.ratio-1)<.02,
+              "GeoLive product page should show entire square visual: "+JSON.stringify(geo));
+          }
         }
         if (path === "/product-status.html") {
           assert.equal(await page.locator('meta[name="robots"][content="noindex,follow"]').count(), 1);
@@ -258,6 +296,18 @@ try {
     }
   }
 
+  // SVG-in-img animations are authored inside the SVG itself; direct navigation
+  // confirms running motion and the browser's reduced-motion override.
+  for(const preference of ["no-preference","reduce"]){
+    const motionPage=await browser.newPage({viewport:{width:800,height:800},reducedMotion:preference});
+    try{
+      const result=await motionPage.goto(origin+"/geolive-globe-animated.svg",{waitUntil:"load"});
+      assert.equal(result.status(),200,"Animated globe source not served");
+      const animation=await motionPage.locator(".geo-route").first().evaluate(el=>getComputedStyle(el).animationName);
+      if(preference==="reduce")assert.equal(animation,"none","SVG must honor reduced-motion");
+      else assert.notEqual(animation,"none","GeoLive signal routes should really animate");
+    }finally{await motionPage.close()}
+  }
   // Cross-theme coverage for all published HTML, not just the homepage.
   // Older policy.css has dark-only text on newly light-colored cards.
   const pages = (await readdir(publicDir)).filter(n => n.endsWith(".html"));
