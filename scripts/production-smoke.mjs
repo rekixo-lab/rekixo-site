@@ -170,6 +170,47 @@ if(!geoSource.includes("geo-route") ||
   throw new Error("GeoLive SVG has no safe animated routes or reduced motion");
 }
 console.log("PASS Animated GeoLive concept and multi-platform API integration are live");
+// EntroNex concept must be faithful to the v2 code, not a fake blockchain certificate.
+if(!home.includes('src="entronex-verifiable-outcome-animated.svg"') ||
+   home.includes('class="rx4-hash-stack"') ||
+   !home.includes("Pre-audit; not certified")){
+  throw new Error("EntroNex homepage is showing outdated or misleading marketing artwork");
+}
+if(!immersiveStyle.includes(".rx4-visual.rx4-entro-media") ||
+   !immersiveStyle.includes(".rx4-entro-image")){
+  throw new Error("Responsive EntroNex full-square illustration CSS is not deployed");
+}
+const entroPortfolio=await test("EntroNex visual portfolio","/portfolio.html",{},200);
+if(!entroPortfolio.includes('src="entronex-verifiable-outcome-animated.svg"') ||
+   !entroPortfolio.includes("Experimental v4 Natural World is disabled in production") ||
+   !entroPortfolio.includes("pre-independent-audit")){
+  throw new Error("EntroNex portfolio visual or responsible protocol caveats are missing");
+}
+const entroCss=await test("EntroNex portfolio CSS","/entronex-portfolio.css",{},200);
+if(!entroCss.includes(".en-portfolio-layout") || !entroCss.includes("prefers-reduced-motion:reduce")){
+  throw new Error("EntroNex portfolio layout or motion safeguards missing");
+}
+const entroResponse=await fetch(base+"/entronex-verifiable-outcome-animated.svg",{
+  redirect:"error",signal:AbortSignal.timeout(12000)
+});
+if(entroResponse.status!==200 ||
+   !/image\/svg\+xml/i.test(entroResponse.headers.get("content-type")||"")){
+  throw new Error("EntroNex SVG missing or served with the wrong MIME type");
+}
+const entroBytes=Buffer.from(await entroResponse.arrayBuffer());
+const entroSha=createHash("sha1").update("blob "+entroBytes.length+"\0").update(entroBytes).digest("hex");
+if(entroSha!=="f1608d4304d5f26f7603b73dc5287e6481f4ef50"){
+  throw new Error("Deployed EntroNex artwork differs from the approved code-based visual");
+}
+const entroText=entroBytes.toString("utf8");
+if(!entroText.includes("BALANCED OUTCOME FIELD") ||
+   !entroText.includes("@media(prefers-reduced-motion:reduce)") ||
+   !entroText.includes("ED25519 ATTESTATION") ||
+   entroText.includes("<script")){
+  throw new Error("Deployed EntroNex SVG lacks accurate proof visuals or motion/accessibility safeguards");
+}
+console.log("PASS EntroNex signed-outcome visual and pre-audit disclosures are live");
+
 const statusPage = await test("Product status page", "/product-status.html", {}, 200);
 if (!statusPage.includes("Product status and availability notes.")) {
   throw new Error("Live product status page does not match the released version");
