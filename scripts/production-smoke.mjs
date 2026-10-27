@@ -51,6 +51,11 @@ const immersiveStyle = await test("Immersive homepage CSS", "/rekixo-immersive.c
 if (!immersiveStyle.includes(".rx4-home") || !immersiveStyle.includes("prefers-reduced-motion")) {
   throw new Error("Immersive CSS is not deployed");
 }
+if (!immersiveStyle.includes('html[data-theme="light"] body.rx4-home main') ||
+    !immersiveStyle.includes('html[data-theme="light"] body.rx4-home .rx4-product-card') ||
+    !immersiveStyle.includes('html[data-theme="dark"] body.rx4-home')) {
+  throw new Error("Live immersive homepage is still serving dark-only theme CSS");
+}
 const immersiveBehavior = await test("Immersive homepage JS", "/rekixo-immersive.js", {}, 200);
 if (!immersiveBehavior.includes("data-rx4-workbench")) {
   throw new Error("Immersive workbench behavior is not deployed");

@@ -167,7 +167,7 @@ try {
           if (new URL(route.request().url()).hostname !== "127.0.0.1") return route.abort();
           return route.continue();
         });
-        await page.addInitScript(() => { try {localStorage.setItem("rekixo-theme","light")} catch (_) {} });
+        await page.addInitScript(() => { try { if (!sessionStorage.getItem("__rx_qa_theme_seeded")) { localStorage.setItem("rekixo-theme","light"); sessionStorage.setItem("__rx_qa_theme_seeded","true"); } } catch (_) {} });
         assert.equal((await page.goto(origin + "/" + name, { waitUntil:"domcontentloaded" })).status(), 200);
         for (const theme of ["light","dark"]) {
           if (theme === "dark") {
@@ -209,6 +209,54 @@ try {
             }
             return {theme,scrollWidth:document.documentElement.scrollWidth,issues:issues.slice(0,10)};
           });
+          // Home was previously hard-coded to dark while its theme attribute
+          // changed. Assert actual computed surfaces, readable ink and logo.
+          if (name === "index.html") {
+            const appearance = await page.evaluate(() => {
+              const css = (selector,prop) => {
+                const el=document.querySelector(selector);
+                return el ? getComputedStyle(el)[prop] : "";
+              };
+              const color = s => {
+                const v=s.match(/[\d.]+/g);
+                return v && v.length>=3 ? v.slice(0,3).map(Number) : [];
+              };
+              return {
+                body:color(css("body","backgroundColor")),
+                main:color(css("main","backgroundColor")),
+                heroInk:color(css("#rekixo-intro-title","color")),
+                productInk:color(css(".rx4-product-bottom h3","color")),
+                cardBackground:css(".rx4-product-card","backgroundImage"),
+                productSection:color(css(".rx4-products-section","backgroundColor")),
+                workbench:color(css(".rx4-workbench","backgroundColor")),
+                footer:color(css(".rx3-footer","backgroundColor")),
+                header:color(css(".rx3-header","backgroundColor")),
+                heroButton:color(css(".rx4-button-primary","color")),
+                logo:document.querySelector(".rx3-brand img")?.getAttribute("src"),
+                toggleLabel:document.querySelector(".rx3-theme-toggle")?.getAttribute("aria-label")
+              };
+            });
+            const isLight=theme==="light";
+            const bright=rgb=>rgb.length===3 && rgb.reduce((a,b)=>a+b,0)/3>160;
+            assert.equal(bright(appearance.body),isLight,name+" body background stayed "+appearance.body+" in "+theme);
+            assert.equal(bright(appearance.main),isLight,name+" main background stayed "+appearance.main+" in "+theme);
+            assert.equal(bright(appearance.productSection),isLight,name+" products background stayed "+appearance.productSection+" in "+theme);
+            assert.equal(bright(appearance.workbench),isLight,name+" engineering surface stayed "+appearance.workbench+" in "+theme);
+            assert.equal(bright(appearance.footer),isLight,name+" footer background stayed "+appearance.footer+" in "+theme);
+            assert.equal(bright(appearance.heroInk),!isLight,name+" heading did not invert "+appearance.heroInk);
+            assert.equal(bright(appearance.productInk),!isLight,name+" product title did not invert "+appearance.productInk);
+            assert.ok(isLight ? /rgb\(255, 255, 255\)/.test(appearance.cardBackground) :
+              /rgb\(16, 31, 49\)/.test(appearance.cardBackground),
+              name+" product cards didn't repaint "+appearance.cardBackground);
+            assert.equal(appearance.logo,isLight?"rekixo-logo-light.svg":"rekixo-logo-static.svg");
+            assert.equal(appearance.toggleLabel,isLight?"Switch to dark mode":"Switch to light mode");
+            if (width===390) {
+              await page.reload({waitUntil:"domcontentloaded"});
+              assert.equal(await page.locator("html").getAttribute("data-theme"),theme,
+                "homepage theme did not survive reload");
+            }
+          }
+
           assert.equal(result.theme,theme,name+" missing "+theme+" theme");
           assert.ok(result.scrollWidth<=width+1,name+" "+theme+" overflows at "+width);
           assert.equal(result.issues.length,0,name+" "+theme+" WCAG-AA text contrast at "+width+": "+JSON.stringify(result.issues));
