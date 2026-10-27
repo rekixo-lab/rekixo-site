@@ -52,3 +52,12 @@ test("preview is accessible, honest and not connected to real multiplayer traffi
   assert.doesNotMatch(js,/fetch\(|WebSocket|BroadcastChannel/);
   assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
 });
+
+test("LudoPaws occupies a large square card equal to EntroNex without clipping pets", () => {
+  assert.match(css,/\.rx4-home \.rx4-visual\.rx4-lp-stage\{[\s\S]*?height:auto;aspect-ratio:1\/1/);
+  assert.match(css,/\.rx4-home \.rx4-lp-board\{[\s\S]*?width:93%;height:auto;aspect-ratio:1\/1/);
+  assert.match(css,/\.rx4-home \.rx4-lp-stage::after\{display:none\}/);
+  assert.doesNotMatch(css,/\.rx4-home \.rx4-lp-stage\{height:(?:232|245)px\}/);
+  assert.match(css,/\.rx4-home \.rx4-visual\.rx4-entro-media\{[\s\S]*?aspect-ratio:1\/1/);
+  assert.match(html,/data-rx4-ludo-replay/);
+});
