@@ -157,14 +157,44 @@ html[data-theme="light"] body.rx4-home .rx4-visual.rx4-ar-media{
 @media(prefers-reduced-motion:reduce){
   .rx4-home .rx4-ar-image-square{transition:none!important}
 }
-.rx4-home .rx4-geo-art{background:radial-gradient(circle,#1a4863,#0d263e 45%,#081829 74%)}
-.rx4-home .rx4-radar{width:208px;height:208px;position:relative;border:1px solid #31627c;border-radius:50%;display:grid;place-items:center}
-.rx4-home .rx4-radar i{position:absolute;inset:22px;border:1px solid #386b7b;border-radius:50%}
-.rx4-home .rx4-radar i:nth-child(2){inset:52px}
-.rx4-home .rx4-radar i:nth-child(3){inset:82px}
-.rx4-home .rx4-radar b{height:9px;width:9px;border-radius:50%;background:#75ffe1;box-shadow:0 0 0 8px rgba(84,241,208,.12),0 0 38px rgba(48,252,207,.7)}
-.rx4-home .rx4-radar em{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 130deg,transparent 72%,rgba(79,230,207,.2) 98%,transparent);animation:rx4-spin 9s linear infinite}
-.rx4-home .rx4-geo-label{position:absolute;bottom:18px;left:14px;z-index:1;color:#91d8d5;font:650 9px ui-monospace,monospace;letter-spacing:.08em}
+/* GeoLive shows the actual approved animated globe sketch, not a radar icon.
+   A square holder prevents the same 245px-height clipping bug fixed for AR3D. */
+.rx4-home .rx4-visual.rx4-geo-globe{
+  width:calc(100% - 20px);
+  height:auto;
+  aspect-ratio:1 / 1;
+  min-height:0;
+  box-sizing:border-box;
+  border:1px solid #2d6973;
+  background:#061724;
+  overflow:hidden;
+}
+.rx4-home .rx4-geo-globe::after{display:none}
+.rx4-home .rx4-geo-globe-image{
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:100%;
+  object-fit:contain;
+  object-position:center;
+  pointer-events:none;
+  transform:translateY(0);
+  transition:transform .55s ease,filter .55s ease;
+  filter:drop-shadow(0 0 7px rgba(74,252,207,.12));
+}
+@media(hover:hover) and (pointer:fine){
+  .rx4-home .rx4-geo:hover .rx4-geo-globe-image{
+    transform:translateY(-3px);
+    filter:drop-shadow(0 0 13px rgba(74,252,207,.3));
+  }
+}
+html[data-theme="light"] body.rx4-home .rx4-visual.rx4-geo-globe{
+  background:#061724;
+  border-color:#79b7c2;
+}
+@media(prefers-reduced-motion:reduce){
+  .rx4-home .rx4-geo-globe-image{transition:none!important;transform:none!important}
+}
 
 /*
  * LudoPaws illustrated preview: full approved board recreated by the owner.
