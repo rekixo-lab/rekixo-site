@@ -88,13 +88,15 @@
       [8,4],[8,3],[8,2],[8,1],[8,0],[7,0],[6,0]
     ];
     const START_OFFSETS = { goat:0, duck:13, cat:26, dog:39 };
+    // Recreated square artwork has three equal-width regions: 6 + 3 + 6
+    // logical columns. Use its actual percentage-based grid for pawn centers.
     const axisBoundary = (index) =>
-      index <= 6 ? index * 50 / 6 :
-      index <= 9 ? 50 + (index - 6) * 50 / 3 :
-      100 + (index - 9) * 50 / 6;
+      index <= 6 ? index * (100 / 18) :
+      index <= 9 ? (100 / 3) + (index - 6) * (100 / 9) :
+      (200 / 3) + (index - 9) * (100 / 18);
     const center = ([row, col]) => [
-      (axisBoundary(col) + axisBoundary(col + 1)) / 3,
-      (axisBoundary(row) + axisBoundary(row + 1)) / 3
+      (axisBoundary(col) + axisBoundary(col + 1)) / 2,
+      (axisBoundary(row) + axisBoundary(row + 1)) / 2
     ];
     const sequence = [
       { id:"dog",face:"⚂",roll:3,name:"Dog" },
