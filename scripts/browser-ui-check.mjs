@@ -275,7 +275,11 @@ try {
           const el=page.locator("#entronex .en-portfolio-art img");
           assert.equal(await el.count(),1,"EntroNex portfolio visual missing");
           await el.scrollIntoViewIfNeeded();
-          await el.evaluate(img=>img.decode());
+          await el.evaluate(img=>{img.loading="eager";});
+          await page.waitForFunction(()=>{
+            const img=document.querySelector("#entronex .en-portfolio-art img");
+            return img && img.complete && img.naturalWidth===1200;
+          },null,{timeout:12000});
           const img=await el.evaluate(node=>{
             const r=node.getBoundingClientRect();return {
               src:node.getAttribute("src"),loaded:node.naturalWidth===1200,
