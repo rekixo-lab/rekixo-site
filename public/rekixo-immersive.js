@@ -68,75 +68,103 @@
   }
 
 
-  // Authentic LudoPaws board art; a self-contained showcase animation, not an
-  // online match. Cropped animal portraits are taken from the same board image.
+
+  // Classic game geometry is copied from codex/ludopaws-work:
+  // LudoPawsFxBoardGeometry.kt START_OFFSETS, TRACK and axisBoundary().
+  // Browser preview depicts turns with the official promotional character art.
+  // Android GLES30 character geometry cannot run directly in website JavaScript.
   const gamePreview = document.querySelector("[data-rx4-ludo-replay]");
   if (gamePreview) {
     const dice = gamePreview.querySelector("[data-rx4-lp-dice]");
     const status = gamePreview.querySelector("[data-rx4-lp-status]");
-    const sequence = [
-      { id: "dog", face: "⚅", name: "Dog", stops: [[43.33, 90], [43.33, 83.33], [43.33, 76.67], [43.33, 70]] },
-      { id: "duck", face: "⚃", name: "Duck", stops: [[56.67, 10], [56.67, 16.67], [56.67, 23.33], [56.67, 30]] },
-      { id: "goat", face: "⚄", name: "Goat", stops: [[10, 43.33], [16.67, 43.33], [23.33, 43.33], [30, 43.33]] },
-      { id: "cat", face: "⚂", name: "Cat", stops: [[90, 56.67], [83.33, 56.67], [76.67, 56.67], [70, 56.67]] }
+    const TRACK = [
+      [6,1],[6,2],[6,3],[6,4],[6,5],
+      [5,6],[4,6],[3,6],[2,6],[1,6],[0,6],[0,7],[0,8],
+      [1,8],[2,8],[3,8],[4,8],[5,8],[6,9],[6,10],
+      [6,11],[6,12],[6,13],[6,14],[7,14],
+      [8,14],[8,13],[8,12],[8,11],[8,10],[8,9],
+      [9,8],[10,8],[11,8],[12,8],[13,8],[14,8],[14,7],[14,6],
+      [13,6],[12,6],[11,6],[10,6],[9,6],[8,5],
+      [8,4],[8,3],[8,2],[8,1],[8,0],[7,0],[6,0]
     ];
-    let turn = 0;
-    let busy = false;
-    const pause = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
-    const hop = async (animal, x, y, duration) => {
-      const left = x + "%";
-      const top = y + "%";
+    const START_OFFSETS = { goat:0, duck:13, cat:26, dog:39 };
+    const axisBoundary = (index) =>
+      index <= 6 ? index * 50 / 6 :
+      index <= 9 ? 50 + (index - 6) * 50 / 3 :
+      100 + (index - 9) * 50 / 6;
+    const center = ([row, col]) => [
+      (axisBoundary(col) + axisBoundary(col + 1)) / 3,
+      (axisBoundary(row) + axisBoundary(row + 1)) / 3
+    ];
+    const sequence = [
+      { id:"dog",face:"⚂",roll:3,name:"Dog" },
+      { id:"duck",face:"⚃",roll:4,name:"Duck" },
+      { id:"goat",face:"⚄",roll:5,name:"Goat" },
+      { id:"cat",face:"⚁",roll:2,name:"Cat" }
+    ];
+    const positions = { dog:0,duck:0,goat:0,cat:0 };
+    let turn=0;
+    let busy=false;
+    const setCenter = (animal, point) => {
+      animal.style.left=point[0].toFixed(2)+"%";
+      animal.style.top=point[1].toFixed(2)+"%";
+    };
+    const move = async (animal, nextPoint) => {
+      const left=nextPoint[0].toFixed(2)+"%";
+      const top=nextPoint[1].toFixed(2)+"%";
       if (!animal.animate || reduced.matches) {
-        animal.style.left = left;
-        animal.style.top = top;
+        setCenter(animal,nextPoint);
         return;
       }
-      const previousX = animal.style.left || getComputedStyle(animal).left;
-      const previousY = animal.style.top || getComputedStyle(animal).top;
-      const animation = animal.animate([
-        { left: previousX, top: previousY, transform: "translate(-50%,-50%) scale(1)" },
-        { left: left, top: top, transform: "translate(-50%,-75%) scale(1.12)", offset: .55 },
-        { left, top, transform: "translate(-50%,-50%) scale(1)" }
-      ], { duration, easing: "ease-in-out" });
-      try { await animation.finished; } catch (_) { /* cancelled / hidden document */ }
-      animal.style.left = left;
-      animal.style.top = top;
+      const priorLeft=animal.style.left||getComputedStyle(animal).left;
+      const priorTop=animal.style.top||getComputedStyle(animal).top;
+      const animation=animal.animate([
+        {left:priorLeft,top:priorTop,transform:"translate(-50%,-50%) scale(1)"},
+        {left,top,transform:"translate(-50%,-78%) scale(1.15)",offset:.52},
+        {left,top,transform:"translate(-50%,-50%) scale(1)"}
+      ],{duration:280,easing:"ease-in-out"});
+      try { await animation.finished; } catch (_) { /* hidden tab or animation cancelled */ }
+      setCenter(animal,nextPoint);
       animation.cancel();
     };
-    const playTurn = async () => {
-      if (busy) return;
-      busy = true;
-      gamePreview.setAttribute("aria-busy", "true");
-      const step = sequence[turn % sequence.length];
-      const animal = gamePreview.querySelector('[data-rx4-lp-pawn="' + step.id + '"]');
-      status.textContent = step.name + " rolls the dice";
+    const playTurn=async () => {
+      if(busy)return;
+      busy=true;
+      gamePreview.setAttribute("aria-busy","true");
+      const step=sequence[turn%sequence.length];
+      const animal=gamePreview.querySelector('[data-rx4-lp-pawn="'+step.id+'"]');
+      status.textContent=step.name+" rolling…";
       try {
         if (!reduced.matches && dice.animate) {
-          const roll = dice.animate(
-            [{transform:"rotate(-15deg) scale(.88)"},{transform:"rotate(165deg) scale(1.12)"},{transform:"rotate(360deg) scale(1)"}],
-            {duration:540,easing:"ease-in-out"}
-          );
-          try { await roll.finished; } catch (_) { /* reduced motion changed */ }
+          const spin=dice.animate([
+            {transform:"rotate(-15deg) scale(.9)"},
+            {transform:"rotate(180deg) scale(1.1)"},
+            {transform:"rotate(360deg) scale(1)"}
+          ],{duration:500,easing:"ease-in-out"});
+          try {await spin.finished;}catch(_){}
         }
-        dice.textContent = step.face;
-        status.textContent = step.name + " moves along the track";
-        for (const [x,y] of step.stops) await hop(animal,x,y, reduced.matches ? 0 : 320);
-        status.textContent = step.name + " moved · tap to roll again";
+        dice.textContent=step.face;
+        status.textContent=step.name+" moving · "+step.roll+" steps";
+        for(let n=0;n<step.roll;n++){
+          positions[step.id]=(positions[step.id]+1)%TRACK.length;
+          const cell=TRACK[(START_OFFSETS[step.id]+positions[step.id])%TRACK.length];
+          await move(animal,center(cell));
+        }
+        status.textContent=step.name+" moved · tap to play next";
         turn++;
-      } finally {
-        busy = false;
+      }finally{
+        busy=false;
         gamePreview.removeAttribute("aria-busy");
       }
     };
-    gamePreview.addEventListener("click", () => { void playTurn(); });
-    // Run just one visible preview turn, then stop. No heavy infinite loop.
-    if (!reduced.matches && "IntersectionObserver" in window) {
-      const once = new IntersectionObserver((entries, observer) => {
-        if (!entries.some(entry => entry.isIntersecting)) return;
+    gamePreview.addEventListener("click",()=>{void playTurn()});
+    // One short preview is shown when first seen; no continuous match or server calls.
+    if(!reduced.matches && "IntersectionObserver" in window){
+      const once=new IntersectionObserver((entries,observer)=>{
+        if(!entries.some(entry=>entry.isIntersecting))return;
         observer.disconnect();
-        // A microtask lets a direct click win if it happens first.
-        Promise.resolve().then(() => { if (!busy && turn === 0) void playTurn(); });
-      }, { threshold: .65 });
+        Promise.resolve().then(()=>{if(!busy && turn===0)void playTurn()});
+      },{threshold:.65});
       once.observe(gamePreview);
     }
   }
