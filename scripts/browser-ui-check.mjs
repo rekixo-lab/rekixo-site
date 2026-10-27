@@ -144,13 +144,17 @@ try {
               return imgs.length===2 && imgs.every(img=>img.complete && img.naturalWidth>0);
             },null,{timeout:12000});
             const cardArt=await page.locator(".rx4-ar-image-square").evaluate(img=>({
-              width:img.naturalWidth,height:img.naturalHeight,fit:getComputedStyle(img).objectFit
+              width:img.naturalWidth,height:img.naturalHeight,fit:getComputedStyle(img).objectFit,
+              src:img.getAttribute("src")
             }));
+            assert.equal(cardArt.src,"rekixo-ar3d-cinematic-square.webp","Wrong AR3D square art");
             assert.equal(cardArt.width,768,"AR3D square card visual missing");
             assert.equal(cardArt.height,768,"AR3D square dimensions incorrect");
             assert.equal(cardArt.fit,"contain","Square AR3D card art must not crop");
             if(width===1440){
               await card.hover();
+              const wideSrc=await page.locator(".rx4-ar-image-wide").getAttribute("src");
+              assert.equal(wideSrc,"rekixo-ar3d-cinematic-wide.webp","Wrong AR3D perspective image");
               const hover=await page.locator(".rx4-ar-image-wide").evaluate(img=>getComputedStyle(img).opacity);
               assert.equal(hover,"1","AR3D card must reveal widescreen perspective on hover");
             }
