@@ -93,6 +93,25 @@ try {
         }
         if (path === "/") {
           assert.equal(await page.locator("#products .rx3-product-card").count(), 5, "missing product catalog items");
+          assert.equal(await page.locator(".rx4-entro-image").count(),1,
+            "Real EntroNex outcome proof visual missing from product grid");
+          if(width===320 || width===390 || width===1440){
+            const entronex=page.locator(".rx4-entro-image");
+            await entronex.scrollIntoViewIfNeeded();
+            await entronex.evaluate(img=>img.decode());
+            const view=await entronex.evaluate(img=>{
+              const frame=img.closest(".rx4-entro-media");
+              const f=frame.getBoundingClientRect(),r=img.getBoundingClientRect();
+              return {src:img.getAttribute("src"),
+                loaded:img.naturalWidth===1200 && img.naturalHeight===1200,
+                square:Math.abs(f.width-f.height)<4,fit:getComputedStyle(img).objectFit,
+                covers:r.width>=f.width-4&&r.height>=f.height-4,
+                overlay:getComputedStyle(frame,"::after").display};
+            });
+            assert.ok(view.loaded && view.src==="entronex-verifiable-outcome-animated.svg" &&
+              view.square && view.fit==="contain" && view.covers && view.overlay==="none",
+              "Full EntroNex proof art must not be cropped or hidden: "+JSON.stringify(view));
+          }
           assert.equal(await page.locator(".rx4-geo-globe-image").count(),1,"GeoLive animated globe missing from product grid");
           if(width===320 || width===390 || width===1440){
             await page.locator(".rx4-geo-globe-image").scrollIntoViewIfNeeded();
@@ -252,6 +271,22 @@ try {
           assert.ok(scrollData.scrollWidth > scrollData.clientWidth,
             "AR3D preview gallery should scroll sideways without document overflow");
         }
+        if(path==="/portfolio.html" && (width===320||width===390||width===1440)){
+          const el=page.locator("#entronex .en-portfolio-art img");
+          assert.equal(await el.count(),1,"EntroNex portfolio visual missing");
+          await el.scrollIntoViewIfNeeded();
+          await el.evaluate(img=>img.decode());
+          const img=await el.evaluate(node=>{
+            const r=node.getBoundingClientRect();return {
+              src:node.getAttribute("src"),loaded:node.naturalWidth===1200,
+              fit:getComputedStyle(node).objectFit,onscreen:r.left>=-1&&r.right<=innerWidth+1
+            };
+          });
+          assert.ok(img.loaded && img.fit==="contain" && img.onscreen,
+            "EntroNex portfolio concept must load without mobile overflow: "+JSON.stringify(img));
+          assert.ok((await page.locator("#entronex").innerText()).includes("pre-independent-audit"),
+            "EntroNex pre-audit disclosure missing");
+        }
         if (path === "/geolive.html") {
           assert.equal(await page.locator("#features h2").count(), 1);
           assert.equal(await page.locator("#privacy h2").count(), 1);
@@ -306,6 +341,18 @@ try {
       const animation=await motionPage.locator(".geo-route").first().evaluate(el=>getComputedStyle(el).animationName);
       if(preference==="reduce")assert.equal(animation,"none","SVG must honor reduced-motion");
       else assert.notEqual(animation,"none","GeoLive signal routes should really animate");
+    }finally{await motionPage.close()}
+  }
+  // EntroNex's SVG owns its animations; full protocol image must animate
+  // without JavaScript and respect the user's reduced-motion preference.
+  for(const preference of ["no-preference","reduce"]){
+    const motionPage=await browser.newPage({viewport:{width:800,height:800},reducedMotion:preference});
+    try{
+      const response=await motionPage.goto(origin+"/entronex-verifiable-outcome-animated.svg",{waitUntil:"load"});
+      assert.equal(response.status(),200,"EntroNex visual source not served");
+      const value=await motionPage.locator(".route").first().evaluate(el=>getComputedStyle(el).animationName);
+      if(preference==="reduce")assert.equal(value,"none","EntroNex SVG must honor reduced-motion");
+      else assert.notEqual(value,"none","EntroNex data-flow illustration should animate");
     }finally{await motionPage.close()}
   }
   // Cross-theme coverage for all published HTML, not just the homepage.
