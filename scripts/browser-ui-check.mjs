@@ -98,7 +98,11 @@ try {
           if(width===320 || width===390 || width===1440){
             const entronex=page.locator(".rx4-entro-image");
             await entronex.scrollIntoViewIfNeeded();
-            await entronex.evaluate(img=>img.decode());
+            await entronex.evaluate(img=>{img.loading="eager";});
+            await page.waitForFunction(()=>{
+              const img=document.querySelector(".rx4-entro-image");
+              return img&&img.complete&&img.naturalWidth===1200&&img.naturalHeight===1200;
+            },null,{timeout:12000});
             const view=await entronex.evaluate(img=>{
               const frame=img.closest(".rx4-entro-media");
               const f=frame.getBoundingClientRect(),r=img.getBoundingClientRect();
@@ -115,7 +119,11 @@ try {
           assert.equal(await page.locator(".rx4-geo-globe-image").count(),1,"GeoLive animated globe missing from product grid");
           if(width===320 || width===390 || width===1440){
             await page.locator(".rx4-geo-globe-image").scrollIntoViewIfNeeded();
-            await page.locator(".rx4-geo-globe-image").evaluate(img=>img.decode());
+            await page.locator(".rx4-geo-globe-image").evaluate(img=>{img.loading="eager";});
+            await page.waitForFunction(()=>{
+              const img=document.querySelector(".rx4-geo-globe-image");
+              return img&&img.complete&&img.naturalWidth===1200&&img.naturalHeight===1200;
+            },null,{timeout:12000});
             const geoView=await page.locator(".rx4-geo-globe-image").evaluate(img=>{
               const holder=img.closest(".rx4-geo-globe");
               const box=holder.getBoundingClientRect(),v=img.getBoundingClientRect();
@@ -215,7 +223,11 @@ try {
             const card=page.locator(".rx4-ar");
             await card.scrollIntoViewIfNeeded();
             const square=page.locator(".rx4-ar-image-square");
-            await square.evaluate(img=>img.decode());
+            await square.evaluate(img=>{img.loading="eager";});
+            await page.waitForFunction(()=>{
+              const img=document.querySelector(".rx4-ar-image-square");
+              return img&&img.complete&&img.naturalWidth===768&&img.naturalHeight===768;
+            },null,{timeout:12000});
             const capture=async()=>await square.evaluate(img=>{
               const stage=img.closest(".rx4-ar-media");
               const frame=stage.getBoundingClientRect();
@@ -335,7 +347,11 @@ try {
           if(width===320 || width===390 || width===1440){
             const img=page.locator(".gl-showcase-visual img");
             await img.scrollIntoViewIfNeeded();
-            await img.evaluate(el=>el.decode());
+            await img.evaluate(el=>{el.loading="eager";});
+            await page.waitForFunction(()=>{
+              const img=document.querySelector(".gl-showcase-visual img");
+              return img&&img.complete&&img.naturalWidth===1200&&img.naturalHeight===1200;
+            },null,{timeout:12000});
             const geo=await img.evaluate(el=>{
               const r=el.getBoundingClientRect();
               return {loaded:el.naturalWidth===1200,src:el.getAttribute("src"),
