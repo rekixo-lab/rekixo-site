@@ -18,6 +18,30 @@ if (!json.ok || json.platform !== "cloudflare" || json.database !== "ready") {
 const home = await test("Root homepage", "/", {}, 200);
 if (!home.includes("<html") || !home.includes("Rekixo")) throw new Error("Production root not serving website HTML");
 
+// Verify the actual Google-compatible original R icon, not merely a valid home response.
+if (!home.includes('href="/favicon.png"') || !home.includes('href="/apple-touch-icon.png"')) {
+  throw new Error("Live site has not switched to the original-R favicon");
+}
+const iconResponse = await fetch(base + "/favicon.png", { signal: AbortSignal.timeout(12000), redirect: "error" });
+if (iconResponse.status !== 200 || !/image\/png/i.test(iconResponse.headers.get("content-type") || "")) {
+  throw new Error("Google Search favicon PNG missing or incorrect MIME type");
+}
+const faviconBytes = Buffer.from(await iconResponse.arrayBuffer());
+if (faviconBytes.length < 100 || faviconBytes.subarray(0, 8).toString("hex") !== "89504e470d0a1a0a" ||
+    faviconBytes.readUInt32BE(16) !== 96 || faviconBytes.readUInt32BE(20) !== 96) {
+  throw new Error("Deployed search favicon is not the expected 96x96 PNG");
+}
+const appleResponse = await fetch(base + "/apple-touch-icon.png", { signal: AbortSignal.timeout(12000), redirect: "error" });
+if (appleResponse.status !== 200 || !Buffer.from(await appleResponse.arrayBuffer()).equals(faviconBytes)) {
+  throw new Error("Old square R remains in Apple touch icon");
+}
+const icoResponse = await fetch(base + "/favicon.ico", { signal: AbortSignal.timeout(12000), redirect: "error" });
+if (icoResponse.status !== 200 || Buffer.from(await icoResponse.arrayBuffer()).subarray(0, 4).toString("hex") !== "00000100") {
+  throw new Error("Favicon ICO fallback is missing");
+}
+console.log("PASS Original REKIXO R favicon: Google PNG, Apple icon, ICO fallback");
+
+
 // Release-version checks: generic HTTP 200 alone can pass against an outdated Worker.
 // These pages and copy were introduced by the product-first company release.
 if (!home.includes('data-rx4-workbench') || !home.includes('data-rx4-asset-slot="ar3d-masterplan"')) {
