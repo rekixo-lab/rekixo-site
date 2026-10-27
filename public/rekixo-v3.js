@@ -34,7 +34,7 @@
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute("content", next === "dark" ? "#07111f" : "#ffffff");
     document.querySelectorAll("[data-rx3-brand-logo]").forEach((logo) => {
-      logo.setAttribute("src", next === "dark" ? "rekixo-logo-static.svg" : "rekixo-logo-light.svg");
+      logo.setAttribute("src", body.classList.contains("rx4-home") || next === "dark" ? "rekixo-logo-static.svg" : "rekixo-logo-light.svg");
     });
     if (persist) {
       try { localStorage.setItem(THEME_KEY, next); } catch (_) { /* Keep in-memory theme. */ }
@@ -188,7 +188,7 @@
     if (existingFooter) existingFooter.replaceWith(footer);
     else body.append(footer);
     document.querySelectorAll("[data-rx3-brand-logo]").forEach((logo) => {
-      logo.setAttribute("src", root.dataset.theme === "dark" ? "rekixo-logo-static.svg" : "rekixo-logo-light.svg");
+      logo.setAttribute("src", body.classList.contains("rx4-home") || root.dataset.theme === "dark" ? "rekixo-logo-static.svg" : "rekixo-logo-light.svg");
     });
   }
 
@@ -273,4 +273,25 @@
   } else {
     revealItems.forEach((item) => item.classList.add("is-visible"));
   }
+
+  // Progressive, read-only reveal for regular company pages. Content stays visible
+  // if JavaScript or IntersectionObserver is unavailable, and motion is never
+  // forced on visitors who prefer reduced motion.
+  if (!reduceMotion && !body.classList.contains("rx4-home") && "IntersectionObserver" in window) {
+    const ordinaryCards = Array.from(document.querySelectorAll(
+      "main .card, main .info-tile, main .ar-feature, main .service-card"
+    )).slice(0, 90);
+    const ordinaryObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("rx4-page-visible");
+        ordinaryObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.07, rootMargin: "0px 0px -15px" });
+    ordinaryCards.forEach((item) => {
+      item.classList.add("rx4-page-enter");
+      ordinaryObserver.observe(item);
+    });
+  }
+
 })();
