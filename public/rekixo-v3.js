@@ -34,7 +34,7 @@
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute("content", next === "dark" ? "#07111f" : "#ffffff");
     document.querySelectorAll("[data-rx3-brand-logo]").forEach((logo) => {
-      logo.setAttribute("src", next === "dark" ? "rekixo-logo-static.svg" : "rekixo-logo-light.svg");
+      logo.setAttribute("src", body.classList.contains("rx4-home") || next === "dark" ? "rekixo-logo-static.svg" : "rekixo-logo-light.svg");
     });
     if (persist) {
       try { localStorage.setItem(THEME_KEY, next); } catch (_) { /* Keep in-memory theme. */ }
@@ -188,7 +188,7 @@
     if (existingFooter) existingFooter.replaceWith(footer);
     else body.append(footer);
     document.querySelectorAll("[data-rx3-brand-logo]").forEach((logo) => {
-      logo.setAttribute("src", root.dataset.theme === "dark" ? "rekixo-logo-static.svg" : "rekixo-logo-light.svg");
+      logo.setAttribute("src", body.classList.contains("rx4-home") || root.dataset.theme === "dark" ? "rekixo-logo-static.svg" : "rekixo-logo-light.svg");
     });
   }
 
