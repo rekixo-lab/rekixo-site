@@ -98,8 +98,14 @@ if (home.includes('YOUR ORIGINAL MASTERPLAN') || home.includes('class="rx4-ar-gr
   throw new Error("Old AR3D placeholder or blue grid is still present in live homepage");
 }
 if (!immersiveStyle.includes(".rx4-ar3d-feature-stage>img") ||
-    !immersiveStyle.includes(".rx4-ar:hover .rx4-ar-image-wide")) {
-  throw new Error("New AR3D product-card animation and full-visual styles are missing");
+    !immersiveStyle.includes(".rx4-visual.rx4-ar-media") ||
+    !immersiveStyle.includes("aspect-ratio:1 / 1") ||
+    !immersiveStyle.includes(".rx4-ar-media::after")) {
+  throw new Error("Fixed square AR3D card or full widescreen feature CSS is missing");
+}
+if (home.includes('class="rx4-ar-image-wide"') ||
+    home.includes('class="rx4-ar-image-tag"')) {
+  throw new Error("Old AR3D hover swap or image-covering badges remain in the small card");
 }
 for (const [asset,expectedSha] of [
   ["rekixo-ar3d-cinematic-square.webp","46bbd42296d81eade177fc110dc2986ec7be26bf"],
