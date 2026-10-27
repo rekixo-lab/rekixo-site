@@ -4,18 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GeoLive — Location Infrastructure by Rekixo</title>
-<meta name="description" content="GeoLive provides project-scoped location ingestion, location history, geofences, webhooks and an integration control plane. Check availability and Cloudflare feature parity before onboarding.">
+<meta name="description" content="GeoLive is API-based location infrastructure you can integrate into websites, mobile apps, custom software and your own dashboards, with scoped location events, history and geofences.">
 
 <link rel="canonical" href="https://rekixo.com/geolive.html">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png" />
 <meta property="og:type" content="website">
 <meta property="og:title" content="GeoLive — Location Infrastructure by Rekixo">
-<meta property="og:description" content="GeoLive provides project-scoped location ingestion, location history, geofences, webhooks and an integration control plane. Check availability and Cloudflare feature parity before onboarding.">
+<meta property="og:description" content="GeoLive is API-based location infrastructure you can integrate into websites, mobile apps, custom software and your own dashboards, with scoped location events, history and geofences.">
 <meta property="og:url" content="https://rekixo.com/geolive.html">
 <meta property="og:image" content="https://rekixo.com/rekixo-logo-parts.svg">
 <script src="rekixo-theme-init.js"></script>
 <link rel="stylesheet" href="policy.css">
 <link rel="stylesheet" href="rekixo-v3.css">
+<link rel="stylesheet" href="geolive-experience.css">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 </head>
 <body class="rx-v3-page">
@@ -23,10 +24,26 @@
 <main>
 <div class="wrap hero">
   <div class="kicker">REKIXO · Developer infrastructure</div>
-  <h1>GeoLive: location infrastructure for real applications.</h1>
-  <p class="lead">Build around location events rather than starting every integration from scratch. GeoLive has APIs, project-scoped controls, map views and security boundaries in its source code.</p>
+  <h1>GeoLive: live location for your software, powered by APIs.</h1>
+  <p class="lead">Bring project-scoped live location into your website, Android or iOS app, Flutter or React Native project, custom software, or your own dashboard. Integrate through secure GeoLive APIs without rebuilding location infrastructure from scratch.</p>
   <div class="policy-links"><a class="button primary" href="contact.html">Discuss an Integration</a><a class="button" href="portfolio.html#geolive">View Portfolio Summary</a></div>
 </div>
+<section class="wrap gl-showcase" aria-labelledby="gl-showcase-title">
+  <figure class="gl-showcase-visual">
+    <img src="geolive-globe-animated.svg" alt="Animated illustration of GeoLive Earth visualization with example location signals, route trails and a geofence. No real locations are displayed." width="1200" height="1200" loading="lazy" decoding="async">
+    <figcaption>ANIMATED CONCEPT VISUAL · NO LIVE USER DATA</figcaption>
+  </figure>
+  <div class="gl-showcase-copy">
+    <div class="gl-eyebrow">ONE LOCATION ENGINE · MANY APPLICATIONS</div>
+    <h2 id="gl-showcase-title">Your app. Your design. GeoLive behind the scenes.</h2>
+    <p>Build location-powered features directly into the software people already use. Your frontend stays yours: GeoLive provides the location APIs, event processing and project boundaries.</p>
+    <div class="gl-integrations" aria-label="Supported integration targets">
+      <span>Websites</span><span>Android &amp; iOS</span><span>Flutter &amp; React Native</span><span>Custom Software</span><span>App &amp; Admin Dashboards</span><span>Trusted Backends</span>
+    </div>
+    <p class="gl-trust-note"><strong>API integration, not a dashboard embed:</strong> Connect through your trusted backend or approved client-token flow. Never put private server API keys in a website or mobile app.</p>
+    <a class="gl-detail-link" href="#integrate">How GeoLive integration works <span aria-hidden="true">↗</span></a>
+  </div>
+</section>
 <div class="wrap layout">
   <nav class="side-nav" aria-label="GeoLive sections"><a href="#features">Capabilities</a><a href="#integrate">Integration</a><a href="#limits">Availability</a><a href="#privacy">Data Handling</a></nav>
   <div class="content">
@@ -38,8 +55,8 @@
         <div class="info-tile"><strong>Developer Controls</strong><span>API keys, access scopes, history views, signed webhook delivery and support workflows.</span></div>
       </div>
     </section>
-    <section id="integrate" class="card"><h2>Integration Model</h2>
-      <p>GeoLive customers should work through its dashboard and approved APIs. The current Cloudflare onboarding uses a trusted backend relay for websites and mobile applications, so long-lived keys never belong in browser JavaScript or APKs. Database provisioning and production Workers are operator-managed.</p>
+    <section id="integrate" class="card"><h2>Integrate with Any Custom Application</h2>
+      <p>GeoLive is API-first infrastructure: integrate location ingestion and authorized reads into your own website, mobile app, dashboard, custom software, or backend without adopting GeoLive's management dashboard as your customer-facing interface. The separate GeoLive dashboard is optional for project setup and administration. For the current Cloudflare runtime, mobile and browser clients use a trusted backend relay; long-lived credentials must never be embedded in browser JavaScript, APKs, or app bundles. Database provisioning and production Workers are operator-managed.</p>
       <p>This is developer infrastructure, not a consumer location-sharing application. Client applications must decide when location is collected and provide their own lawful and accurate permission and consent flows.</p>
     </section>
     <section id="limits" class="card"><h2>Release and Deployment Status</h2>
