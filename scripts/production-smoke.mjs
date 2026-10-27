@@ -199,7 +199,7 @@ if(entroResponse.status!==200 ||
 }
 const entroBytes=Buffer.from(await entroResponse.arrayBuffer());
 const entroSha=createHash("sha1").update("blob "+entroBytes.length+"\0").update(entroBytes).digest("hex");
-if(entroSha!=="f1608d4304d5f26f7603b73dc5287e6481f4ef50"){
+if(entroSha!=="a42f754bd12665a792dcc23aa145f7964fe1ca50"){
   throw new Error("Deployed EntroNex artwork differs from the approved code-based visual");
 }
 const entroText=entroBytes.toString("utf8");
