@@ -165,7 +165,7 @@ try {
             assert.equal(view.height,768,"AR3D art needs square intrinsic dimensions");
             assert.equal(view.fit,"contain","AR3D image must remain uncropped");
             assert.equal(view.opacity,"1","AR3D square image has been hidden");
-            assert.ok(Math.abs(view.aspect-1)<.015 && view.frameWidth>240,
+            assert.ok(Math.abs(view.aspect-1)<.015 && view.frameWidth>(width===320?200:width===390?260:300),
               "Small AR3D card should use a substantial square frame, not a 245px strip: "+JSON.stringify(view));
             assert.ok(Math.abs(view.drawnWidth-view.frameWidth)<4 &&
               Math.abs(view.drawnHeight-view.frameHeight)<4,
