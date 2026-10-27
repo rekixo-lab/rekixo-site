@@ -1,0 +1,337 @@
+/* REKIXO Immersive Studio · visual layer for the parent company homepage.
+   Decorative visuals are CSS, not live product telemetry. No external motion libraries. */
+body.rx4-home{--rx4-bg:#050c17;--rx4-panel:#0c1929;--rx4-line:rgba(143,190,226,.18);--rx4-copy:#a9bfd1;--rx4-bright:#f1f8ff;--rx4-mint:#6af8ce;--rx4-blue:#6bafff;--rx4-violet:#b49aff;background:#050c17!important;color:var(--rx4-bright);overflow-x:clip}
+body.rx4-home::selection{background:#65e9c5;color:#06101e}
+body.rx4-home main{background:#050c17!important;overflow:hidden}
+body.rx4-home main h1,body.rx4-home main h2,body.rx4-home main h3,body.rx4-home main strong,body.rx4-home main b{color:var(--rx4-bright)!important;letter-spacing:-.045em!important}
+body.rx4-home main p,body.rx4-home main li{color:var(--rx4-copy)!important}
+.rx4-home .rx4-shell{width:min(calc(100% - 72px),1250px);margin:0 auto;position:relative;min-width:0}
+.rx4-home .rx4-section{padding:110px 0;position:relative}
+.rx4-home .rx4-eyebrow,.rx4-home .rx4-kicker{color:var(--rx4-mint)!important;font:700 11px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace!important;letter-spacing:.2em!important;text-transform:uppercase}
+.rx4-home .rx4-kicker{margin:0 0 19px!important}
+.rx4-home .rx4-button{display:inline-flex;justify-content:center;align-items:center;gap:13px;min-height:54px;padding:12px 23px;border-radius:13px;font-weight:760;text-decoration:none;font-size:14px;letter-spacing:-.01em;white-space:nowrap;transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease}
+.rx4-home .rx4-button-primary{background:linear-gradient(125deg,#77f9d3,#b5fbe5)!important;color:#05251e!important;box-shadow:0 16px 40px rgba(51,221,172,.19)}
+.rx4-home .rx4-button-outline{background:rgba(255,255,255,.045);color:#e4f2ff!important;border:1px solid rgba(181,209,233,.26)}
+.rx4-home .rx4-button:hover{transform:translateY(-3px)}
+.rx4-home .rx4-button-primary:hover{box-shadow:0 23px 50px rgba(51,221,172,.29)}
+.rx4-home .rx4-button-outline:hover{border-color:rgba(143,249,213,.7)}
+.rx4-home :is(a,button):focus-visible{outline:3px solid #70e7ff!important;outline-offset:4px}
+.rx4-home main .rx4-section-heading{display:flex;align-items:end;justify-content:space-between;gap:60px;margin-bottom:40px;min-width:0}
+.rx4-home .rx4-section-heading h2,.rx4-home .rx4-workbench-heading h2,.rx4-home .rx4-showcase h2{font-size:clamp(32px,4.5vw,65px);font-weight:800;line-height:1.13;margin:0!important;max-width:790px}
+.rx4-home .rx4-section-heading h2 span,.rx4-home .rx4-workbench-heading h2 span,.rx4-home .rx4-showcase h2 span{color:#98add0!important}
+.rx4-home .rx4-heading-side{max-width:325px;flex:0 0 325px}
+.rx4-home .rx4-heading-side p,.rx4-home .rx4-heading-note{max-width:355px;margin:0 0 16px!important;font-size:15px;line-height:1.75}
+.rx4-home .rx4-inline-link{display:inline-flex;gap:10px;color:var(--rx4-mint)!important;font-size:13px;font-weight:760;text-decoration:none}
+.rx4-home .rx4-inline-link span{transition:transform .2s ease}
+.rx4-home .rx4-inline-link:hover span{transform:translate(3px,-3px)}
+
+/* Cinematic hero */
+.rx4-home .rx3-company-hero{isolation:isolate;position:relative;min-height:720px;display:flex;align-items:center;border:0;background:transparent!important;padding:94px 0 70px!important}
+.rx4-home .rx4-atmosphere{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.rx4-home .rx4-grid{position:absolute;inset:0;opacity:.56;background-image:linear-gradient(rgba(102,166,216,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(102,166,216,.08) 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(to bottom,transparent,#000 25%,#000 70%,transparent);transform:perspective(750px) rotateX(12deg) scale(1.16)}
+.rx4-home .rx4-aura{position:absolute;display:block;border-radius:50%;filter:blur(20px);opacity:.7;animation:rx4-aura-float 12s ease-in-out infinite alternate;will-change:transform}
+.rx4-home .rx4-aura-one{width:650px;height:650px;right:-200px;top:-170px;background:radial-gradient(circle,rgba(45,164,255,.22),rgba(49,94,184,.065) 45%,transparent 72%)}
+.rx4-home .rx4-aura-two{width:590px;height:590px;left:-280px;bottom:-330px;background:radial-gradient(circle,rgba(39,224,163,.15),transparent 67%);animation-delay:-5s}
+.rx4-home .rx4-hero-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.97fr);align-items:center;gap:clamp(25px,4.5vw,75px)}
+.rx4-home .rx4-hero-copy{min-width:0;position:relative;z-index:1}
+.rx4-home .rx4-eyebrow{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin:0 0 24px!important}
+.rx4-home .rx4-eyebrow-sep{color:#61788c}
+.rx4-home .rx4-live-dot{display:inline-block;flex:0 0 7px;width:7px;height:7px;border-radius:50%;background:#5affc8;box-shadow:0 0 0 5px rgba(72,245,189,.1),0 0 18px rgba(67,253,181,.75);animation:rx4-pulse 3s ease-in-out infinite}
+.rx4-home .rx4-hero-copy h1{margin:0!important;font-size:clamp(46px,5.6vw,79px)!important;font-weight:860;line-height:1.08;letter-spacing:-.07em!important;max-width:750px}
+.rx4-home .rx4-gradient-word{display:block;background:linear-gradient(104deg,#80ffe0 4%,#86baff 54%,#d6b5ff 96%);color:transparent!important;background-clip:text;-webkit-background-clip:text;background-size:160% 100%;animation:rx4-gradient-flow 8s linear infinite alternate}
+.rx4-home .rx4-hero-description{max-width:560px;font-size:clamp(15px,1.4vw,17px)!important;line-height:1.9;margin:26px 0 0!important}
+.rx4-home .rx4-hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin:32px 0 0}
+.rx4-home .rx4-proof{display:flex;flex-wrap:wrap;gap:9px 22px;margin-top:46px;color:#9db7ca;font-size:12px}
+.rx4-home .rx4-proof span{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.rx4-home .rx4-proof i{color:#5fdab9;font-style:normal}
+.rx4-home .rx4-scroll-cue{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;letter-spacing:.22em;color:#7894ab;font:700 10px ui-monospace,monospace}
+.rx4-home .rx4-scroll-cue i{width:40px;height:1px;background:linear-gradient(90deg,#5eeec3,transparent);animation:rx4-scroll 2.8s ease-in-out infinite}
+
+/* Glass code editor */
+.rx4-home .rx4-editor-shell{position:relative;width:100%;min-width:0;max-width:560px;justify-self:end;border:1px solid rgba(109,181,234,.25);border-radius:20px;background:linear-gradient(148deg,rgba(16,34,56,.98),rgba(8,19,33,.99));box-shadow:0 28px 100px rgba(0,0,0,.47),0 0 100px rgba(22,111,167,.08);transform:perspective(1400px) rotateY(-3deg);transition:transform .5s ease,box-shadow .3s ease;overflow:visible}
+.rx4-home .rx4-editor-shell:hover{transform:perspective(1400px) rotateY(0);box-shadow:0 36px 105px rgba(0,0,0,.53),0 0 95px rgba(68,191,228,.11)}
+.rx4-home .rx4-editor-top{height:49px;display:flex;align-items:center;gap:18px;padding:0 17px;border-bottom:1px solid #24364a;min-width:0}
+.rx4-home .rx4-window-dots{display:flex;gap:6px}
+.rx4-home .rx4-window-dots i{display:block;width:9px;height:9px;border-radius:50%;background:#ff746b}
+.rx4-home .rx4-window-dots i:nth-child(2){background:#fac461}
+.rx4-home .rx4-window-dots i:nth-child(3){background:#55cf9b}
+.rx4-home .rx4-editor-filename{color:#bfd6eb;font:600 11px ui-monospace,monospace;white-space:nowrap}
+.rx4-home .rx4-editor-filename span{color:#8ca8fe}
+.rx4-home .rx4-editor-readonly{margin-left:auto;color:#70889e;font:600 9px ui-monospace,monospace;white-space:nowrap}
+.rx4-home .rx4-editor-content{display:flex;min-width:0}
+.rx4-home .rx4-editor-rail{display:flex;flex-direction:column;gap:24px;padding:24px 13px;border-right:1px solid #22374d;color:#65849e;font:17px ui-monospace,monospace}
+.rx4-home .rx4-editor-code{flex:1;min-width:0;overflow-x:auto;padding:25px 12px 27px 8px;font:12px/2.35 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:nowrap;scrollbar-width:thin}
+.rx4-home .rx4-editor-code>div{display:flex;align-items:baseline;min-width:max-content;padding-right:6px}
+.rx4-home .rx4-ln{display:inline-block;flex:0 0 34px;color:#54718b;text-align:center;margin-right:9px;user-select:none}
+.rx4-home .rx4-code-active{background:rgba(93,179,240,.065)}
+.rx4-home .rx4-comment{color:#6789a2}
+.rx4-home .rx4-violet{color:#c4a4ff}
+.rx4-home .rx4-blue{color:#91c5ff}
+.rx4-home .rx4-lime{color:#8df3ba}
+.rx4-home .rx4-muted{color:#c4d5e7}
+.rx4-home .rx4-indent{margin-left:20px;color:#d3e3f7}
+.rx4-home .rx4-indent2{margin-left:43px}
+.rx4-home .rx4-caret{width:2px;height:17px;display:inline-block;vertical-align:middle;margin-left:5px;background:#9cf8e0;animation:rx4-blink 1.3s step-end infinite}
+.rx4-home .rx4-editor-status{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 17px;border-top:1px solid #26374b;border-radius:0 0 20px 20px;color:#87a5bb;font:600 10px ui-monospace,monospace}
+.rx4-home .rx4-editor-status span{display:flex;align-items:center;gap:12px}
+.rx4-home .rx4-floating-chip{position:absolute;display:flex;align-items:center;gap:12px;padding:12px 18px;border:1px solid rgba(145,200,239,.3);background:rgba(16,36,58,.95);box-shadow:0 18px 44px rgba(0,0,0,.35);backdrop-filter:blur(15px);border-radius:14px;color:#d8eeff;animation:rx4-float 6s ease-in-out infinite}
+.rx4-home .rx4-floating-chip-one{top:12%;right:-28px}
+.rx4-home .rx4-floating-chip-two{bottom:15%;left:-36px;animation-delay:-3s}
+.rx4-home .rx4-floating-chip>span{width:35px;height:35px;border-radius:10px;background:rgba(61,213,190,.14);color:#70ffd2;display:grid;place-items:center}
+.rx4-home .rx4-floating-chip b{display:block;font-size:12px}
+.rx4-home .rx4-floating-chip small{display:block;color:#88a8bd;font-size:10px}
+.rx4-home .rx4-ticker{position:relative;overflow:hidden;border-top:1px solid #1a3345;border-bottom:1px solid #1a3345;background:#081424}
+.rx4-home .rx4-ticker-inner{width:100%;display:flex;justify-content:space-around;align-items:center;gap:15px;padding:20px 32px;white-space:nowrap;color:#87a7bd;font:700 10px ui-monospace,monospace;letter-spacing:.12em}
+.rx4-home .rx4-ticker-inner i{font-size:17px;font-style:normal;color:#57e8bd}
+
+/* Product family portfolio */
+.rx4-home .rx4-products-section{background:radial-gradient(circle at 87% 13%,rgba(54,112,185,.09),transparent 35%),#07111e}
+.rx4-home .rx4-product-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px;min-width:0}
+.rx4-home .rx4-product-card{grid-column:span 2;display:flex;flex-direction:column;gap:0;min-width:0;padding:0!important;border:1px solid #20384d!important;border-radius:23px!important;overflow:hidden;position:relative;background:linear-gradient(145deg,#101f31,#0b1725)!important;box-shadow:none!important;color:#f6faff!important;text-decoration:none;transform:none;transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
+.rx4-home .rx4-product-card:nth-child(4),.rx4-home .rx4-product-card:nth-child(5){grid-column:span 3}
+.rx4-home .rx4-product-card:hover{transform:translateY(-7px);border-color:#548f9f!important;box-shadow:0 28px 50px rgba(0,0,0,.23)!important}
+.rx4-home .rx4-product-top{display:flex;justify-content:space-between;align-items:center;padding:21px 23px 10px;gap:10px;font:700 10px ui-monospace,monospace;letter-spacing:.1em;color:#92abc1}
+.rx4-home .rx4-card-arrow{width:31px;height:31px;display:grid;place-items:center;font-size:17px;border-radius:50%;border:1px solid rgba(142,175,201,.27);color:#d6f4f4;transition:transform .25s ease,background .25s ease}
+.rx4-home .rx4-product-card:hover .rx4-card-arrow{transform:rotate(45deg);background:rgba(99,255,212,.18)}
+.rx4-home .rx4-visual{height:245px;position:relative;display:flex;justify-content:center;align-items:center;overflow:hidden;margin:0 10px;border-radius:15px;isolation:isolate}
+.rx4-home .rx4-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(9,19,30,.65),transparent 38%);pointer-events:none}
+.rx4-home .rx4-product-bottom{padding:25px 25px 30px;min-height:164px}
+.rx4-home .rx4-product-category{display:block;color:#63e5bb!important;font:700 10px ui-monospace,monospace;letter-spacing:.1em;margin-bottom:10px}
+.rx4-home .rx4-product-bottom h3{margin:0!important;font-size:clamp(24px,2.4vw,32px)!important;line-height:1.18}
+.rx4-home .rx4-product-bottom p{margin:12px 0 0!important;font-size:13px!important;line-height:1.7!important}
+.rx4-home .rx4-fin-art{background:radial-gradient(circle at 52% 82%,#207c68,#113b41 43%,#102331 80%)}
+.rx4-home .rx4-fin-phone{width:175px;height:225px;padding:15px;border:5px solid #1b3549;border-bottom:0;border-radius:25px 25px 0 0;background:#eaf6f3;box-shadow:0 25px 45px rgba(0,0,0,.4);transform:translateY(17px) rotate(-8deg);transition:transform .4s ease}
+.rx4-home .rx4-product-card:hover .rx4-fin-phone{transform:translateY(4px) rotate(-2deg)}
+.rx4-home .rx4-fin-phone-top{display:flex;justify-content:space-between;color:#0b6c5b;font-size:12px;font-weight:900}
+.rx4-home .rx4-fin-search{height:15px;margin:10px 0;background:#d1e3df;border-radius:8px}
+.rx4-home .rx4-fin-list{display:flex;align-items:center;gap:8px;padding:8px 5px;border:1px solid #d6e6e3;border-radius:9px;margin-bottom:7px;background:white}
+.rx4-home .rx4-fin-list>span{width:21px;height:23px;border-radius:6px;background:#97d6b7}
+.rx4-home .rx4-fin-list.second>span{background:#a3c8ee}
+.rx4-home .rx4-fin-list b{font-size:8px!important;color:#134342!important;letter-spacing:0!important;display:block}
+.rx4-home .rx4-fin-list small{font-size:7px;display:block;color:#6b8c8b}
+.rx4-home .rx4-fin-call{background:#007d64;color:white;padding:8px 2px;text-align:center;border-radius:8px;font-weight:800;font-size:8px}
+.rx4-home .rx4-fin-signal{position:absolute;right:12px;top:50px;padding:10px 12px;background:rgba(5,36,32,.88);border:1px solid #448e85;border-radius:10px;color:#baf9e0;font-size:10px;animation:rx4-float 5s ease-in-out infinite}
+.rx4-home .rx4-fin-signal span{color:#5affbb}
+.rx4-home .rx4-ar-art{background:radial-gradient(circle at 45% 55%,#223c6b,#121f3e 55%,#101e36);perspective:550px}
+.rx4-home .rx4-ar-grid{width:180px;height:163px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:5px;transform:rotateX(32deg) rotateZ(-19deg);transition:transform .6s ease}
+.rx4-home .rx4-product-card:hover .rx4-ar-grid{transform:rotateX(23deg) rotateZ(-13deg)}
+.rx4-home .rx4-ar-grid span{display:block;border:1px solid #75b2ff;background:linear-gradient(140deg,#3264ab,#22385e);box-shadow:inset 0 0 18px rgba(94,163,255,.1);border-radius:4px}
+.rx4-home .rx4-ar-grid span:nth-child(5){background:#55e8b3;box-shadow:0 0 25px rgba(47,239,164,.54);border-color:#88ffd7}
+.rx4-home .rx4-ar-axis{position:absolute;left:13px;bottom:15px;font:650 9px ui-monospace,monospace;color:#99c4ea}
+.rx4-home .rx4-ar-axis i{font-style:normal;color:#75f6c4}
+.rx4-home .rx4-ar-marker{position:absolute;right:16px;top:23px;padding:9px 11px;border:1px solid rgba(107,235,195,.49);border-radius:8px;background:rgba(8,36,44,.84);font:700 11px ui-monospace,monospace;color:#87fdd4}
+.rx4-home .rx4-ar-marker small{display:block;font-size:8px;color:#d3fced}
+.rx4-home .rx4-geo-art{background:radial-gradient(circle,#1a4863,#0d263e 45%,#081829 74%)}
+.rx4-home .rx4-radar{width:208px;height:208px;position:relative;border:1px solid #31627c;border-radius:50%;display:grid;place-items:center}
+.rx4-home .rx4-radar i{position:absolute;inset:22px;border:1px solid #386b7b;border-radius:50%}
+.rx4-home .rx4-radar i:nth-child(2){inset:52px}
+.rx4-home .rx4-radar i:nth-child(3){inset:82px}
+.rx4-home .rx4-radar b{height:9px;width:9px;border-radius:50%;background:#75ffe1;box-shadow:0 0 0 8px rgba(84,241,208,.12),0 0 38px rgba(48,252,207,.7)}
+.rx4-home .rx4-radar em{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 130deg,transparent 72%,rgba(79,230,207,.2) 98%,transparent);animation:rx4-spin 9s linear infinite}
+.rx4-home .rx4-geo-label{position:absolute;bottom:18px;left:14px;z-index:1;color:#91d8d5;font:650 9px ui-monospace,monospace;letter-spacing:.08em}
+.rx4-home .rx4-ludo-art{background:radial-gradient(circle at 50% 50%,#413879,#18193e 75%)}
+.rx4-home .rx4-ludo-board{position:relative;width:170px;height:170px;border:8px solid rgba(255,255,255,.15);border-radius:19px;background:conic-gradient(#bd78ff 0 25%,#ffc86d 25% 50%,#86e9d4 50% 75%,#85b7ff 75% 100%);transform:rotate(-13deg);box-shadow:0 22px 40px rgba(0,0,0,.25);transition:transform .35s ease}
+.rx4-home .rx4-product-card:hover .rx4-ludo-board{transform:rotate(-5deg)}
+.rx4-home .rx4-ludo-center{position:absolute;inset:36%;display:grid;place-items:center;border-radius:50%;background:#fff;color:#5e3b8d;font-size:21px}
+.rx4-home .rx4-pawn{width:23px;height:23px;border-radius:50%;position:absolute;box-shadow:0 3px 8px rgba(0,0,0,.25);border:4px solid rgba(255,255,255,.8)}
+.rx4-home .rx4-pawn.p1{top:25px;left:28px;background:#568de6}
+.rx4-home .rx4-pawn.p2{top:25px;right:28px;background:#b06be9}
+.rx4-home .rx4-pawn.p3{bottom:25px;left:28px;background:#50d4ab}
+.rx4-home .rx4-pawn.p4{bottom:25px;right:28px;background:#e9ac54}
+.rx4-home .rx4-ludo-die{position:absolute;top:28px;right:calc(50% - 128px);font-size:45px;color:#fff;filter:drop-shadow(0 12px 10px #17143c);animation:rx4-float 6s ease-in-out infinite}
+.rx4-home .rx4-entro-art{background:radial-gradient(circle at 50% 45%,#343064,#1a1836 73%)}
+.rx4-home .rx4-hash-stack{position:relative;z-index:1;display:grid;gap:4px;transform:rotate(-6deg)}
+.rx4-home .rx4-hash-stack div{min-width:145px;padding:9px 14px;border:1px solid #7a6eae;background:rgba(20,22,53,.8);color:#c6ccff;font:700 12px ui-monospace,monospace;border-radius:6px;box-shadow:0 7px 18px rgba(0,0,0,.18)}
+.rx4-home .rx4-hash-stack span{color:#74f0bb;margin:0 10px}
+.rx4-home .rx4-hash-stack i{height:12px;width:2px;margin:auto;background:#a698f1}
+.rx4-home .rx4-entro-note{position:absolute;left:18px;bottom:15px;z-index:2;color:#c2b8f4;font:650 9px ui-monospace,monospace}
+
+/* Spotlight with explicit real-asset replacement slot */
+.rx4-home .rx3-hero{padding:85px 0!important;border-top:1px solid #1b3245;border-bottom:1px solid #1b3245;background:linear-gradient(112deg,#0c1a2d,#09101d)!important}
+.rx4-home .rx4-showcase{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(30px,5vw,80px);align-items:center}
+.rx4-home .rx4-showcase-copy{min-width:0}
+.rx4-home .rx4-showcase h2{font-size:clamp(36px,4.1vw,57px)!important;max-width:540px}
+.rx4-home .rx4-showcase-copy>p:not(.rx4-kicker){line-height:1.85;margin:24px 0!important}
+.rx4-home .rx4-feature-tags{display:flex;gap:9px;flex-wrap:wrap;margin:25px 0 32px}
+.rx4-home .rx4-feature-tags span{padding:8px 12px;border:1px solid #34506a;border-radius:8px;font:650 11px ui-monospace,monospace;color:#b3d3e9}
+.rx4-home .rx4-placeholder{min-width:0;aspect-ratio:1.31;border:1px solid #3f6079;border-radius:22px;background:linear-gradient(140deg,#10263a,#0b1b2b);overflow:hidden;box-shadow:0 25px 75px rgba(0,0,0,.3)}
+.rx4-home .rx4-placeholder-chrome,.rx4-home .rx4-placeholder-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;font:700 9px ui-monospace,monospace;letter-spacing:.05em;color:#9abbd0}
+.rx4-home .rx4-placeholder-chrome{border-bottom:1px solid #274259}
+.rx4-home .rx4-placeholder-chrome span{display:flex;align-items:center;gap:5px}
+.rx4-home .rx4-placeholder-chrome i{width:5px;height:5px;background:#7ddabf;display:inline-block;border-radius:50%}
+.rx4-home .rx4-placeholder-chrome i:nth-child(2){background:#9dc2f3}
+.rx4-home .rx4-placeholder-chrome i:nth-child(3){background:#b9a7fd;margin-right:8px}
+.rx4-home .rx4-placeholder-stage{position:relative;min-height:270px;height:calc(100% - 83px);display:grid;place-items:center;overflow:hidden;background:linear-gradient(30deg,transparent 45%,rgba(99,199,222,.04)),repeating-linear-gradient(0deg,transparent 0 33px,rgba(75,139,173,.12) 34px),repeating-linear-gradient(90deg,transparent 0 33px,rgba(75,139,173,.12) 34px)}
+.rx4-home .rx4-placeholder-stage::before{content:"";position:absolute;inset:18px;border:1px dashed rgba(146,191,211,.4);border-radius:10px}
+.rx4-home .rx4-placeholder-crosshair{position:absolute;top:26px;right:32px;color:#5cacc0;font:22px ui-monospace,monospace}
+.rx4-home .rx4-placeholder-content{text-align:center;padding:20px;max-width:320px;position:relative}
+.rx4-home .rx4-placeholder-icon{width:70px;height:70px;margin:0 auto 20px;display:grid;place-items:center;border:1px solid #4d88a8;border-radius:18px;color:#b4fbe7;font-size:29px;background:rgba(25,74,88,.3);animation:rx4-float 7s ease-in-out infinite}
+.rx4-home .rx4-placeholder-content strong{display:block;font:800 12px ui-monospace,monospace;letter-spacing:.1em!important}
+.rx4-home .rx4-placeholder-content p{margin:12px 0 6px!important;font-size:13px!important}
+.rx4-home .rx4-placeholder-content small{display:block;color:#799fb8;font-size:10px;line-height:1.6}
+.rx4-home .rx4-placeholder-bottom{border-top:1px solid #274259}
+
+/* Selectable engineering explainer */
+.rx4-home .rx4-workbench-section{background:#071221}
+.rx4-home .rx4-workbench-layout{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:65px;align-items:center}
+.rx4-home .rx4-workbench-heading>p:not(.rx4-kicker){max-width:400px;font-size:15px;line-height:1.8;margin:24px 0 0!important}
+.rx4-home .rx4-workbench-heading .rx4-demo-note{font:700 10px ui-monospace,monospace!important;color:#659ab5!important;letter-spacing:.09em;margin-top:22px!important}
+.rx4-home .rx4-workbench{border:1px solid #30506c;border-radius:18px;min-width:0;background:#0c1c2d;overflow:hidden;box-shadow:0 25px 70px rgba(0,0,0,.22)}
+.rx4-home .rx4-workbench-toolbar{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:17px 20px;border-bottom:1px solid #28415a}
+.rx4-home .rx4-workbench-title{font:700 12px ui-monospace,monospace;color:#c1ddef}
+.rx4-home .rx4-workbench-pill{font:700 10px ui-monospace,monospace;color:#84ecc9;border:1px solid #416a69;border-radius:7px;padding:5px 8px}
+.rx4-home .rx4-tabs{display:flex;gap:5px;padding:13px 13px 0;border-bottom:1px solid #28415a;min-width:0}
+.rx4-home .rx4-tabs button{flex:1;min-width:0;border:0;border-bottom:2px solid transparent;padding:12px 6px;color:#93adc0;background:transparent;cursor:pointer;font:700 10px ui-monospace,monospace;letter-spacing:.04em;white-space:nowrap;transition:color .2s ease}
+.rx4-home .rx4-tabs button[aria-selected="true"]{color:#8df5d6;border-bottom-color:#62ebbe;background:linear-gradient(to top,rgba(83,218,178,.08),transparent)}
+.rx4-home .rx4-tabs button:hover{color:#e6f8ff}
+.rx4-home .rx4-workbench-panels{min-height:266px}
+.rx4-home .rx4-workbench-panels section{padding:29px}
+.rx4-home .rx4-workbench-panels section[hidden]{display:none!important}
+.rx4-home .rx4-panel-count{font:700 10px ui-monospace,monospace;color:#74f4cf;letter-spacing:.12em}
+.rx4-home .rx4-workbench-panels h3{margin:12px 0 10px!important;font-size:clamp(21px,2.2vw,28px);line-height:1.3}
+.rx4-home .rx4-workbench-panels p{margin:0!important;font-size:13px;line-height:1.8;min-height:46px}
+.rx4-home .rx4-flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:25px}
+.rx4-home .rx4-flow span{border:1px solid #34576b;border-radius:8px;padding:11px 13px;color:#d6f6f1;font:700 10px ui-monospace,monospace;background:#122a3b}
+.rx4-home .rx4-flow i{font-size:16px;color:#6af0c7;font-style:normal}
+.rx4-home .rx4-workbench-status{border-top:1px solid #29405a;display:flex;justify-content:space-between;gap:9px;padding:13px 20px;color:#759cb3;font:650 10px ui-monospace,monospace}
+.rx4-home .rx4-workbench-status i{font-style:normal;color:#6ef4c8}
+
+/* Selected capabilities and process */
+.rx4-home .rx4-solutions-section{background:radial-gradient(circle at 9% 80%,rgba(50,107,157,.1),transparent 42%),#091524}
+.rx4-home .rx4-solutions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.rx4-home .rx4-solutions .rx3-solution{min-width:0;min-height:270px;display:flex;flex-direction:column;padding:30px!important;border:1px solid #274259!important;border-radius:20px!important;background:rgba(17,36,53,.94)!important;text-decoration:none;transition:transform .3s ease,border-color .3s ease,background .3s ease}
+.rx4-home .rx4-solutions .rx3-solution:hover{transform:translateY(-6px);border-color:#67b49c!important;background:#122d3b!important}
+.rx4-home .rx4-solutions .rx4-solution-icon{display:grid;place-items:center;margin:0 0 22px;width:53px;height:53px;border:1px solid #365e66;border-radius:14px;background:#193c42;color:#7cf8d5!important;font-size:23px}
+.rx4-home .rx4-solutions .rx3-solution b{font-size:23px!important}
+.rx4-home .rx4-solutions .rx3-solution p{font-size:13px!important;line-height:1.75;margin:13px 0 0!important}
+.rx4-home .rx4-solutions .rx4-solution-link{display:block;color:#7df5d0!important;font-size:12px;margin-top:auto;padding-top:25px}
+.rx4-home .rx4-journey-section{border-top:1px solid #182f44;background:#081321}
+.rx4-home .rx4-journey{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid #315068;border-bottom:1px solid #315068}
+.rx4-home .rx4-journey-step{position:relative;min-width:0;padding:26px 27px 27px;border-right:1px solid #315068}
+.rx4-home .rx4-journey-step:last-child{border:0}
+.rx4-home .rx4-journey-step:before{content:"";position:absolute;top:-4px;left:25px;width:7px;height:7px;border-radius:50%;background:#7bf6d6;box-shadow:0 0 16px #72efc5}
+.rx4-home .rx4-journey-step>span{font:800 11px ui-monospace,monospace;color:#76edcc}
+.rx4-home .rx4-journey-step b{display:block;margin-top:25px;font-size:23px}
+.rx4-home .rx4-journey-step p{margin:9px 0 0!important;font-size:13px!important;line-height:1.65}
+.rx4-home .rx4-end-section{padding:45px 0 80px;background:#081321}
+.rx4-home .rx4-end-panel{position:relative;isolation:isolate;overflow:hidden;border-radius:28px;border:1px solid #315c6b;padding:clamp(35px,5.2vw,70px);background:radial-gradient(circle at 90% 80%,rgba(31,196,155,.17),transparent 50%),linear-gradient(135deg,#133246,#0e2437 70%);text-align:center}
+.rx4-home .rx4-end-glow{position:absolute;right:-190px;top:-250px;width:700px;height:700px;background:radial-gradient(circle,rgba(38,233,177,.17),transparent 68%);z-index:-1}
+.rx4-home .rx4-end-panel h2{font-size:clamp(34px,5vw,66px);line-height:1.1;margin:0!important}
+.rx4-home .rx4-end-panel h2 span{color:#91f6d1}
+.rx4-home .rx4-end-panel>p:not(.rx4-kicker){max-width:630px;margin:21px auto 28px!important;line-height:1.8}
+.rx4-home .rx4-end-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+
+/* Light-weight continuous life, only for users who permit motion */
+@keyframes rx4-aura-float{from{transform:translate3d(-2%,0,0)}to{transform:translate3d(5%,4%,0)}}
+@keyframes rx4-gradient-flow{to{background-position:100% 50%}}
+@keyframes rx4-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes rx4-pulse{50%{box-shadow:0 0 0 9px rgba(72,245,189,.05),0 0 26px rgba(67,253,181,.7)}}
+@keyframes rx4-blink{50%{opacity:0}}
+@keyframes rx4-spin{to{transform:rotate(360deg)}}
+@keyframes rx4-scroll{50%{transform:translateX(8px);opacity:.5}}
+/* Keep site navigation coherent on the immersive page */
+.rx4-home .rx3-header{background:rgba(6,17,30,.9)!important;border-bottom:1px solid #21394c!important}
+.rx4-home .rx3-navlinks a{color:#c5d8e8!important}
+.rx4-home .rx3-navlinks a:hover{color:#71f3cb!important}
+.rx4-home .rx3-navcta{background:linear-gradient(120deg,#86ffe0,#65d7b9)!important;color:#082b22!important;box-shadow:0 9px 25px rgba(66,231,189,.14)!important}
+.rx4-home .rx3-mobile-menu{background:#091b2d!important;border-color:#25435b!important}
+.rx4-home .rx3-mobile-menu a{color:#d9edfd!important}
+.rx4-home .rx3-menu-btn{background:#0f2435!important;color:#d9fcf1!important;border-color:#39677b!important}
+.rx4-home .rx3-footer{margin-top:0;background:#071321!important;border-color:#2a4356!important}
+.rx4-home .rx3-footer-links a{color:#9cb8cc!important}
+.rx4-home .rx3-footer-links a:hover{color:#86f9d9!important}
+.rx4-home .rx3-footer-links strong{color:#e7f5ff!important}
+.rx4-home .rx3-footer-bottom{border-color:#274056!important}
+.rx4-home .rx3-footer-brand p{color:#98b3c7!important}
+.rx4-home .rx3-footer-bottom-inner{color:#8da8be!important}
+.rx4-home .rx3-theme-toggle{border-color:#335268;background:#132638;color:#dbf9ed}
+.rx4-home .rx3-brand img{filter:brightness(1.5)}
+/* Existing reveal observer remains source of truth. No JS = readable content. */
+.rx4-home .rx3-reveal{opacity:1;transform:none}
+.rx4-home.rx4-ready .rx3-reveal:not(.is-visible){opacity:0;transform:translateY(22px)}
+.rx4-home.rx4-ready .rx3-reveal.is-visible{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+@media(max-width:1150px){
+  .rx4-home .rx4-hero-layout{gap:35px}
+  .rx4-home .rx4-floating-chip{display:none}
+  .rx4-home .rx4-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rx4-home .rx4-product-card,.rx4-home .rx4-product-card:nth-child(4),.rx4-home .rx4-product-card:nth-child(5){grid-column:auto}
+  .rx4-home .rx4-product-card:nth-child(5){grid-column:1/-1}
+  .rx4-home .rx4-product-card:nth-child(5) .rx4-visual{height:200px}
+}
+@media(max-width:900px){
+  .rx4-home .rx4-shell{width:min(calc(100% - 48px),1250px)}
+  .rx4-home .rx4-hero-layout{grid-template-columns:1fr;gap:50px}
+  .rx4-home .rx4-editor-shell{justify-self:center;width:min(100%,570px)}
+  .rx4-home .rx3-company-hero{padding:72px 0 68px!important}
+  .rx4-home .rx4-hero-copy h1{font-size:clamp(47px,7.5vw,72px)!important}
+  .rx4-home .rx4-workbench-layout,.rx4-home .rx4-showcase{grid-template-columns:1fr;gap:35px}
+  .rx4-home .rx4-workbench-heading>p:not(.rx4-kicker){max-width:620px}
+  .rx4-home .rx4-solutions{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rx4-home .rx4-solutions .rx3-solution:last-child{grid-column:1/-1;min-height:220px}
+  .rx4-home .rx4-journey{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rx4-home .rx4-journey-step:nth-child(2){border-right:0}
+  .rx4-home .rx4-journey-step:nth-child(-n+2){border-bottom:1px solid #315068}
+}
+@media(max-width:680px){
+  .rx4-home .rx4-shell{width:calc(100% - 36px)}
+  .rx4-home .rx4-section{padding:70px 0}
+  .rx4-home .rx3-company-hero{padding:58px 0 69px!important}
+  .rx4-home .rx4-hero-copy h1{font-size:clamp(40px,9.4vw,56px)!important;letter-spacing:-.055em!important}
+  .rx4-home .rx4-hero-description{font-size:14px!important;line-height:1.8!important}
+  .rx4-home .rx4-eyebrow{font-size:9px!important;letter-spacing:.12em!important}
+  .rx4-home .rx4-hero-actions a{width:100%}
+  .rx4-home .rx4-proof{gap:9px 17px;margin-top:25px}
+  .rx4-home .rx4-proof span{font-size:10px}
+  .rx4-home .rx4-editor-shell{transform:none!important}
+  .rx4-home .rx4-editor-code{font-size:10px}
+  .rx4-home .rx4-editor-rail{gap:20px;padding:22px 10px}
+  .rx4-home .rx4-editor-readonly{font-size:8px}
+  .rx4-home .rx4-scroll-cue{display:none}
+  .rx4-home .rx4-ticker-inner{justify-content:flex-start;overflow:auto;scrollbar-width:none}
+  .rx4-home .rx4-ticker-inner::-webkit-scrollbar{display:none}
+  .rx4-home .rx4-section-heading{display:block;margin-bottom:30px}
+  .rx4-home .rx4-section-heading h2{font-size:clamp(33px,8vw,49px)}
+  .rx4-home .rx4-heading-side,.rx4-home .rx4-heading-note{max-width:550px;margin-top:16px!important}
+  .rx4-home .rx4-product-grid{grid-template-columns:minmax(0,1fr);gap:15px}
+  .rx4-home .rx4-product-card,.rx4-home .rx4-product-card:nth-child(5){grid-column:auto}
+  .rx4-home .rx4-visual,.rx4-home .rx4-product-card:nth-child(5) .rx4-visual{height:225px}
+  .rx4-home .rx4-product-bottom{min-height:auto;padding:20px 23px 25px}
+  .rx4-home .rx3-hero{padding:65px 0!important}
+  .rx4-home .rx4-showcase h2{font-size:clamp(34px,8vw,46px)!important}
+  .rx4-home .rx4-placeholder{aspect-ratio:auto}
+  .rx4-home .rx4-placeholder-stage{min-height:260px}
+  .rx4-home .rx4-placeholder-chrome,.rx4-home .rx4-placeholder-bottom{font-size:8px}
+  .rx4-home .rx4-placeholder-bottom span:last-child{max-width:150px;text-align:right}
+  .rx4-home .rx4-workbench-toolbar{padding:14px}
+  .rx4-home .rx4-tabs{padding:11px 8px 0}
+  .rx4-home .rx4-tabs button{font-size:9px;padding:11px 2px}
+  .rx4-home .rx4-workbench-panels section{padding:22px 16px}
+  .rx4-home .rx4-flow{gap:7px}
+  .rx4-home .rx4-flow span{padding:9px 8px;font-size:9px}
+  .rx4-home .rx4-workbench-status{font-size:8px;padding:12px 13px}
+  .rx4-home .rx4-solutions{grid-template-columns:1fr}
+  .rx4-home .rx4-solutions .rx3-solution:last-child{grid-column:auto}
+  .rx4-home .rx4-solutions .rx3-solution{min-height:230px}
+  .rx4-home .rx4-journey{grid-template-columns:1fr}
+  .rx4-home .rx4-journey-step{border:0;border-bottom:1px solid #315068!important;padding:23px 24px}
+  .rx4-home .rx4-journey-step:last-child{border-bottom:0!important}
+  .rx4-home .rx4-journey-step b{margin-top:11px}
+  .rx4-home .rx4-end-section{padding:20px 0 55px}
+  .rx4-home .rx4-end-panel{text-align:left;padding:32px 23px}
+  .rx4-home .rx4-end-panel h2{font-size:clamp(36px,9vw,50px)}
+  .rx4-home .rx4-end-actions{justify-content:flex-start}
+  .rx4-home .rx4-end-actions a{width:100%}
+}
+@media(max-width:360px){
+  .rx4-home .rx4-shell{width:calc(100% - 30px)}
+  .rx4-home .rx4-hero-copy h1{font-size:38px!important}
+  .rx4-home .rx4-editor-filename{font-size:9px}
+  .rx4-home .rx4-editor-readonly{display:none}
+  .rx4-home .rx4-tabs button{font-size:8px}
+  .rx4-home .rx4-flow span{font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  .rx4-home *, .rx4-home *::before,.rx4-home *::after{animation:none!important;scroll-behavior:auto!important;transition:none!important}
+  .rx4-home .rx3-reveal,.rx4-home.rx4-ready .rx3-reveal:not(.is-visible){opacity:1!important;transform:none!important}
+  .rx4-home .rx4-editor-shell{transform:none!important}
+}
