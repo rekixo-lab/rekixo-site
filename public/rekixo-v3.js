@@ -273,4 +273,25 @@
   } else {
     revealItems.forEach((item) => item.classList.add("is-visible"));
   }
+
+  // Progressive, read-only reveal for regular company pages. Content stays visible
+  // if JavaScript or IntersectionObserver is unavailable, and motion is never
+  // forced on visitors who prefer reduced motion.
+  if (!reduceMotion && !body.classList.contains("rx4-home") && "IntersectionObserver" in window) {
+    const ordinaryCards = Array.from(document.querySelectorAll(
+      "main .card, main .info-tile, main .ar-feature, main .service-card"
+    )).slice(0, 90);
+    const ordinaryObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("rx4-page-visible");
+        ordinaryObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.07, rootMargin: "0px 0px -15px" });
+    ordinaryCards.forEach((item) => {
+      item.classList.add("rx4-page-enter");
+      ordinaryObserver.observe(item);
+    });
+  }
+
 })();
