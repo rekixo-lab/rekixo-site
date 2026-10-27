@@ -245,7 +245,7 @@ body.rx4-home main p,body.rx4-home main li{color:var(--rx4-copy)!important}
 .rx4-home .rx3-footer-brand p{color:#98b3c7!important}
 .rx4-home .rx3-footer-bottom-inner{color:#8da8be!important}
 .rx4-home .rx3-theme-toggle{border-color:#335268;background:#132638;color:#dbf9ed}
-.rx4-home .rx3-brand img{filter:brightness(1.5)}
+.rx4-home .rx3-brand img{filter:none}
 /* Existing reveal observer remains source of truth. No JS = readable content. */
 .rx4-home .rx3-reveal{opacity:1;transform:none}
 .rx4-home.rx4-ready .rx3-reveal:not(.is-visible){opacity:0;transform:translateY(22px)}
