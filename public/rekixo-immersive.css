@@ -112,15 +112,37 @@ body.rx4-home main p,body.rx4-home main li{color:var(--rx4-copy)!important}
 .rx4-home .rx4-fin-call{background:#007d64;color:white;padding:8px 2px;text-align:center;border-radius:8px;font-weight:800;font-size:8px}
 .rx4-home .rx4-fin-signal{position:absolute;right:12px;top:50px;padding:10px 12px;background:rgba(5,36,32,.88);border:1px solid #448e85;border-radius:10px;color:#baf9e0;font-size:10px;animation:rx4-float 5s ease-in-out infinite}
 .rx4-home .rx4-fin-signal span{color:#5affbb}
-.rx4-home .rx4-ar-art{background:radial-gradient(circle at 45% 55%,#223c6b,#121f3e 55%,#101e36);perspective:550px}
-.rx4-home .rx4-ar-grid{width:180px;height:163px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:5px;transform:rotateX(32deg) rotateZ(-19deg);transition:transform .6s ease}
-.rx4-home .rx4-product-card:hover .rx4-ar-grid{transform:rotateX(23deg) rotateZ(-13deg)}
-.rx4-home .rx4-ar-grid span{display:block;border:1px solid #75b2ff;background:linear-gradient(140deg,#3264ab,#22385e);box-shadow:inset 0 0 18px rgba(94,163,255,.1);border-radius:4px}
-.rx4-home .rx4-ar-grid span:nth-child(5){background:#55e8b3;box-shadow:0 0 25px rgba(47,239,164,.54);border-color:#88ffd7}
-.rx4-home .rx4-ar-axis{position:absolute;left:13px;bottom:15px;font:650 9px ui-monospace,monospace;color:#99c4ea}
-.rx4-home .rx4-ar-axis i{font-style:normal;color:#75f6c4}
-.rx4-home .rx4-ar-marker{position:absolute;right:16px;top:23px;padding:9px 11px;border:1px solid rgba(107,235,195,.49);border-radius:8px;background:rgba(8,36,44,.84);font:700 11px ui-monospace,monospace;color:#87fdd4}
-.rx4-home .rx4-ar-marker small{display:block;font-size:8px;color:#d3fced}
+
+/* REKIXO AR3D: real authored marketing art, not a fake interactive map.
+   Square composition at rest; widescreen perspective crossfades on hover/focus. */
+.rx4-home .rx4-ar-art{
+  background:radial-gradient(ellipse at 50% 55%,#153455 0%,#0b1c32 55%,#081321 100%);
+}
+.rx4-home .rx4-ar-media{border:1px solid rgba(102,217,200,.22)}
+.rx4-home .rx4-ar-image{
+  display:block;position:absolute;inset:0;width:100%;height:100%;
+  object-fit:contain;max-width:none;pointer-events:none;
+  transition:opacity .52s ease,transform .75s cubic-bezier(.22,.61,.36,1);
+  will-change:opacity,transform;
+}
+.rx4-home .rx4-ar-image-square{opacity:1;transform:scale(.98)}
+.rx4-home .rx4-ar-image-wide{opacity:0;transform:scale(1.025)}
+@media(hover:hover) and (pointer:fine){
+  .rx4-home .rx4-ar:hover .rx4-ar-image-square{opacity:0;transform:scale(1.045)}
+  .rx4-home .rx4-ar:hover .rx4-ar-image-wide{opacity:1;transform:scale(1)}
+}
+.rx4-home .rx4-ar:focus-visible .rx4-ar-image-square{opacity:0}
+.rx4-home .rx4-ar:focus-visible .rx4-ar-image-wide{opacity:1;transform:scale(1)}
+.rx4-home .rx4-ar-image-tag,.rx4-home .rx4-ar-image-mode{
+  position:absolute;z-index:3;border:1px solid rgba(126,244,218,.34);
+  background:rgba(7,21,32,.89);border-radius:8px;color:#ddfff5;
+  font:750 9px/1.3 ui-monospace,SFMono-Regular,monospace;
+  letter-spacing:.04em;box-shadow:0 7px 24px rgba(0,0,0,.24);
+  pointer-events:none;
+}
+.rx4-home .rx4-ar-image-tag{left:11px;bottom:12px;padding:8px 10px}
+.rx4-home .rx4-ar-image-tag i{font-style:normal;color:#70f5bd}
+.rx4-home .rx4-ar-image-mode{right:11px;top:11px;padding:7px 9px;color:#97f7d6}
 .rx4-home .rx4-geo-art{background:radial-gradient(circle,#1a4863,#0d263e 45%,#081829 74%)}
 .rx4-home .rx4-radar{width:208px;height:208px;position:relative;border:1px solid #31627c;border-radius:50%;display:grid;place-items:center}
 .rx4-home .rx4-radar i{position:absolute;inset:22px;border:1px solid #386b7b;border-radius:50%}
@@ -690,3 +712,63 @@ html[data-theme="dark"] body.rx4-home .rx3-theme-toggle{
 /* Avoid a transparent computed background in dark mode: the visual theme
  * contract must expose an actual dark canvas as well as dark gradients. */
 html[data-theme="dark"] body.rx4-home{background:#050c17!important}
+
+
+/* Immersive AR3D hero: replace the unfinished masterplan placeholder.
+   The image is intentionally illustrative and shows no identifiable client project. */
+.rx4-home .rx4-ar3d-feature-frame{
+  min-width:0;margin:0;position:relative;overflow:hidden;
+  border:1px solid #416a7e;border-radius:22px;
+  background:#07182a;box-shadow:0 22px 66px rgba(0,0,0,.35);
+}
+.rx4-home .rx4-ar3d-feature-chrome,
+.rx4-home .rx4-ar3d-feature-caption{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:13px 15px;min-width:0;
+  color:#bad8e7;font:750 9px/1.5 ui-monospace,SFMono-Regular,monospace;
+  letter-spacing:.055em;background:#0b1b2c;
+}
+.rx4-home .rx4-ar3d-feature-chrome{
+  border-bottom:1px solid #28485d;
+}
+.rx4-home .rx4-ar3d-feature-chrome span{display:flex;gap:5px;align-items:center;min-width:0}
+.rx4-home .rx4-ar3d-feature-chrome i{
+  width:5px;height:5px;border-radius:50%;background:#73f0c2;display:inline-block;
+}
+.rx4-home .rx4-ar3d-feature-chrome i:nth-child(2){background:#87bdf4}
+.rx4-home .rx4-ar3d-feature-chrome i:nth-child(3){background:#b5a1ff;margin-right:8px}
+.rx4-home .rx4-ar3d-feature-stage{position:relative;overflow:hidden;background:#071426}
+.rx4-home .rx4-ar3d-feature-stage>img{
+  display:block;width:100%;height:auto;aspect-ratio:16/9;
+  object-fit:contain;max-width:100%;transform:scale(1);
+  transition:transform .9s cubic-bezier(.18,.65,.25,1);
+}
+.rx4-home .rx4-ar3d-feature-frame:hover .rx4-ar3d-feature-stage>img{transform:scale(1.025)}
+.rx4-home .rx4-ar3d-feature-ambient{
+  pointer-events:none;position:absolute;inset:0;
+  box-shadow:inset 0 0 45px rgba(26,244,188,.04);
+  animation:rx4-ar-ambient 7s ease-in-out infinite;
+}
+@keyframes rx4-ar-ambient{
+  0%,100%{box-shadow:inset 0 0 44px rgba(25,230,181,.04)}
+  50%{box-shadow:inset 0 0 62px rgba(25,230,181,.16)}
+}
+.rx4-home .rx4-ar3d-feature-caption{border-top:1px solid #28485d;flex-wrap:wrap;color:#a8bfd2}
+.rx4-home .rx4-ar3d-feature-caption>a{
+  color:#80f6cf!important;text-decoration:underline;text-underline-offset:3px;font-weight:800;
+}
+html[data-theme="light"] body.rx4-home .rx4-ar3d-feature-frame{
+  border-color:#b4cfdc;box-shadow:0 22px 56px rgba(30,77,120,.14);
+}
+@media(max-width:680px){
+  .rx4-home .rx4-ar3d-feature-chrome,.rx4-home .rx4-ar3d-feature-caption{
+    font-size:8px;padding:11px 12px;
+  }
+  .rx4-home .rx4-ar-image-tag{font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  .rx4-home .rx4-ar-image,.rx4-home .rx4-ar3d-feature-stage>img{
+    transition:none!important;will-change:auto;
+  }
+  .rx4-home .rx4-ar3d-feature-ambient{animation:none!important}
+}

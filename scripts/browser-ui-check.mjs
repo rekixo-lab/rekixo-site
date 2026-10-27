@@ -134,7 +134,42 @@ try {
           }
           assert.equal(await page.locator("h1").count(), 1, "homepage needs one H1");
           assert.equal(await page.locator('[data-rx4-asset-slot="ar3d-masterplan"]').count(), 1,
-            "real estate slot must remain available for the owner's original image");
+            "large cinematic AR3D feature should replace the old placeholder");
+          assert.equal(await page.locator(".rx4-ar-image").count(), 2, "AR3D card needs both square and wide views");
+          if(width===390 || width===1440){
+            const card=page.locator(".rx4-ar");
+            await card.scrollIntoViewIfNeeded();
+            await page.waitForFunction(()=>{
+              const imgs=[...document.querySelectorAll(".rx4-ar-image")];
+              return imgs.length===2 && imgs.every(img=>img.complete && img.naturalWidth>0);
+            },null,{timeout:12000});
+            const cardArt=await page.locator(".rx4-ar-image-square").evaluate(img=>({
+              width:img.naturalWidth,height:img.naturalHeight,fit:getComputedStyle(img).objectFit,
+              src:img.getAttribute("src")
+            }));
+            assert.equal(cardArt.src,"rekixo-ar3d-cinematic-square.webp","Wrong AR3D square art");
+            assert.equal(cardArt.width,768,"AR3D square card visual missing");
+            assert.equal(cardArt.height,768,"AR3D square dimensions incorrect");
+            assert.equal(cardArt.fit,"contain","Square AR3D card art must not crop");
+            if(width===1440){
+              await card.hover();
+              const wideSrc=await page.locator(".rx4-ar-image-wide").getAttribute("src");
+              assert.equal(wideSrc,"rekixo-ar3d-cinematic-wide.webp","Wrong AR3D perspective image");
+              const hover=await page.locator(".rx4-ar-image-wide").evaluate(img=>getComputedStyle(img).opacity);
+              assert.equal(hover,"1","AR3D card must reveal widescreen perspective on hover");
+            }
+            const masterplan=page.locator('[data-rx4-asset-slot="ar3d-masterplan"]');
+            await masterplan.scrollIntoViewIfNeeded();
+            await page.waitForFunction(()=>{
+              const img=document.querySelector(".rx4-ar3d-feature-stage>img");
+              return img && img.complete && img.naturalWidth===1120 && img.naturalHeight===630;
+            },null,{timeout:12000});
+            const fit=await page.locator(".rx4-ar3d-feature-stage>img").evaluate(img=>{
+              const st=getComputedStyle(img),box=img.getBoundingClientRect();
+              return {fit:st.objectFit,within:box.left>=-1 && box.right<=innerWidth+1};
+            });
+            assert.ok(fit.fit==="contain" && fit.within,"Full wide AR3D image must be responsive: "+JSON.stringify(fit));
+          }
           assert.equal(await page.locator('[data-rx4-workbench] [role="tab"]').count(), 3,
             "engineering workbench needs three selectable technical layers");
           const backendTab = page.locator('[data-rx4-tab="backend"]');
@@ -159,6 +194,13 @@ try {
         if (path === "/privacy-policy.html") {
           assert.equal(await page.locator("#website-data").count(), 1, "privacy needs actual processing details");
           assert.equal(await page.locator("#preferences").count(), 1, "privacy needs analytics/local-storage details");
+        }
+        if (path === "/rekixo-ar3d.html" && (width === 390 || width === 1440)) {
+          const image = await page.locator(".ar-window img").evaluate(img=>({
+            src:img.getAttribute("src"),loaded:img.complete && img.naturalWidth===1120 && img.naturalHeight===630
+          }));
+          assert.ok(image.loaded && image.src==="rekixo-ar3d-cinematic-wide.webp",
+            "AR3D product hero must use loaded approved cinematic art");
         }
         if (path === "/rekixo-ar3d.html" && width <= 430) {
           const scrollData = await page.locator("#showcase .showcase-list").evaluate((node) => ({

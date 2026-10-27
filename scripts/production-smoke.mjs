@@ -86,6 +86,45 @@ if(boardSha!=="9dc23518f72968936919cb156ed76f824322e321"){
   throw new Error("Live image does not match the owner-approved LudoPaws illustration");
 }
 console.log("PASS Approved LudoPaws complete square illustration and dice preview are live");
+
+// Cinematic AR3D artwork release gate. Verify actual bytes, not an old cached card.
+// These are generated concept visuals with fictional data; real project gallery stays separate.
+if (!home.includes('src="rekixo-ar3d-cinematic-square.webp"') ||
+    !home.includes('src="rekixo-ar3d-cinematic-wide.webp"') ||
+    !home.includes('class="rx4-ar3d-feature-frame')) {
+  throw new Error("Live homepage is missing one of the new AR3D cinematic images");
+}
+if (home.includes('YOUR ORIGINAL MASTERPLAN') || home.includes('class="rx4-ar-grid"')) {
+  throw new Error("Old AR3D placeholder or blue grid is still present in live homepage");
+}
+if (!immersiveStyle.includes(".rx4-ar3d-feature-stage>img") ||
+    !immersiveStyle.includes(".rx4-ar:hover .rx4-ar-image-wide")) {
+  throw new Error("New AR3D product-card animation and full-visual styles are missing");
+}
+for (const [asset,expectedSha] of [
+  ["rekixo-ar3d-cinematic-square.webp","46bbd42296d81eade177fc110dc2986ec7be26bf"],
+  ["rekixo-ar3d-cinematic-wide.webp","fc5fab5e6680aec9cdd8acf3ed7cac09ef9fc0a6"]
+]) {
+  const response=await fetch(base+"/"+asset,{signal:AbortSignal.timeout(12000),redirect:"error"});
+  if(response.status!==200 || !/image\/webp/i.test(response.headers.get("content-type")||"")){
+    throw new Error("AR3D visual missing or wrong WebP content type: "+asset);
+  }
+  const bytes=Buffer.from(await response.arrayBuffer());
+  if(bytes.length<1000 || bytes.toString("ascii",0,4)!=="RIFF" ||
+     bytes.toString("ascii",8,12)!=="WEBP") {
+    throw new Error("AR3D artwork has invalid WebP data: "+asset);
+  }
+  const actual=createHash("sha1").update("blob "+bytes.length+"\0").update(bytes).digest("hex");
+  if(actual!==expectedSha)throw new Error("Wrong live AR3D image version: "+asset);
+  console.log("PASS AR3D approved marketing artwork: "+asset);
+}
+const ar3dPage=await test("AR3D product page cinematic hero","/rekixo-ar3d.html",{},200);
+if(!ar3dPage.includes('src="rekixo-ar3d-cinematic-wide.webp"') ||
+   !ar3dPage.includes('ar3d-showcase/ar3d-showcase-03-vatika-green-city.webp')) {
+  throw new Error("AR3D product hero or its real project gallery is missing");
+}
+console.log("PASS Cinematic AR3D card, full feature, product page and customer gallery");
+
 const geolive = await test("GeoLive product page", "/geolive.html", {}, 200);
 if (!geolive.includes("GeoLive: location infrastructure for real applications.")) {
   throw new Error("Live GeoLive product page does not match the released version");
