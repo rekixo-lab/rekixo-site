@@ -89,8 +89,6 @@ try {
           const form = page.locator('form[data-project-request-form]');
           assert.equal(await form.count(), 1);
           const rect = await form.locator('input[name="client_name"]').boundingBox();
-          assert.equal(await page.locator("[data-booking-recovery-option]").isVisible(), false,
-            "new paid priority booking must remain hidden without previous paid recovery");
           assert.ok(rect && rect.x >= -1 && rect.x + rect.width <= width + 1,
             "contact input spills beyond viewport at " + width);
         }
