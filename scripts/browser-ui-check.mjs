@@ -138,6 +138,36 @@ try {
             "Four animated illustrated animal pawns missing");
           const preview=page.locator("[data-rx4-ludo-replay]");
           assert.equal(await preview.count(),1,"clickable LudoPaws board preview missing");
+          if([320,390,820,1440].includes(width)){
+            await preview.scrollIntoViewIfNeeded();
+            const geometry=await preview.evaluate(stage=>{
+              const frame=stage.getBoundingClientRect();
+              const board=stage.querySelector(".rx4-lp-board").getBoundingClientRect();
+              const img=stage.querySelector(".rx4-lp-board-image");
+              const ent=document.querySelector(".rx4-entro-media").getBoundingClientRect();
+              const fstyle=getComputedStyle(stage);
+              return {
+                frameWidth:frame.width,frameHeight:frame.height,
+                frameRatio:frame.width/frame.height,
+                boardRatio:board.width/frame.width,
+                boardSquare:Math.abs(board.width-board.height)<4,
+                imageLoaded:img.complete&&img.naturalWidth===640&&img.naturalHeight===640,
+                imgFit:getComputedStyle(img).objectFit,
+                overlay:getComputedStyle(stage,"::after").display,
+                matchesEntroWidth:Math.abs(frame.width-ent.width)<5,
+                matchesEntroHeight:Math.abs(frame.height-ent.height)<5,
+                fitsViewport:frame.left>=-1&&frame.right<=innerWidth+1
+              };
+            });
+            assert.ok(geometry.frameRatio>.98&&geometry.frameRatio<1.02,
+              "LudoPaws preview must match the EntroNex square design: "+JSON.stringify(geometry));
+            assert.ok(geometry.boardRatio>.90&&geometry.boardRatio<.96&&geometry.boardSquare,
+              "LudoPaws playable board must fill over 90% of the card: "+JSON.stringify(geometry));
+            assert.ok(geometry.imageLoaded&&geometry.imgFit==="contain"&&geometry.overlay==="none",
+              "LudoPaws full board should not be darkened, cropped or unloaded: "+JSON.stringify(geometry));
+            assert.ok(geometry.matchesEntroWidth&&geometry.matchesEntroHeight&&geometry.fitsViewport,
+              "Adjacent LudoPaws and EntroNex visual frames must match in size: "+JSON.stringify(geometry));
+          }
           if(width===390 || width===1440){
             await preview.scrollIntoViewIfNeeded();
             const originalDice=await page.locator("[data-rx4-lp-dice]").textContent();
