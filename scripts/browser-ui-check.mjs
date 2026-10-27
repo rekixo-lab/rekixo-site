@@ -140,6 +140,10 @@ try {
           assert.equal(await preview.count(),1,"clickable LudoPaws board preview missing");
           if([320,390,820,1440].includes(width)){
             await preview.scrollIntoViewIfNeeded();
+            await page.waitForFunction(()=>{
+              const img=document.querySelector(".rx4-lp-board-image");
+              return img&&img.complete&&img.naturalWidth===640&&img.naturalHeight===640;
+            },null,{timeout:12000});
             const geometry=await preview.evaluate(stage=>{
               const frame=stage.getBoundingClientRect();
               const board=stage.querySelector(".rx4-lp-board").getBoundingClientRect();
