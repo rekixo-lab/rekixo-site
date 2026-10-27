@@ -167,7 +167,7 @@ try {
           if (new URL(route.request().url()).hostname !== "127.0.0.1") return route.abort();
           return route.continue();
         });
-        await page.addInitScript(() => { try {localStorage.setItem("rekixo-theme","light")} catch (_) {} });
+        await page.addInitScript(() => { try { if (!sessionStorage.getItem("__rx_qa_theme_seeded")) { localStorage.setItem("rekixo-theme","light"); sessionStorage.setItem("__rx_qa_theme_seeded","true"); } } catch (_) {} });
         assert.equal((await page.goto(origin + "/" + name, { waitUntil:"domcontentloaded" })).status(), 200);
         for (const theme of ["light","dark"]) {
           if (theme === "dark") {
