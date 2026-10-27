@@ -329,6 +329,12 @@ html[data-theme="light"] body.rx4-home .rx4-lp-topline{
   background:radial-gradient(circle at 50% 50%,#173458,#071526);
   overflow:hidden;
 }
+/* Card 5 has a legacy 200/225px landscape override at tablet/mobile
+   breakpoints. This selector deliberately outranks it for EntroNex only. */
+.rx4-home .rx4-product-card:nth-child(5) .rx4-visual.rx4-entro-media{
+  height:auto;
+  aspect-ratio:1/1;
+}
 .rx4-home .rx4-entro-media::after{display:none}
 .rx4-home .rx4-entro-image{
   display:block;
