@@ -17,6 +17,20 @@ if (!json.ok || json.platform !== "cloudflare" || json.database !== "ready") {
 }
 const home = await test("Root homepage", "/", {}, 200);
 if (!home.includes("<html") || !home.includes("Rekixo")) throw new Error("Production root not serving website HTML");
+
+// Release-version checks: generic HTTP 200 alone can pass against an outdated Worker.
+// These pages and copy were introduced by the product-first company release.
+if (!home.includes("Selected custom solutions alongside our own products.")) {
+  throw new Error("Live homepage is still serving a pre-product-first release");
+}
+const geolive = await test("GeoLive product page", "/geolive.html", {}, 200);
+if (!geolive.includes("GeoLive: location infrastructure for real applications.")) {
+  throw new Error("Live GeoLive product page does not match the released version");
+}
+const statusPage = await test("Product status page", "/product-status.html", {}, 200);
+if (!statusPage.includes("Product status and availability notes.")) {
+  throw new Error("Live product status page does not match the released version");
+}
 const contact = await test("Contact HTML", "/contact.html", {}, 200);
 if (!contact.includes('data-project-request-form') || !contact.includes("/api/payment/order")) {
   throw new Error("Contact form or same-origin payment route missing");
