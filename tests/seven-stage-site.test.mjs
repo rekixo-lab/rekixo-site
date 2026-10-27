@@ -12,6 +12,11 @@ test("company identity is credible, founder-led, and avoids unsupported address 
   assert.doesNotMatch(business, /Verified business address|Verified map location/i);
   assert.doesNotMatch(business, /google\.com\/maps|<iframe/i);
   assert.match(business, /Legal entity name, tax registration/i);
+  assert.doesNotMatch(about, /"addressLocality"|"postalCode"/,
+    "do not leave unverified address claims in structured data");
+  assert.doesNotMatch(about + business, /href="referral\\.html"[^>]*>Get a new domain/,
+    "company identity pages should not promote hosting referrals");
+  assert.match(about, /Independent Software Products & Engineering/);
 });
 
 test("company website remains free to contact without a new paid priority checkout", () => {
