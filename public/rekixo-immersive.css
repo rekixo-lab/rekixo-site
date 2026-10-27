@@ -575,3 +575,7 @@ html[data-theme="light"] body.rx4-home .rx3-footer-bottom-inner{color:#4a657b!im
 html[data-theme="dark"] body.rx4-home .rx3-theme-toggle{
   background:#132638;color:#dbf9ed;border-color:#335268;
 }
+
+/* Avoid a transparent computed background in dark mode: the visual theme
+ * contract must expose an actual dark canvas as well as dark gradients. */
+html[data-theme="dark"] body.rx4-home{background:#050c17!important}
