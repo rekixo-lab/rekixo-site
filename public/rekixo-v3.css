@@ -1452,3 +1452,27 @@ body.rx-v3-page:not(.rx4-home) main :is(.card,.info-tile,.ar-feature,.service-ca
   body.rx-v3-page:not(.rx4-home) main :is(.card,.info-tile,.ar-feature,.service-card){transition:none!important}
   body.rx-v3-page:not(.rx4-home) main :is(.card,.info-tile,.ar-feature,.service-card):hover{transform:none!important}
 }
+
+/* Fix legacy policy.css dark-only text colors when company templates use light cards. */
+html[data-theme="light"] body.rx-v3-page .info-tile span,
+html[data-theme="light"] body.rx-v3-page .info-tile a,
+html[data-theme="light"] body.rx-v3-page .service-card span{color:#445a75!important}
+html[data-theme="light"] body.rx-v3-page .info-tile a{color:#145d9c!important;text-decoration:underline;text-underline-offset:2px}
+html[data-theme="dark"] body.rx-v3-page .info-tile span,
+html[data-theme="dark"] body.rx-v3-page .info-tile a,
+html[data-theme="dark"] body.rx-v3-page .service-card span{color:#c5d7ea!important}
+html[data-theme="dark"] body.rx-v3-page .info-tile a{color:#83c8ff!important}
+html[data-theme="light"] body.rx-v3-page .notice{background:#fff8e9!important;border-color:#c58a21!important;color:#654513!important}
+html[data-theme="dark"] body.rx-v3-page .notice{background:#2b2319!important;border-color:#e7b65b!important;color:#ffdf9d!important}
+html[data-theme="light"] body.rx-v3-page .map{border-color:#cddfed!important;background:#f3f8fe!important}
+html[data-theme="dark"] body.rx-v3-page .map{border-color:#2a4860!important;background:#0a1928!important}
+/* Mobile: keep theme toggle immediately beside, and to the left of, menu. */
+@media(max-width:860px){
+  .rx3-nav{gap:10px}
+  .rx3-nav>.rx3-theme-toggle{margin-left:auto}
+  .rx3-nav>.rx3-menu-btn{margin-left:0}
+}
+@media(prefers-contrast:more){
+  html[data-theme="light"] body.rx-v3-page .info-tile span{color:#233b59!important}
+  html[data-theme="dark"] body.rx-v3-page .info-tile span{color:#e0edfb!important}
+}
