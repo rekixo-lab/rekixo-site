@@ -20,8 +20,16 @@ if (!home.includes("<html") || !home.includes("Rekixo")) throw new Error("Produc
 
 // Release-version checks: generic HTTP 200 alone can pass against an outdated Worker.
 // These pages and copy were introduced by the product-first company release.
-if (!home.includes("Selected custom solutions alongside our own products.")) {
-  throw new Error("Live homepage is still serving a pre-product-first release");
+if (!home.includes('data-rx4-workbench') || !home.includes('data-rx4-asset-slot="ar3d-masterplan"')) {
+  throw new Error("Live homepage is still serving a pre-immersive release");
+}
+const immersiveStyle = await test("Immersive homepage CSS", "/rekixo-immersive.css", {}, 200);
+if (!immersiveStyle.includes(".rx4-home") || !immersiveStyle.includes("prefers-reduced-motion")) {
+  throw new Error("Immersive CSS is not deployed");
+}
+const immersiveBehavior = await test("Immersive homepage JS", "/rekixo-immersive.js", {}, 200);
+if (!immersiveBehavior.includes("data-rx4-workbench")) {
+  throw new Error("Immersive workbench behavior is not deployed");
 }
 const geolive = await test("GeoLive product page", "/geolive.html", {}, 200);
 if (!geolive.includes("GeoLive: location infrastructure for real applications.")) {
