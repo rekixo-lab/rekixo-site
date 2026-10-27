@@ -67,6 +67,80 @@
     });
   }
 
+
+  // Authentic LudoPaws board art; a self-contained showcase animation, not an
+  // online match. Cropped animal portraits are taken from the same board image.
+  const gamePreview = document.querySelector("[data-rx4-ludo-replay]");
+  if (gamePreview) {
+    const dice = gamePreview.querySelector("[data-rx4-lp-dice]");
+    const status = gamePreview.querySelector("[data-rx4-lp-status]");
+    const sequence = [
+      { id: "dog", face: "⚅", name: "Dog", stops: [[43.33, 90], [43.33, 83.33], [43.33, 76.67], [43.33, 70]] },
+      { id: "duck", face: "⚃", name: "Duck", stops: [[56.67, 10], [56.67, 16.67], [56.67, 23.33], [56.67, 30]] },
+      { id: "goat", face: "⚄", name: "Goat", stops: [[10, 43.33], [16.67, 43.33], [23.33, 43.33], [30, 43.33]] },
+      { id: "cat", face: "⚂", name: "Cat", stops: [[90, 56.67], [83.33, 56.67], [76.67, 56.67], [70, 56.67]] }
+    ];
+    let turn = 0;
+    let busy = false;
+    const pause = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
+    const hop = async (animal, x, y, duration) => {
+      const left = x + "%";
+      const top = y + "%";
+      if (!animal.animate || reduced.matches) {
+        animal.style.left = left;
+        animal.style.top = top;
+        return;
+      }
+      const previousX = animal.style.left || getComputedStyle(animal).left;
+      const previousY = animal.style.top || getComputedStyle(animal).top;
+      const animation = animal.animate([
+        { left: previousX, top: previousY, transform: "translate(-50%,-50%) scale(1)" },
+        { left: left, top: top, transform: "translate(-50%,-75%) scale(1.12)", offset: .55 },
+        { left, top, transform: "translate(-50%,-50%) scale(1)" }
+      ], { duration, easing: "ease-in-out" });
+      try { await animation.finished; } catch (_) { /* cancelled / hidden document */ }
+      animal.style.left = left;
+      animal.style.top = top;
+      animation.cancel();
+    };
+    const playTurn = async () => {
+      if (busy) return;
+      busy = true;
+      gamePreview.setAttribute("aria-busy", "true");
+      const step = sequence[turn % sequence.length];
+      const animal = gamePreview.querySelector('[data-rx4-lp-pawn="' + step.id + '"]');
+      status.textContent = step.name + " rolls the dice";
+      try {
+        if (!reduced.matches && dice.animate) {
+          const roll = dice.animate(
+            [{transform:"rotate(-15deg) scale(.88)"},{transform:"rotate(165deg) scale(1.12)"},{transform:"rotate(360deg) scale(1)"}],
+            {duration:540,easing:"ease-in-out"}
+          );
+          try { await roll.finished; } catch (_) { /* reduced motion changed */ }
+        }
+        dice.textContent = step.face;
+        status.textContent = step.name + " moves along the track";
+        for (const [x,y] of step.stops) await hop(animal,x,y, reduced.matches ? 0 : 320);
+        status.textContent = step.name + " moved · tap to roll again";
+        turn++;
+      } finally {
+        busy = false;
+        gamePreview.removeAttribute("aria-busy");
+      }
+    };
+    gamePreview.addEventListener("click", () => { void playTurn(); });
+    // Run just one visible preview turn, then stop. No heavy infinite loop.
+    if (!reduced.matches && "IntersectionObserver" in window) {
+      const once = new IntersectionObserver((entries, observer) => {
+        if (!entries.some(entry => entry.isIntersecting)) return;
+        observer.disconnect();
+        // A microtask lets a direct click win if it happens first.
+        Promise.resolve().then(() => { if (!busy && turn === 0) void playTurn(); });
+      }, { threshold: .65 });
+      once.observe(gamePreview);
+    }
+  }
+
   // If reduced-motion changes while the page is open, remove hidden reveals.
   const showAll = () => {
     if (!reduced.matches) return;
