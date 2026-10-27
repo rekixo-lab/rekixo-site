@@ -22,14 +22,16 @@ test("two owner-approved AR3D images are optimized local WebP with immutable che
   }
 });
 
-test("AR3D card uses cinematic images, not the old synthetic blue plot-grid",()=>{
-  assert.match(html,/rx4-ar-image-square" src="rekixo-ar3d-cinematic-square.webp"/);
-  assert.match(html,/rx4-ar-image-wide" src="rekixo-ar3d-cinematic-wide.webp"/);
+test("AR3D card presents only the full square artwork without hover swapping",()=>{
+  assert.match(html,/class="rx4-ar-image-square" src="rekixo-ar3d-cinematic-square.webp"/);
+  assert.doesNotMatch(html,/class="rx4-ar-image-wide"/);
   assert.doesNotMatch(html,/class="rx4-ar-grid"/);
   assert.doesNotMatch(html,/class="rx4-ar-marker"/);
+  assert.doesNotMatch(html,/class="rx4-ar-image-tag"/);
   assert.match(html,/href="rekixo-ar3d.html"/);
-  assert.match(css,/\.rx4-ar:hover \.rx4-ar-image-wide\{opacity:1/);
-  assert.match(css,/\.rx4-ar:focus-visible \.rx4-ar-image-wide\{opacity:1/);
+  assert.match(css,/\.rx4-home \.rx4-visual\.rx4-ar-media\{[\s\S]*?aspect-ratio:1 \/ 1/);
+  assert.match(css,/\.rx4-home \.rx4-ar-image-square\{[\s\S]*?object-fit:contain/);
+  assert.match(css,/\.rx4-home \.rx4-ar-media::after\{[\s\S]*?display:none/);
   assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
 });
 
@@ -50,9 +52,9 @@ test("AR3D product hero shows cinematic art but real customer-project gallery st
   assert.match(ar,/ar3d-showcase\/ar3d-showcase-03-vatika-green-city.webp/);
   assert.match(ar,/ar3d-showcase\/ar3d-showcase-11-builder-admin-dashboard.webp/);
 });
-test("browser QA protects both image loads, card hover and responsive dimensions",()=>{
+test("browser QA protects square-card dimensions and wide showcase at breakpoints",()=>{
   assert.match(browser,/rekixo-ar3d-cinematic-square.webp/);
   assert.match(browser,/rekixo-ar3d-cinematic-wide.webp/);
-  assert.match(browser,/rx4-ar-image-wide/);
+  assert.match(browser,/Square AR3D card artwork/);
   assert.match(browser,/ar3d-masterplan/);
 });
