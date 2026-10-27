@@ -85,6 +85,12 @@ const boardSha=createHash("sha1").update("blob "+boardBytes.length+"\0").update(
 if(boardSha!=="9dc23518f72968936919cb156ed76f824322e321"){
   throw new Error("Live image does not match the owner-approved LudoPaws illustration");
 }
+if (!immersiveStyle.includes(".rx4-visual.rx4-lp-stage") ||
+    !immersiveStyle.includes("height:auto;aspect-ratio:1/1") ||
+    !immersiveStyle.includes("width:93%;height:auto;aspect-ratio:1/1") ||
+    !immersiveStyle.includes(".rx4-lp-stage::after{display:none}")) {
+  throw new Error("LudoPaws large square stage or board-size CSS not live");
+}
 console.log("PASS Approved LudoPaws complete square illustration and dice preview are live");
 
 // Cinematic AR3D artwork release gate. Verify actual bytes, not an old cached card.

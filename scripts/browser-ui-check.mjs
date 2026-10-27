@@ -98,7 +98,11 @@ try {
           if(width===320 || width===390 || width===1440){
             const entronex=page.locator(".rx4-entro-image");
             await entronex.scrollIntoViewIfNeeded();
-            await entronex.evaluate(img=>img.decode());
+            await entronex.evaluate(img=>{img.loading="eager";});
+            await page.waitForFunction(()=>{
+              const img=document.querySelector(".rx4-entro-image");
+              return img&&img.complete&&img.naturalWidth===1200&&img.naturalHeight===1200;
+            },null,{timeout:12000});
             const view=await entronex.evaluate(img=>{
               const frame=img.closest(".rx4-entro-media");
               const f=frame.getBoundingClientRect(),r=img.getBoundingClientRect();
@@ -115,7 +119,11 @@ try {
           assert.equal(await page.locator(".rx4-geo-globe-image").count(),1,"GeoLive animated globe missing from product grid");
           if(width===320 || width===390 || width===1440){
             await page.locator(".rx4-geo-globe-image").scrollIntoViewIfNeeded();
-            await page.locator(".rx4-geo-globe-image").evaluate(img=>img.decode());
+            await page.locator(".rx4-geo-globe-image").evaluate(img=>{img.loading="eager";});
+            await page.waitForFunction(()=>{
+              const img=document.querySelector(".rx4-geo-globe-image");
+              return img&&img.complete&&img.naturalWidth===1200&&img.naturalHeight===1200;
+            },null,{timeout:12000});
             const geoView=await page.locator(".rx4-geo-globe-image").evaluate(img=>{
               const holder=img.closest(".rx4-geo-globe");
               const box=holder.getBoundingClientRect(),v=img.getBoundingClientRect();
@@ -138,6 +146,40 @@ try {
             "Four animated illustrated animal pawns missing");
           const preview=page.locator("[data-rx4-ludo-replay]");
           assert.equal(await preview.count(),1,"clickable LudoPaws board preview missing");
+          if([320,390,820,1440].includes(width)){
+            await preview.scrollIntoViewIfNeeded();
+            await page.waitForFunction(()=>{
+              const img=document.querySelector(".rx4-lp-board-image");
+              return img&&img.complete&&img.naturalWidth===640&&img.naturalHeight===640;
+            },null,{timeout:12000});
+            const geometry=await preview.evaluate(stage=>{
+              const frame=stage.getBoundingClientRect();
+              const board=stage.querySelector(".rx4-lp-board").getBoundingClientRect();
+              const img=stage.querySelector(".rx4-lp-board-image");
+              const ent=document.querySelector(".rx4-entro-media").getBoundingClientRect();
+              const fstyle=getComputedStyle(stage);
+              return {
+                frameWidth:frame.width,frameHeight:frame.height,
+                frameRatio:frame.width/frame.height,
+                boardRatio:board.width/frame.width,
+                boardSquare:Math.abs(board.width-board.height)<4,
+                imageLoaded:img.complete&&img.naturalWidth===640&&img.naturalHeight===640,
+                imgFit:getComputedStyle(img).objectFit,
+                overlay:getComputedStyle(stage,"::after").display,
+                matchesEntroWidth:Math.abs(frame.width-ent.width)<5,
+                matchesEntroHeight:Math.abs(frame.height-ent.height)<5,
+                fitsViewport:frame.left>=-1&&frame.right<=innerWidth+1
+              };
+            });
+            assert.ok(geometry.frameRatio>.98&&geometry.frameRatio<1.02,
+              "LudoPaws preview must match the EntroNex square design: "+JSON.stringify(geometry));
+            assert.ok(geometry.boardRatio>.90&&geometry.boardRatio<.96&&geometry.boardSquare,
+              "LudoPaws playable board must fill over 90% of the card: "+JSON.stringify(geometry));
+            assert.ok(geometry.imageLoaded&&geometry.imgFit==="contain"&&geometry.overlay==="none",
+              "LudoPaws full board should not be darkened, cropped or unloaded: "+JSON.stringify(geometry));
+            assert.ok(geometry.fitsViewport && (width===820 || (geometry.matchesEntroWidth&&geometry.matchesEntroHeight)),
+              "LudoPaws must match EntroNex when cards share a column width and avoid tablet overflow: "+JSON.stringify(geometry));
+          }
           if(width===390 || width===1440){
             await preview.scrollIntoViewIfNeeded();
             const originalDice=await page.locator("[data-rx4-lp-dice]").textContent();
@@ -181,7 +223,11 @@ try {
             const card=page.locator(".rx4-ar");
             await card.scrollIntoViewIfNeeded();
             const square=page.locator(".rx4-ar-image-square");
-            await square.evaluate(img=>img.decode());
+            await square.evaluate(img=>{img.loading="eager";});
+            await page.waitForFunction(()=>{
+              const img=document.querySelector(".rx4-ar-image-square");
+              return img&&img.complete&&img.naturalWidth===768&&img.naturalHeight===768;
+            },null,{timeout:12000});
             const capture=async()=>await square.evaluate(img=>{
               const stage=img.closest(".rx4-ar-media");
               const frame=stage.getBoundingClientRect();
@@ -301,7 +347,11 @@ try {
           if(width===320 || width===390 || width===1440){
             const img=page.locator(".gl-showcase-visual img");
             await img.scrollIntoViewIfNeeded();
-            await img.evaluate(el=>el.decode());
+            await img.evaluate(el=>{el.loading="eager";});
+            await page.waitForFunction(()=>{
+              const img=document.querySelector(".gl-showcase-visual img");
+              return img&&img.complete&&img.naturalWidth===1200&&img.naturalHeight===1200;
+            },null,{timeout:12000});
             const geo=await img.evaluate(el=>{
               const r=el.getBoundingClientRect();
               return {loaded:el.naturalWidth===1200,src:el.getAttribute("src"),

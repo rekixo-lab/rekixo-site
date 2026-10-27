@@ -201,10 +201,12 @@ html[data-theme="light"] body.rx4-home .rx4-visual.rx4-geo-globe{
  * Always show the entire square; the animation is an optional overlay.
  * No game server or live-match state is represented.
  */
-.rx4-home .rx4-lp-stage{
+/* Match the neighbouring EntroNex art frame exactly at every breakpoint.
+   The legacy landscape-height override made the game board look tiny. */
+.rx4-home .rx4-visual.rx4-lp-stage{
   appearance:none;
   width:calc(100% - 20px);
-  height:clamp(240px,26vw,285px);
+  height:auto;aspect-ratio:1/1;min-height:0;box-sizing:border-box;
   padding:0;border:1px solid rgba(151,135,255,.35);
   background:radial-gradient(ellipse at 50% 35%,#42346d,#181d3c 68%,#0b162b);
   cursor:pointer;isolation:isolate;text-align:center;
@@ -214,12 +216,14 @@ html[data-theme="light"] body.rx4-home .rx4-visual.rx4-geo-globe{
   content:"";position:absolute;inset:0;z-index:-1;opacity:.6;
   background:radial-gradient(circle at 50% 60%,rgba(77,234,173,.17),transparent 70%);
 }
-.rx4-home .rx4-lp-stage::after{
-  background:linear-gradient(to top,rgba(10,12,33,.51),transparent 26%);
-  z-index:2;pointer-events:none;
-}
+/* Let the dogs/cats and lower board tiles stay brightly visible.
+   HUD captions have their own dark backgrounds for legibility. */
+.rx4-home .rx4-lp-stage::after{display:none}
+/* The approved 640px board is now ~93% of the square media frame.
+   Never stretch the artwork; pawn percentages depend on these coordinates. */
 .rx4-home .rx4-lp-board{
-  position:relative;display:block;height:84%;width:auto;aspect-ratio:1;
+  position:relative;display:block;width:93%;height:auto;aspect-ratio:1/1;
+  flex:0 0 auto;box-sizing:border-box;
   border-radius:13px;border:2px solid #97c4a9;
   overflow:hidden;background:#335e45;
   box-shadow:0 18px 30px rgba(0,0,0,.35),0 0 0 3px rgba(128,255,184,.1);
@@ -304,14 +308,14 @@ html[data-theme="light"] body.rx4-home .rx4-lp-topline{
   background:rgba(13,31,51,.94);color:#f6fbff;
 }
 @media(max-width:680px){
- .rx4-home .rx4-lp-stage{height:245px}
  .rx4-home .rx4-lp-topline,.rx4-home .rx4-lp-replay-label,
  .rx4-home .rx4-lp-stage-status{font-size:8px}
 }
 @media(max-width:360px){
- .rx4-home .rx4-lp-stage{height:232px}
- .rx4-home .rx4-lp-stage-status{bottom:42px;left:9px}
- .rx4-home .rx4-lp-replay-label{right:9px;bottom:9px}
+ .rx4-home .rx4-lp-topline{top:7px;left:7px;padding:6px 7px}
+ .rx4-home .rx4-lp-dice{top:7px;right:7px;width:34px;height:34px;font-size:25px}
+ .rx4-home .rx4-lp-stage-status{bottom:38px;left:8px;padding:6px 7px}
+ .rx4-home .rx4-lp-replay-label{right:8px;bottom:8px;padding:6px 8px}
 }
 @media(prefers-reduced-motion:reduce){
  .rx4-home .rx4-lp-animal{will-change:auto}
