@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 // Read-only production smoke checks plus intentionally invalid API requests.
 // This never creates a Razorpay order, sends money, or inserts a customer enquiry.
 const base = "https://rekixo.com";
@@ -60,6 +61,23 @@ const immersiveBehavior = await test("Immersive homepage JS", "/rekixo-immersive
 if (!immersiveBehavior.includes("data-rx4-workbench")) {
   throw new Error("Immersive workbench behavior is not deployed");
 }
+// Asset rollout gate: a 200 homepage can still serve yesterday's mock Ludo disc.
+if (!home.includes('data-rx4-ludo-replay') || !home.includes('src="ludopaws-board.webp"')) {
+  throw new Error("Live LudoPaws card has not switched to the original Android board");
+}
+if (!immersiveBehavior.includes('gamePreview.addEventListener("click"')) {
+  throw new Error("LudoPaws interactive turn controller is not deployed");
+}
+const boardResponse = await fetch(base + "/ludopaws-board.webp", {signal: AbortSignal.timeout(12000),redirect:"error"});
+if(boardResponse.status!==200 || !/image\/webp/i.test(boardResponse.headers.get("content-type") || "")){
+  throw new Error("Original LudoPaws board missing or incorrect WebP MIME type");
+}
+const boardBytes = Buffer.from(await boardResponse.arrayBuffer());
+const originalBoardSha = createHash("sha1").update("blob " + boardBytes.length + "\0").update(boardBytes).digest("hex");
+if(originalBoardSha!=="821adfa6ca1f7c4beca744ac79b2725b3baae4be"){
+  throw new Error("Live LudoPaws screenshot differs from official game artwork");
+}
+console.log("PASS LudoPaws original game board and animated preview deployed");
 const geolive = await test("GeoLive product page", "/geolive.html", {}, 200);
 if (!geolive.includes("GeoLive: location infrastructure for real applications.")) {
   throw new Error("Live GeoLive product page does not match the released version");
