@@ -216,10 +216,9 @@ html[data-theme="light"] body.rx4-home .rx4-visual.rx4-geo-globe{
   content:"";position:absolute;inset:0;z-index:-1;opacity:.6;
   background:radial-gradient(circle at 50% 60%,rgba(77,234,173,.17),transparent 70%);
 }
-.rx4-home .rx4-lp-stage::after{
-  background:linear-gradient(to top,rgba(10,12,33,.51),transparent 26%);
-  z-index:2;pointer-events:none;
-}
+/* Let the dogs/cats and lower board tiles stay brightly visible.
+   HUD captions have their own dark backgrounds for legibility. */
+.rx4-home .rx4-lp-stage::after{display:none}
 /* The approved 640px board is now ~93% of the square media frame.
    Never stretch the artwork; pawn percentages depend on these coordinates. */
 .rx4-home .rx4-lp-board{
