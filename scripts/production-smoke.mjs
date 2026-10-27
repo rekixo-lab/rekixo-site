@@ -61,23 +61,37 @@ const immersiveBehavior = await test("Immersive homepage JS", "/rekixo-immersive
 if (!immersiveBehavior.includes("data-rx4-workbench")) {
   throw new Error("Immersive workbench behavior is not deployed");
 }
-// Asset rollout gate: a 200 homepage can still serve yesterday's mock Ludo disc.
-if (!home.includes('data-rx4-ludo-replay') || !home.includes('src="ludopaws-board.webp"')) {
-  throw new Error("Live LudoPaws card has not switched to the original Android board");
+// New branch asset gate: reject cached/old board screenshots on the live site.
+if (!home.includes('data-rx4-ludo-replay') ||
+    !home.includes('src="ludopaws-classic-code-preview.svg"')) {
+  throw new Error("Live LudoPaws card still uses the pre-2026 screenshot");
 }
-if (!immersiveBehavior.includes('gamePreview.addEventListener("click"')) {
-  throw new Error("LudoPaws interactive turn controller is not deployed");
+if (!immersiveBehavior.includes("START_OFFSETS = { goat:0, duck:13, cat:26, dog:39 }")) {
+  throw new Error("LudoPaws web preview is missing the actual Android track geometry");
 }
-const boardResponse = await fetch(base + "/ludopaws-board.webp", {signal: AbortSignal.timeout(12000),redirect:"error"});
-if(boardResponse.status!==200 || !/image\/webp/i.test(boardResponse.headers.get("content-type") || "")){
-  throw new Error("Original LudoPaws board missing or incorrect WebP MIME type");
+const previewResponse = await fetch(base+"/ludopaws-classic-code-preview.svg",
+  {signal:AbortSignal.timeout(12000),redirect:"error"});
+if (previewResponse.status !== 200 ||
+    !/image\/svg\+xml/.test(previewResponse.headers.get("content-type")||"")) {
+  throw new Error("New Classic code-derived SVG board is missing or has wrong MIME type");
 }
-const boardBytes = Buffer.from(await boardResponse.arrayBuffer());
-const originalBoardSha = createHash("sha1").update("blob " + boardBytes.length + "\0").update(boardBytes).digest("hex");
-if(originalBoardSha!=="821adfa6ca1f7c4beca744ac79b2725b3baae4be"){
-  throw new Error("Live LudoPaws screenshot differs from official game artwork");
+const previewText = await previewResponse.text();
+if (!previewText.includes("Classic LudoPaws Board") ||
+    !previewText.includes('viewBox="0 0 160 160"')) {
+  throw new Error("Old or wrong LudoPaws board preview is deployed");
 }
-console.log("PASS LudoPaws original game board and animated preview deployed");
+const artResponse=await fetch(base+"/ludopaws-2026-official-art.webp",
+  {signal:AbortSignal.timeout(12000),redirect:"error"});
+if(artResponse.status!==200 ||
+  !/image\/webp/i.test(artResponse.headers.get("content-type")||"")){
+  throw new Error("Official new-branch LudoPaws character art is missing");
+}
+const artBytes=Buffer.from(await artResponse.arrayBuffer());
+const artHash=createHash("sha1").update("blob "+artBytes.length+"\0").update(artBytes).digest("hex");
+if(artHash!=="bf6242f71edcc9958024a32bb56a468f0efdd2d8"){
+  throw new Error("Live LudoPaws promotional character art differs from codex/ludopaws-work");
+}
+console.log("PASS LudoPaws 2026 Classic code-derived board and official branch artwork");
 const geolive = await test("GeoLive product page", "/geolive.html", {}, 200);
 if (!geolive.includes("GeoLive: location infrastructure for real applications.")) {
   throw new Error("Live GeoLive product page does not match the released version");
