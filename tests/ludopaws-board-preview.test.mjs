@@ -20,7 +20,7 @@ test("new Classic board web view uses nonuniform Android-branch geometry", () =>
   assert.match(board, /viewBox="0 0 160 160"/);
   assert.match(board, /Classic LudoPaws Board — Code-Derived Web Preview/);
   assert.match(board, /#b6b8a0/);
-  assert.match(board, /M80 83|M80 64/);
+  assert.match(board, /L80 64L94 75/);
   assert.doesNotMatch(html, /src="ludopaws-board\.webp"/);
   assert.match(html, /src="ludopaws-classic-code-preview\.svg"/);
   assert.match(css, /ludopaws-2026-official-art\.webp/);
