@@ -135,28 +135,49 @@ try {
           assert.equal(await page.locator("h1").count(), 1, "homepage needs one H1");
           assert.equal(await page.locator('[data-rx4-asset-slot="ar3d-masterplan"]').count(), 1,
             "large cinematic AR3D feature should replace the old placeholder");
-          assert.equal(await page.locator(".rx4-ar-image").count(), 2, "AR3D card needs both square and wide views");
-          if(width===390 || width===1440){
+          assert.equal(await page.locator(".rx4-ar-image-square").count(),1,
+            "Square AR3D card artwork should be visible, not swapped for a widescreen image");
+          assert.equal(await page.locator(".rx4-ar-image-wide").count(),0,
+            "Widescreen artwork belongs in the large showcase, not the small square card");
+          if(width===320 || width===390 || width===1440){
             const card=page.locator(".rx4-ar");
             await card.scrollIntoViewIfNeeded();
-            await page.waitForFunction(()=>{
-              const imgs=[...document.querySelectorAll(".rx4-ar-image")];
-              return imgs.length===2 && imgs.every(img=>img.complete && img.naturalWidth>0);
-            },null,{timeout:12000});
-            const cardArt=await page.locator(".rx4-ar-image-square").evaluate(img=>({
-              width:img.naturalWidth,height:img.naturalHeight,fit:getComputedStyle(img).objectFit,
-              src:img.getAttribute("src")
-            }));
-            assert.equal(cardArt.src,"rekixo-ar3d-cinematic-square.webp","Wrong AR3D square art");
-            assert.equal(cardArt.width,768,"AR3D square card visual missing");
-            assert.equal(cardArt.height,768,"AR3D square dimensions incorrect");
-            assert.equal(cardArt.fit,"contain","Square AR3D card art must not crop");
+            const square=page.locator(".rx4-ar-image-square");
+            await square.evaluate(img=>img.decode());
+            const capture=async()=>await square.evaluate(img=>{
+              const stage=img.closest(".rx4-ar-media");
+              const frame=stage.getBoundingClientRect();
+              const rect=img.getBoundingClientRect();
+              const style=getComputedStyle(img);
+              return {
+                width:img.naturalWidth,height:img.naturalHeight,
+                src:img.getAttribute("src"),fit:style.objectFit,
+                opacity:style.opacity,
+                aspect:frame.width/frame.height,
+                frameWidth:frame.width,frameHeight:frame.height,
+                drawnWidth:rect.width,drawnHeight:rect.height,
+                gradient:getComputedStyle(stage,"::after").display
+              };
+            });
+            const view=await capture();
+            assert.equal(view.src,"rekixo-ar3d-cinematic-square.webp","Wrong AR3D card asset");
+            assert.equal(view.width,768,"Square AR3D art is not loaded");
+            assert.equal(view.height,768,"AR3D art needs square intrinsic dimensions");
+            assert.equal(view.fit,"contain","AR3D image must remain uncropped");
+            assert.equal(view.opacity,"1","AR3D square image has been hidden");
+            assert.ok(Math.abs(view.aspect-1)<.015 && view.frameWidth>240,
+              "Small AR3D card should use a substantial square frame, not a 245px strip: "+JSON.stringify(view));
+            assert.ok(Math.abs(view.drawnWidth-view.frameWidth)<4 &&
+              Math.abs(view.drawnHeight-view.frameHeight)<4,
+              "Square image must fill the whole square frame: "+JSON.stringify(view));
+            assert.equal(view.gradient,"none","Old dark overlay must not obscure the AR3D artwork");
             if(width===1440){
               await card.hover();
-              const wideSrc=await page.locator(".rx4-ar-image-wide").getAttribute("src");
-              assert.equal(wideSrc,"rekixo-ar3d-cinematic-wide.webp","Wrong AR3D perspective image");
-              const hover=await page.locator(".rx4-ar-image-wide").evaluate(img=>getComputedStyle(img).opacity);
-              assert.equal(hover,"1","AR3D card must reveal widescreen perspective on hover");
+              assert.equal((await capture()).opacity,"1",
+                "AR3D square artwork must stay visible when hovering over the card");
+              await card.focus();
+              assert.equal((await capture()).opacity,"1",
+                "AR3D square artwork must stay visible on keyboard focus");
             }
             const masterplan=page.locator('[data-rx4-asset-slot="ar3d-masterplan"]');
             await masterplan.scrollIntoViewIfNeeded();
