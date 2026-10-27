@@ -71,8 +71,8 @@
 
   // Classic game geometry is copied from codex/ludopaws-work:
   // LudoPawsFxBoardGeometry.kt START_OFFSETS, TRACK and axisBoundary().
-  // Browser preview depicts turns with the official promotional character art.
-  // Android GLES30 character geometry cannot run directly in website JavaScript.
+  // The complete user-supplied artwork stays visible; one small portrait-based token moves after each roll.
+  // This optional demo is a local visual preview, not an online multiplayer match.
   const gamePreview = document.querySelector("[data-rx4-ludo-replay]");
   if (gamePreview) {
     const dice = gamePreview.querySelector("[data-rx4-lp-dice]");
@@ -88,13 +88,15 @@
       [8,4],[8,3],[8,2],[8,1],[8,0],[7,0],[6,0]
     ];
     const START_OFFSETS = { goat:0, duck:13, cat:26, dog:39 };
+    // Recreated square artwork has three equal-width regions: 6 + 3 + 6
+    // logical columns. Use its actual percentage-based grid for pawn centers.
     const axisBoundary = (index) =>
-      index <= 6 ? index * 50 / 6 :
-      index <= 9 ? 50 + (index - 6) * 50 / 3 :
-      100 + (index - 9) * 50 / 6;
+      index <= 6 ? index * (100 / 18) :
+      index <= 9 ? (100 / 3) + (index - 6) * (100 / 9) :
+      (200 / 3) + (index - 9) * (100 / 18);
     const center = ([row, col]) => [
-      (axisBoundary(col) + axisBoundary(col + 1)) / 3,
-      (axisBoundary(row) + axisBoundary(row + 1)) / 3
+      (axisBoundary(col) + axisBoundary(col + 1)) / 2,
+      (axisBoundary(row) + axisBoundary(row + 1)) / 2
     ];
     const sequence = [
       { id:"dog",face:"⚂",roll:3,name:"Dog" },
@@ -133,6 +135,7 @@
       gamePreview.setAttribute("aria-busy","true");
       const step=sequence[turn%sequence.length];
       const animal=gamePreview.querySelector('[data-rx4-lp-pawn="'+step.id+'"]');
+      animal.setAttribute("data-rx4-active","true");
       status.textContent=step.name+" rolling…";
       try {
         if (!reduced.matches && dice.animate) {

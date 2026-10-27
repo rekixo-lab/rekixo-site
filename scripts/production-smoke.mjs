@@ -61,37 +61,31 @@ const immersiveBehavior = await test("Immersive homepage JS", "/rekixo-immersive
 if (!immersiveBehavior.includes("data-rx4-workbench")) {
   throw new Error("Immersive workbench behavior is not deployed");
 }
-// New branch asset gate: reject cached/old board screenshots on the live site.
+// Verify the user-approved LudoPaws image, rather than the retired branch SVG.
 if (!home.includes('data-rx4-ludo-replay') ||
-    !home.includes('src="ludopaws-classic-code-preview.svg"')) {
-  throw new Error("Live LudoPaws card still uses the pre-2026 screenshot");
+    !home.includes('src="ludopaws-user-board-640.avif"')) {
+  throw new Error("Live LudoPaws card is still serving an older board image");
 }
 if (!immersiveBehavior.includes("START_OFFSETS = { goat:0, duck:13, cat:26, dog:39 }")) {
-  throw new Error("LudoPaws web preview is missing the actual Android track geometry");
+  throw new Error("LudoPaws animated preview controller is missing from production");
 }
-const previewResponse = await fetch(base+"/ludopaws-classic-code-preview.svg",
+const boardResponse = await fetch(base+"/ludopaws-user-board-640.avif",
   {signal:AbortSignal.timeout(12000),redirect:"error"});
-if (previewResponse.status !== 200 ||
-    !/image\/svg\+xml/.test(previewResponse.headers.get("content-type")||"")) {
-  throw new Error("New Classic code-derived SVG board is missing or has wrong MIME type");
+if(boardResponse.status!==200 ||
+  !/image\/avif/i.test(boardResponse.headers.get("content-type")||"")){
+  throw new Error("User-approved LudoPaws board AVIF is unavailable or served with the wrong MIME type");
 }
-const previewText = await previewResponse.text();
-if (!previewText.includes("Classic LudoPaws Board") ||
-    !previewText.includes('viewBox="0 0 160 160"')) {
-  throw new Error("Old or wrong LudoPaws board preview is deployed");
+const boardBytes=Buffer.from(await boardResponse.arrayBuffer());
+if(boardBytes.length!==24502 ||
+   boardBytes.toString("ascii",4,8)!=="ftyp" ||
+   boardBytes.toString("ascii",8,12)!=="avif"){
+  throw new Error("Unexpected LudoPaws board image bytes");
 }
-const artResponse=await fetch(base+"/ludopaws-2026-official-art.webp",
-  {signal:AbortSignal.timeout(12000),redirect:"error"});
-if(artResponse.status!==200 ||
-  !/image\/webp/i.test(artResponse.headers.get("content-type")||"")){
-  throw new Error("Official new-branch LudoPaws character art is missing");
+const boardSha=createHash("sha1").update("blob "+boardBytes.length+"\0").update(boardBytes).digest("hex");
+if(boardSha!=="9dc23518f72968936919cb156ed76f824322e321"){
+  throw new Error("Live image does not match the owner-approved LudoPaws illustration");
 }
-const artBytes=Buffer.from(await artResponse.arrayBuffer());
-const artHash=createHash("sha1").update("blob "+artBytes.length+"\0").update(artBytes).digest("hex");
-if(artHash!=="bf6242f71edcc9958024a32bb56a468f0efdd2d8"){
-  throw new Error("Live LudoPaws promotional character art differs from codex/ludopaws-work");
-}
-console.log("PASS LudoPaws 2026 Classic code-derived board and official branch artwork");
+console.log("PASS Approved LudoPaws complete square illustration and dice preview are live");
 const geolive = await test("GeoLive product page", "/geolive.html", {}, 200);
 if (!geolive.includes("GeoLive: location infrastructure for real applications.")) {
   throw new Error("Live GeoLive product page does not match the released version");

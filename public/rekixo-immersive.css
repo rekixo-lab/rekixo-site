@@ -131,10 +131,9 @@ body.rx4-home main p,body.rx4-home main li{color:var(--rx4-copy)!important}
 .rx4-home .rx4-geo-label{position:absolute;bottom:18px;left:14px;z-index:1;color:#91d8d5;font:650 9px ui-monospace,monospace;letter-spacing:.08em}
 
 /*
- * LudoPaws Classic 2026 web preview.
- * Board drawn from codex/ludopaws-work ClassicRoadProfile geometry.
- * Pawns show official LudoPaws art from the same Android branch (not
- * screenshots of the GLES30 in-game models). No fake online match state.
+ * LudoPaws illustrated preview: full approved board recreated by the owner.
+ * Always show the entire square; the animation is an optional overlay.
+ * No game server or live-match state is represented.
  */
 .rx4-home .rx4-lp-stage{
   appearance:none;
@@ -168,33 +167,34 @@ body.rx4-home main p,body.rx4-home main li{color:var(--rx4-copy)!important}
   display:block;position:absolute;inset:0;width:100%;height:100%;
   max-width:none;object-fit:contain;pointer-events:none;
 }
-/* Source is Android res/drawable-nodpi/ludo_paws_home_hero.webp on
-   codex/ludopaws-work. Face crops are official promotional art,
-   not in-game GLES character screenshots or imported 3D geometry. */
+/* Small moving pawns sample the same illustrated board; unlike the old
+   promo art, the avatars belong to the exact square image shown. */
 .rx4-home .rx4-lp-animal{
   display:block;position:absolute;z-index:3;
   width:13.5%;aspect-ratio:1;box-sizing:border-box;
   border:2px solid var(--lp-ring,#80dfff);border-radius:50%;
   transform:translate(-50%,-50%);
-  background-image:url("ludopaws-2026-official-art.webp");
-  background-size:560% auto;
+  background-image:url("ludopaws-user-board-640.avif");
+  background-size:950% 950%;
   background-repeat:no-repeat;
-  background-color:#203a43;
+  background-color:#e7efdf;
+  opacity:0;transition:opacity .12s ease;
   box-shadow:0 3px 8px rgba(0,0,0,.45),0 0 0 2px rgba(255,255,255,.87);
   will-change:transform;
 }
 .rx4-home .rx4-lp-goat{
-  --lp-ring:#f47e77;left:8.33%;top:38.89%;background-position:99% 81%;
+  --lp-ring:#f47e77;left:8.33%;top:38.89%;background-position:12% 11%;
 }
 .rx4-home .rx4-lp-duck{
-  --lp-ring:#61e4af;left:61.11%;top:8.33%;background-position:70% 82%;
+  --lp-ring:#61e4af;left:61.11%;top:8.33%;background-position:85% 11%;
 }
 .rx4-home .rx4-lp-dog{
-  --lp-ring:#72c9ff;left:38.89%;top:91.67%;background-position:13% 75%;
+  --lp-ring:#72c9ff;left:38.89%;top:91.67%;background-position:12% 83%;
 }
 .rx4-home .rx4-lp-cat{
-  --lp-ring:#f9cf71;left:91.67%;top:61.11%;background-position:42% 83%;
+  --lp-ring:#f9cf71;left:91.67%;top:61.11%;background-position:85% 83%;
 }
+.rx4-home .rx4-lp-animal[data-rx4-active="true"]{opacity:1}
 .rx4-home .rx4-lp-topline,.rx4-home .rx4-lp-replay-label,.rx4-home .rx4-lp-stage-status{
   position:absolute;z-index:4;
   border:1px solid rgba(190,193,246,.25);
