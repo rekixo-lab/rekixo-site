@@ -71,8 +71,8 @@
 
   // Classic game geometry is copied from codex/ludopaws-work:
   // LudoPawsFxBoardGeometry.kt START_OFFSETS, TRACK and axisBoundary().
-  // Browser preview depicts turns with the official promotional character art.
-  // Android GLES30 character geometry cannot run directly in website JavaScript.
+  // The complete user-supplied artwork stays visible; one small portrait-based token moves after each roll.
+  // This optional demo is a local visual preview, not an online multiplayer match.
   const gamePreview = document.querySelector("[data-rx4-ludo-replay]");
   if (gamePreview) {
     const dice = gamePreview.querySelector("[data-rx4-lp-dice]");
@@ -133,6 +133,7 @@
       gamePreview.setAttribute("aria-busy","true");
       const step=sequence[turn%sequence.length];
       const animal=gamePreview.querySelector('[data-rx4-lp-pawn="'+step.id+'"]');
+      animal.setAttribute("data-rx4-active","true");
       status.textContent=step.name+" rolling…";
       try {
         if (!reduced.matches && dice.animate) {
