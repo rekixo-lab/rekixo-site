@@ -132,9 +132,44 @@ if(!ar3dPage.includes('src="rekixo-ar3d-cinematic-wide.webp"') ||
 console.log("PASS Cinematic AR3D card, full feature, product page and customer gallery");
 
 const geolive = await test("GeoLive product page", "/geolive.html", {}, 200);
-if (!geolive.includes("GeoLive: location infrastructure for real applications.")) {
-  throw new Error("Live GeoLive product page does not match the released version");
+if (!geolive.includes("GeoLive: live location for your software, powered by APIs.") ||
+    !geolive.includes('src="geolive-globe-animated.svg"') ||
+    !geolive.includes('App &amp; Admin Dashboards') ||
+    !geolive.includes("API integration, not a dashboard embed") ||
+    !geolive.includes("trusted backend relay")) {
+  throw new Error("Live GeoLive page is missing the animated globe or cross-platform API integration copy");
 }
+if (!home.includes('class="rx4-geo-globe-image" src="geolive-globe-animated.svg"') ||
+    home.includes('class="rx4-radar"') ||
+    !home.includes("custom software and your own dashboards through secure GeoLive APIs")) {
+  throw new Error("Homepage still shows the old GeoLive radar or lacks API integration message");
+}
+if (!immersiveStyle.includes(".rx4-visual.rx4-geo-globe") ||
+    !immersiveStyle.includes(".rx4-geo-globe-image")) {
+  throw new Error("GeoLive full square responsive visual CSS is not deployed");
+}
+const geoCss = await test("GeoLive experience CSS","/geolive-experience.css",{},200);
+if (!geoCss.includes(".gl-showcase") || !geoCss.includes("prefers-reduced-motion:reduce")) {
+  throw new Error("GeoLive experience CSS or accessibility controls are missing");
+}
+const geoAsset = await fetch(base + "/geolive-globe-animated.svg",{
+  signal:AbortSignal.timeout(12000),redirect:"error"
+});
+if (geoAsset.status!==200 || !/image\/svg\+xml/i.test(geoAsset.headers.get("content-type")||"")) {
+  throw new Error("Animated GeoLive SVG missing or served with incorrect MIME type");
+}
+const geoBytes = Buffer.from(await geoAsset.arrayBuffer());
+const geoSha = createHash("sha1").update("blob "+geoBytes.length+"\0").update(geoBytes).digest("hex");
+if(geoSha!=="ee9b8e4e3c0dabc9cb0abb4e34fde812b6bf756a") {
+  throw new Error("Deployed GeoLive SVG differs from approved animated concept");
+}
+const geoSource=geoBytes.toString("utf8");
+if(!geoSource.includes("geo-route") ||
+   !geoSource.includes("@media(prefers-reduced-motion:reduce)") ||
+   geoSource.includes("<script")) {
+  throw new Error("GeoLive SVG has no safe animated routes or reduced motion");
+}
+console.log("PASS Animated GeoLive concept and multi-platform API integration are live");
 const statusPage = await test("Product status page", "/product-status.html", {}, 200);
 if (!statusPage.includes("Product status and availability notes.")) {
   throw new Error("Live product status page does not match the released version");

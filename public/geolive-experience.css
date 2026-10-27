@@ -1,0 +1,86 @@
+/* GeoLive visual is a non-dashboard, read-only product illustration. */
+body.rx-v3-page .gl-showcase{
+  display:grid;grid-template-columns:minmax(0,.98fr) minmax(0,1.02fr);
+  align-items:center;gap:clamp(20px,3.5vw,42px);
+  margin-top:14px!important;margin-bottom:30px!important;
+  padding:clamp(18px,2.5vw,28px);
+  border:1px solid #bfdedb;border-radius:25px;
+  background:linear-gradient(135deg,#f0fcf8,#edf7ff 78%,#f7fbff);
+  box-shadow:0 20px 55px rgba(21,68,105,.07);
+  min-width:0;
+}
+body.rx-v3-page .gl-showcase-visual{
+  min-width:0;margin:0;position:relative;overflow:hidden;
+  border-radius:20px;border:1px solid #25576c;background:#04121d;
+  box-shadow:0 20px 40px rgba(6,30,51,.22);
+}
+body.rx-v3-page .gl-showcase-visual img{
+  display:block;width:100%;height:auto;aspect-ratio:1/1;
+  object-fit:contain;max-width:100%;transform:translateY(0);
+  transition:transform .7s ease,filter .7s ease;
+}
+@media(hover:hover) and (pointer:fine){
+  body.rx-v3-page .gl-showcase-visual:hover img{transform:translateY(-4px);filter:brightness(1.08)}
+}
+body.rx-v3-page .gl-showcase-visual figcaption{
+  position:absolute;bottom:12px;left:50%;width:max-content;max-width:calc(100% - 20px);
+  transform:translateX(-50%);padding:7px 10px;border-radius:8px;
+  background:rgba(3,16,28,.91);color:#b8eee1;
+  font:700 9px/1.3 ui-monospace,SFMono-Regular,monospace;
+  letter-spacing:.07em;text-align:center;
+}
+body.rx-v3-page .gl-showcase-copy{min-width:0}
+body.rx-v3-page .gl-eyebrow{
+  color:#087b67;font:800 10px/1.5 ui-monospace,SFMono-Regular,monospace;
+  letter-spacing:.11em;margin-bottom:14px;
+}
+body.rx-v3-page .gl-showcase-copy h2{
+  font-size:clamp(27px,3vw,43px)!important;line-height:1.14!important;margin:0 0 18px!important
+}
+body.rx-v3-page .gl-showcase-copy>p{
+  margin:0 0 19px!important;font-size:15px!important;line-height:1.75!important
+}
+body.rx-v3-page .gl-integrations{
+  display:flex;flex-wrap:wrap;gap:9px;margin-bottom:19px
+}
+body.rx-v3-page .gl-integrations span{
+  display:inline-flex;align-items:center;border:1px solid #bcded7;
+  color:#0d554e;background:#fff;border-radius:100px;padding:8px 12px;
+  font-size:12px;font-weight:750;line-height:1.3
+}
+body.rx-v3-page .gl-showcase-copy .gl-trust-note{
+  padding:13px 14px;margin:0 0 18px!important;
+  border-left:3px solid #10bd91;background:rgba(10,178,142,.07);
+  border-radius:0 10px 10px 0;font-size:12px!important;color:#3c6876!important
+}
+body.rx-v3-page .gl-showcase-copy .gl-trust-note strong{color:#174d50!important}
+body.rx-v3-page .gl-detail-link{
+  color:#08745d!important;text-underline-offset:4px;
+  font-size:13px;font-weight:800
+}
+html[data-theme="dark"] body.rx-v3-page .gl-showcase{
+  background:linear-gradient(145deg,#091e2d,#0c2733)!important;
+  border-color:#255267!important;
+}
+html[data-theme="dark"] body.rx-v3-page .gl-eyebrow{color:#6ef1d1}
+html[data-theme="dark"] body.rx-v3-page .gl-integrations span{
+  color:#c9f7e9;background:#112d3c;border-color:#326675
+}
+html[data-theme="dark"] body.rx-v3-page .gl-detail-link{color:#8affde!important}
+html[data-theme="dark"] body.rx-v3-page .gl-showcase-copy .gl-trust-note{
+  background:rgba(13,184,138,.1);color:#a7d1d4!important
+}
+html[data-theme="dark"] body.rx-v3-page .gl-showcase-copy .gl-trust-note strong{color:#c0fbe8!important}
+@media(max-width:860px){
+ body.rx-v3-page .gl-showcase{grid-template-columns:1fr}
+ body.rx-v3-page .gl-showcase-visual{width:min(100%,540px);justify-self:center}
+}
+@media(max-width:420px){
+ body.rx-v3-page .gl-showcase{padding:13px;gap:20px;border-radius:19px}
+ body.rx-v3-page .gl-showcase-visual{border-radius:15px}
+ body.rx-v3-page .gl-integrations span{padding:7px 9px;font-size:11px}
+ body.rx-v3-page .gl-showcase-visual figcaption{font-size:7px}
+}
+@media(prefers-reduced-motion:reduce){
+ body.rx-v3-page .gl-showcase-visual img{transition:none!important;transform:none!important}
+}
