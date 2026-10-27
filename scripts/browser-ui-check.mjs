@@ -93,6 +93,30 @@ try {
         }
         if (path === "/") {
           assert.equal(await page.locator("#products .rx3-product-card").count(), 5, "missing product catalog items");
+          // The preview is not stock Ludo art: load the exact official WebP locally.
+          assert.equal(await page.locator(".rx4-lp-board-image").count(),1,"real game board screenshot missing");
+          assert.equal(await page.locator("[data-rx4-lp-pawn]").count(),4,"four real animal sprites missing");
+          const preview=page.locator("[data-rx4-ludo-replay]");
+          assert.equal(await preview.count(),1,"clickable LudoPaws board preview missing");
+          if(width===390 || width===1440){
+            await preview.scrollIntoViewIfNeeded();
+            const originalDice=await page.locator("[data-rx4-lp-dice]").textContent();
+            await preview.click();
+            await page.waitForFunction(() => {
+              const status=document.querySelector("[data-rx4-lp-status]");
+              return status && status.textContent.includes("moved");
+            }, {timeout:7000});
+            assert.notEqual(await page.locator("[data-rx4-lp-dice]").textContent(),originalDice,
+              "LudoPaws dice did not roll");
+            assert.equal(await page.locator("[data-rx4-lp-pawn='dog']").evaluate(el=>el.style.left),
+              "43.33%","Dog pawn did not follow the real board entrance lane");
+            const asset=await page.locator(".rx4-lp-board-image").evaluate(img=>({
+              loaded:img.complete && img.naturalWidth>0,
+              src:img.getAttribute("src")
+            }));
+            assert.ok(asset.loaded && asset.src==="ludopaws-board.webp",
+              "Real board image did not render");
+          }
           assert.equal(await page.locator("h1").count(), 1, "homepage needs one H1");
           assert.equal(await page.locator('[data-rx4-asset-slot="ar3d-masterplan"]').count(), 1,
             "real estate slot must remain available for the owner's original image");
