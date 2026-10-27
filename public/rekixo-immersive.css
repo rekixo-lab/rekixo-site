@@ -249,7 +249,7 @@ body.rx4-home main p,body.rx4-home main li{color:var(--rx4-copy)!important}
 /* Existing reveal observer remains source of truth. No JS = readable content. */
 .rx4-home .rx3-reveal{opacity:1;transform:none}
 .rx4-home.rx4-ready .rx3-reveal:not(.is-visible){opacity:0;transform:translateY(22px)}
-.rx4-home.rx4-ready .rx3-reveal.is-visible{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.rx4-home.rx4-ready .rx3-reveal.is-visible{opacity:1;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
 @media(max-width:1150px){
   .rx4-home .rx4-hero-layout{gap:35px}
   .rx4-home .rx4-floating-chip{display:none}
