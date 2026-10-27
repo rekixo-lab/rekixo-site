@@ -29,8 +29,8 @@ let checks = 0;
 
 try {
   browser = await chromium.launch({ headless: true });
-  for (const width of [320, 360, 390, 430, 768, 1024, 1440]) {
-    for (const path of ["/", "/contact.html", "/portfolio.html", "/privacy-policy.html", "/rekixo-ar3d.html"]) {
+  for (const width of [320, 360, 390, 430, 768, 820, 1024, 1440, 1920]) {
+    for (const path of ["/", "/contact.html", "/portfolio.html", "/privacy-policy.html", "/rekixo-ar3d.html", "/about.html", "/business-info.html", "/geolive.html", "/product-status.html"]) {
       const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: "reduce" });
       try {
         // Ensure synthetic QA never reaches analytics, Razorpay, external sites or APIs.
@@ -106,7 +106,18 @@ try {
           assert.ok(scrollData.scrollWidth > scrollData.clientWidth,
             "AR3D preview gallery should scroll sideways without document overflow");
         }
+        if (path === "/geolive.html") {
+          assert.equal(await page.locator("#features h2").count(), 1);
+          assert.equal(await page.locator("#privacy h2").count(), 1);
+        }
+        if (path === "/product-status.html") {
+          assert.equal(await page.locator('meta[name="robots"][content="noindex,follow"]').count(), 1);
+        }
         if (width === 390) {
+          const beforeTheme = await page.locator("html").getAttribute("data-theme");
+          await page.locator(".rx3-theme-toggle").click();
+          const afterTheme = await page.locator("html").getAttribute("data-theme");
+          assert.notEqual(afterTheme, beforeTheme, "theme toggle must change the page theme");
           const menu = page.locator(".rx3-menu-btn");
           await menu.click();
           assert.equal(await menu.getAttribute("aria-expanded"), "true", path + " mobile menu did not open");
