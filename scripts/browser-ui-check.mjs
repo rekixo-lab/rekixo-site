@@ -2,7 +2,7 @@
 /** Non-destructive browser QA against local static assets. No production API calls. */
 import { chromium } from "playwright";
 import { createServer } from "node:http";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join, resolve, sep, extname } from "node:path";
 import assert from "node:assert/strict";
@@ -80,6 +80,16 @@ try {
         assert.ok(dimensions.themeFits, path + " theme control outside " + width + "px viewport");
         if (width <= 860) {
           assert.ok(dimensions.menuVisible && dimensions.menuFits, path + " menu button missing/out of frame at " + width);
+          const positions = await page.evaluate(() => {
+            const theme = document.querySelector(".rx3-theme-toggle").getBoundingClientRect();
+            const menu = document.querySelector(".rx3-menu-btn").getBoundingClientRect();
+            const logo = document.querySelector(".rx3-brand").getBoundingClientRect();
+            return { gap:menu.left - theme.right, delta:Math.abs(menu.top - theme.top),
+              left: theme.left - logo.right, right:menu.right };
+          });
+          assert.ok(positions.gap >= 0 && positions.gap <= 14 && positions.delta < 2 &&
+            positions.left > 0 && positions.right <= width + 1,
+            path + " mobile theme control must be immediately beside the menu: " + JSON.stringify(positions));
         }
         if (path === "/") {
           assert.equal(await page.locator("#products .rx3-product-card").count(), 5, "missing product catalog items");
@@ -145,6 +155,69 @@ try {
       }
     }
   }
+
+  // Cross-theme coverage for all published HTML, not just the homepage.
+  // Older policy.css has dark-only text on newly light-colored cards.
+  const pages = (await readdir(publicDir)).filter(n => n.endsWith(".html"));
+  for (const width of [320, 390, 820, 1440]) {
+    for (const name of pages) {
+      const page = await browser.newPage({ viewport:{width,height:900}, reducedMotion:"reduce" });
+      try {
+        await page.route("**/*", route => {
+          if (new URL(route.request().url()).hostname !== "127.0.0.1") return route.abort();
+          return route.continue();
+        });
+        await page.addInitScript(() => { try {localStorage.setItem("rekixo-theme","light")} catch (_) {} });
+        assert.equal((await page.goto(origin + "/" + name, { waitUntil:"domcontentloaded" })).status(), 200);
+        for (const theme of ["light","dark"]) {
+          if (theme === "dark") {
+            const btn = page.locator(".rx3-theme-toggle");
+            if (await btn.count() && await btn.isVisible()) await btn.click();
+            else await page.evaluate(() => { document.documentElement.dataset.theme = "dark"; });
+          }
+          const result = await page.evaluate(() => {
+            const theme = document.documentElement.dataset.theme;
+            const rgb = text => {
+              const s = text.match(/[\d.]+/g);
+              return s && s.length >= 3 ? s.slice(0,3).map(Number) : null;
+            };
+            const lum = color => color.map(n => { const c=n/255; return c<=.04045?c/12.92:((c+.055)/1.055)**2.4; })
+              .reduce((sum,v,i) => sum + v * [.2126,.7152,.0722][i],0);
+            const contrast = (a,b) => {
+              const x=lum(a),y=lum(b); return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);
+            };
+            const selector = "main .info-tile span,main .info-tile a,main .notice,main .service-card span," +
+              "main :is(.card,.section-card,.legal-card,.service-card,.ar-feature,.control-item,.ar-metric,.ar-step,.compare-card,.builder-card,.arch-box,.hires-note) :is(p,li)";
+            const issues=[];
+            for(const el of document.querySelectorAll(selector)){
+              if(!el.textContent.trim() || el.closest('[aria-hidden="true"]'))continue;
+              const style=getComputedStyle(el),box=el.getBoundingClientRect();
+              if(style.display==="none"||style.visibility==="hidden"||box.width<1)continue;
+              const fg=rgb(style.color);if(!fg)continue;
+              let parent=el.closest(".notice,.info-tile,.service-card,.card,.section-card,.legal-card,.ar-feature,.control-item,.ar-metric,.ar-step,.compare-card,.builder-card,.arch-box,.hires-note");
+              let bg=null;
+              while(parent){
+                const color=getComputedStyle(parent).backgroundColor,rgba=color.match(/[\d.]+/g);
+                if(color.startsWith("rgb(") || (color.startsWith("rgba(")&&Number(rgba?.[3])>=.98)){
+                  bg=rgb(color);break;
+                }
+                parent=parent.parentElement;
+              }
+              bg ||= theme==="dark" ? [7,17,31]:[255,255,255];
+              const ratio=contrast(fg,bg);
+              if(ratio<4.5)issues.push({text:el.textContent.trim().slice(0,48),color:style.color,background:bg,ratio:ratio.toFixed(2)});
+            }
+            return {theme,scrollWidth:document.documentElement.scrollWidth,issues:issues.slice(0,10)};
+          });
+          assert.equal(result.theme,theme,name+" missing "+theme+" theme");
+          assert.ok(result.scrollWidth<=width+1,name+" "+theme+" overflows at "+width);
+          assert.equal(result.issues.length,0,name+" "+theme+" WCAG-AA text contrast at "+width+": "+JSON.stringify(result.issues));
+          checks++;
+        }
+      } finally { await page.close(); }
+    }
+  }
+
   console.log("UI browser smoke passed: " + checks + " page/viewport combinations, no submissions.");
 } finally {
   if (browser) await browser.close();
