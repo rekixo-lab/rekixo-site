@@ -93,11 +93,11 @@ try {
         }
         if (path === "/") {
           assert.equal(await page.locator("#products .rx3-product-card").count(), 5, "missing product catalog items");
-          // Code-derived Classic board and official art from development branch.
+          // User-approved square artwork; verify full image rather than old Classic SVG.
           assert.equal(await page.locator(".rx4-lp-board-image").count(),1,
-            "Classic board code-derived artwork missing");
+            "Approved LudoPaws board image missing");
           assert.equal(await page.locator("[data-rx4-lp-pawn]").count(),4,
-            "four animated official-art character pawns missing");
+            "Four animated illustrated animal pawns missing");
           const preview=page.locator("[data-rx4-ludo-replay]");
           assert.equal(await preview.count(),1,"clickable LudoPaws board preview missing");
           if(width===390 || width===1440){
@@ -113,15 +113,24 @@ try {
             assert.equal(await page.locator("[data-rx4-lp-pawn='dog']").evaluate(el=>el.style.left),
               "38.89%","Dog pawn should align with Android board track after three steps");
             const asset=await page.locator(".rx4-lp-board-image").evaluate(img=>({
-              loaded:img.complete && img.naturalWidth>0,
+              loaded:img.complete && img.naturalWidth===640 && img.naturalHeight===640,
               src:img.getAttribute("src")
             }));
-            assert.ok(asset.loaded && asset.src==="ludopaws-classic-code-preview.svg",
-              "Classic code-derived preview did not render");
+            assert.ok(asset.loaded && asset.src==="ludopaws-user-board-640.avif",
+              "User-approved square LudoPaws board image did not render");
+            const fullFrame=await page.locator(".rx4-lp-board-image").evaluate(img=>{
+              const board=img.closest(".rx4-lp-board").getBoundingClientRect();
+              const frame=img.getBoundingClientRect();
+              const css=getComputedStyle(img);
+              return {square:Math.abs(board.width-board.height)<3,fit:css.objectFit,
+                sameFrame:Math.abs(frame.width-board.width)<6 && Math.abs(frame.height-board.height)<6};
+            });
+            assert.ok(fullFrame.square && fullFrame.fit==="contain" && fullFrame.sameFrame,
+              "Full square LudoPaws image must not be cropped or stretched: "+JSON.stringify(fullFrame));
             const pawnArt=await page.locator(".rx4-lp-animal").first().evaluate(el=>
               getComputedStyle(el).backgroundImage);
-            assert.ok(pawnArt.includes("ludopaws-2026-official-art.webp"),
-              "Official latest-branch character artwork missing");
+            assert.ok(pawnArt.includes("ludopaws-user-board-640.avif"),
+              "Illustrated token crop does not match displayed LudoPaws board");
           }
           assert.equal(await page.locator("h1").count(), 1, "homepage needs one H1");
           assert.equal(await page.locator('[data-rx4-asset-slot="ar3d-masterplan"]').count(), 1,
