@@ -84,6 +84,21 @@ try {
         if (path === "/") {
           assert.equal(await page.locator("#products .rx3-product-card").count(), 5, "missing product catalog items");
           assert.equal(await page.locator("h1").count(), 1, "homepage needs one H1");
+          assert.equal(await page.locator('[data-rx4-asset-slot="ar3d-masterplan"]').count(), 1,
+            "real estate slot must remain available for the owner's original image");
+          assert.equal(await page.locator('[data-rx4-workbench] [role="tab"]').count(), 3,
+            "engineering workbench needs three selectable technical layers");
+          const backendTab = page.locator('[data-rx4-tab="backend"]');
+          await backendTab.click();
+          assert.equal(await backendTab.getAttribute("aria-selected"), "true");
+          assert.equal(await page.locator('[data-rx4-panel="backend"]').isVisible(), true);
+          assert.equal(await page.locator('[data-rx4-panel="frontend"]').isVisible(), false);
+          await backendTab.focus();
+          await page.keyboard.press("ArrowRight");
+          assert.equal(await page.locator('[data-rx4-tab="release"]').getAttribute("aria-selected"), "true",
+            "keyboard arrow keys must switch engineering layer");
+          const animation = await page.locator(".rx4-aura-one").evaluate((node) => getComputedStyle(node).animationName);
+          assert.equal(animation, "none", "reduced-motion users must not receive ambient animation");
         }
         if (path === "/contact.html") {
           const form = page.locator('form[data-project-request-form]');
