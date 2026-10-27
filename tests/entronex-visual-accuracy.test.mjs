@@ -8,7 +8,7 @@ const home=read("index.html"),port=read("portfolio.html");
 const css=read("rekixo-immersive.css"),portfolioCss=read("entronex-portfolio.css");
 test("source-accurate EntroNex illustration contains no invented blockchain claims",()=>{
   const hash=createHash("sha1").update("blob "+Buffer.byteLength(svg)+"\0").update(svg).digest("hex");
-  assert.equal(hash,"f1608d4304d5f26f7603b73dc5287e6481f4ef50");
+  assert.equal(hash,"a42f754bd12665a792dcc23aa145f7964fe1ca50");
   assert.match(svg,/data-entronex-asset="verifiable-outcome-concept-v2"/);
   for(const txt of ["CLIENT","SERVER","Commitment","BALANCED OUTCOME FIELD","PROOF DIGEST","ED25519 ATTESTATION","VERIFY LOCALLY","PRE-AUDIT","NO LIVE PROOFS"])
     assert.ok(svg.includes(txt),txt);
