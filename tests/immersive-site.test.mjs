@@ -18,10 +18,13 @@ test("premium homepage is a product-first developer experience, not a fake live 
   assert.equal((home.match(/rx3-product-card rx3-reveal rx4-product-card/g) || []).length, 5);
 });
 
-test("genuine AR3D visual is intentionally left for the owner", () => {
+test("approved AR3D concept assets replace mock grid and empty masterplan without mislabeling samples", () => {
   assert.match(home, /data-rx4-asset-slot="ar3d-masterplan"/);
-  assert.match(home, /YOUR ORIGINAL MASTERPLAN/);
-  assert.match(home, /no sample property shown/i);
+  assert.match(home, /rekixo-ar3d-cinematic-square.webp/);
+  assert.match(home, /rekixo-ar3d-cinematic-wide.webp/);
+  assert.match(home, /CONCEPT VISUAL · SAMPLE PLOT DATA/);
+  assert.doesNotMatch(home, /YOUR ORIGINAL MASTERPLAN/);
+  assert.doesNotMatch(home, /class="rx4-ar-grid"/);
   assert.doesNotMatch(home, /ar3d-showcase-04-arising-future-city.webp/);
 });
 
