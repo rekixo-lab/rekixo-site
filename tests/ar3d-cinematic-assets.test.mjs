@@ -55,6 +55,6 @@ test("AR3D product hero shows cinematic art but real customer-project gallery st
 test("browser QA protects square-card dimensions and wide showcase at breakpoints",()=>{
   assert.match(browser,/rekixo-ar3d-cinematic-square.webp/);
   assert.match(browser,/rekixo-ar3d-cinematic-wide.webp/);
-  assert.match(browser,/square AR3D card/);
+  assert.match(browser,/Square AR3D card artwork/);
   assert.match(browser,/ar3d-masterplan/);
 });
