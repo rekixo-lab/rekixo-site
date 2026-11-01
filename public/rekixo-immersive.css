@@ -317,6 +317,7 @@ html[data-theme="light"] body.rx4-home .rx4-lp-install-link:hover{background:#0d
   display:inline-flex;gap:8px;margin-top:17px;color:#8af8d8;
   font-size:12px;font-weight:800;text-decoration:none;
 }
+.rx4-home .rx4-lp-actions .rx4-lp-details-link{margin-top:0}
 .rx4-home .rx4-lp-details-link:hover{text-decoration:underline;text-underline-offset:3px}
 html[data-theme="light"] body.rx4-home .rx4-lp-details-link{color:#096f55}
 html[data-theme="light"] body.rx4-home .rx4-lp-stage{
