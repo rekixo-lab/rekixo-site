@@ -293,10 +293,31 @@ html[data-theme="light"] body.rx4-home .rx4-visual.rx4-geo-globe{
   bottom:11px;left:11px;padding:8px 9px;color:#dfedff;
 }
 .rx4-home .rx4-lp-stage[aria-busy="true"] .rx4-lp-dice{border-color:#8defdb}
+.rx4-home .rx4-lp-launch-badge{
+  display:inline-block;margin-bottom:10px;padding:5px 10px;border:1px solid #66e5ba;
+  border-radius:999px;color:#9cf8d8;background:#123d35;font:800 10px ui-monospace,monospace;
+  letter-spacing:.075em;
+}
+.rx4-home .rx4-lp-actions{display:flex;align-items:center;gap:12px 18px;flex-wrap:wrap;margin-top:18px}
+.rx4-home .rx4-lp-install-link{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;
+  padding:11px 16px;border-radius:12px;background:#7df3c9;color:#062b23!important;
+  font-size:13px;font-weight:800;line-height:1.35;text-decoration:none;
+}
+.rx4-home .rx4-lp-install-link:hover{background:#b0ffe3;transform:translateY(-1px)}
+.rx4-home .rx4-lp-install-link:focus-visible,.rx4-home .rx4-lp-details-link:focus-visible{
+  outline:3px solid #ffde83;outline-offset:3px;
+}
+html[data-theme="light"] body.rx4-home .rx4-lp-launch-badge{
+  border-color:#198765;background:#e1f8ed;color:#075a3c;
+}
+html[data-theme="light"] body.rx4-home .rx4-lp-install-link{background:#075e47;color:#fff!important}
+html[data-theme="light"] body.rx4-home .rx4-lp-install-link:hover{background:#0d795c}
 .rx4-home .rx4-lp-details-link{
   display:inline-flex;gap:8px;margin-top:17px;color:#8af8d8;
   font-size:12px;font-weight:800;text-decoration:none;
 }
+.rx4-home .rx4-lp-actions .rx4-lp-details-link{margin-top:0}
 .rx4-home .rx4-lp-details-link:hover{text-decoration:underline;text-underline-offset:3px}
 html[data-theme="light"] body.rx4-home .rx4-lp-details-link{color:#096f55}
 html[data-theme="light"] body.rx4-home .rx4-lp-stage{

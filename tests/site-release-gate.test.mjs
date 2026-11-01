@@ -41,7 +41,7 @@ test("portfolio remains five families with accurate caveats and distinct develop
   assert.ok(home.includes('href="geolive.html"'));
   assert.match(geo, /trusted backend relay/i);
   assert.match(geo, /separate maintained Node\/PostgreSQL reference/i);
-  assert.match(status, /25 October 2026/);
+  assert.match(status, /Publisher-confirmed Google Play launch, 1 November 2026/);
   assert.match(status, /pre-independent-audit/i);
   assert.match(read("rekixo-ar3d.html"), /separate database, asset storage and deployment boundaries/i);
 });
@@ -71,7 +71,8 @@ test("governance and privacy retain real provider disclosures and release limita
   for (const provider of ["Cloudflare D1", "Gmail API", "Razorpay", "local storage"]) {
     assert.ok(privacy.toLowerCase().includes(provider.toLowerCase()));
   }
-  assert.match(status, /Google Play production review/i);
+  assert.match(status, /Publisher-confirmed Google Play launch/i);
+  assert.match(status, /https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.rekixo\.ludopaws/);
   assert.match(status, /not a live availability dashboard/i);
   assert.match(shared, /Privacy Policy/);
   assert.match(shared, /Delivery Policy/);
