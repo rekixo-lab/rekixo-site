@@ -45,7 +45,7 @@ test("animated tokens follow the approved art's three equal regions and original
 });
 
 test("preview is accessible, honest and not connected to real multiplayer traffic", () => {
-  assert.match(html,/Tap for a short illustrative dice-and-pawn move/);
+  assert.match(html,/Try the interactive board preview/);
   assert.match(html,/data-rx4-lp-status aria-live="polite"/);
   assert.match(html,/<button class="rx4-visual rx4-ludo-art rx4-lp-stage" type="button"/);
   assert.match(html,/href="portfolio\.html#ludopaws"/);
