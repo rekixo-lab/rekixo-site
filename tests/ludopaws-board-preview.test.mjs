@@ -49,6 +49,9 @@ test("preview is accessible, honest and not connected to real multiplayer traffi
   assert.match(html,/data-rx4-lp-status aria-live="polite"/);
   assert.match(html,/<button class="rx4-visual rx4-ludo-art rx4-lp-stage" type="button"/);
   assert.match(html,/href="portfolio\.html#ludopaws"/);
+  assert.match(html,/class="rx4-lp-install-link" href="https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.rekixo\.ludopaws"/);
+  assert.match(css,/\.rx4-home \.rx4-lp-install-link:focus-visible/);
+  assert.match(html,/ON GOOGLE PLAY/);
   assert.doesNotMatch(js,/fetch\(|WebSocket|BroadcastChannel/);
   assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
 });
